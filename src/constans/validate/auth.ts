@@ -1,0 +1,44 @@
+import * as yup from 'yup';
+
+export  const validationSchemaLogin = yup.object({
+    email: yup
+        .string().
+        email('не вірний формат емайлу')
+        .required('введіть емайл'),
+
+    password: yup
+        .string()
+        .min(8, 'мінімум 8 символів')
+        .required('введіть ваш пароль'),
+});
+
+
+
+export  const validationSchemaRegister = yup.object({
+    email: yup
+        .string().
+        email('не вірний формат емайлу')
+        .required('введіть емайл'),
+    password: yup
+        .string()
+        .min(8, 'мінімум 8 символів')
+        .required('введіть ваш пароль'),
+    name: yup
+        .string().required('введіть Імя'),
+    surname: yup
+        .string().required('ввдеіть призвіще'),
+    city: yup
+        .string().required('введіть ваше місто'),
+    maritalStatus: yup
+        .string().required('ввдеіть ваш сімейний статус'),
+
+});
+
+
+export  const validationSchemaSendPassword = yup.object({
+    email: yup
+        .string().
+        email('не вірний формат емайлу')
+        .required('введіть емайл'),
+
+});

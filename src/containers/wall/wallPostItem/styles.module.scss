@@ -1,0 +1,17 @@
+.linkUser{
+  transition: all .3s;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.img{
+max-height: 300px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.rowImg{
+
+  row-gap: 10px!important;
+}

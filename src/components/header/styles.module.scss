@@ -1,0 +1,24 @@
+.root{
+  display: flex;
+}
+.row{
+  justify-content: space-between;
+  align-items: center;
+}
+.menu{
+  display: flex;
+  justify-content: flex-end;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  transition: all .3s;
+  cursor: pointer;
+  &:hover{
+    opacity: .5;
+  }
+  & span{
+    margin-right: 5px;
+  }
+
+}

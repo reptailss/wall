@@ -1,0 +1,34 @@
+.root{
+  padding-top: 100px;
+  @media (max-width: 500px) {
+    padding-top: 40px;;
+  }
+}
+.row{
+  justify-content: center;
+}
+.title{
+  display: flex;
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.help{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+.btn{
+  text-transform: initial;
+}

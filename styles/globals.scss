@@ -1,0 +1,46 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./normalize";
+
+:root{
+  --primary-light: #68709A;
+  --primary-dark: #28946b;
+
+  --background-light: #FFFFFF;
+  --background-dark: #28946b;
+
+  --background-paper-light: #74748A;
+  --background-paper-dark: #18191a;
+
+  --text-primary-light: #000000;
+  --text-secondary-light: rgba(255,255,255, .6);
+
+  --text-primary-dark: #ffffff;
+  --text-secondaryy--dark: rgba(0,0,0, .6);
+  --text-opacity-black: rgba(0,0,0, .6);
+  --text-opacity-white: rgba(255,255,255, .7)
+}
+
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  border: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (min-width: 1400px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  max-width: 1460px!important;
+}
+}
+

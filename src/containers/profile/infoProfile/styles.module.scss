@@ -1,0 +1,25 @@
+.root{
+  margin: 10px 0;
+}
+
+.paper{
+  padding: 15px 10px;
+}
+
+.topInfo{
+  padding: 5px 0 15px;
+  position: relative;
+  &:after{
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: var(--text-secondary-light);
+  }
+}
+
+.name{
+  margin-bottom: 10px;
+}
