@@ -14,6 +14,7 @@ interface IInitialState {
         city: string,
         jop: string,
         maritalStatus: string,
+        timestamp:any,
     },
     profileOtherUser: {
         name: string,
@@ -22,6 +23,7 @@ interface IInitialState {
         city: string,
         jop: string,
         maritalStatus: string,
+        timestamp:any,
     }
 }
 
@@ -36,7 +38,8 @@ const initialState: IInitialState = {
         dateBirth: 0,
         city: '',
         jop: '',
-        maritalStatus: ''
+        maritalStatus: '',
+        timestamp:{},
     },
     profileOtherUser: {
         name: '',
@@ -44,7 +47,8 @@ const initialState: IInitialState = {
         dateBirth: 0,
         city: '',
         jop: '',
-        maritalStatus: ''
+        maritalStatus: '',
+        timestamp:{},
     }
 };
 
@@ -69,6 +73,7 @@ export const userSlice = createSlice({
             state.profile.city = action.payload.city;
             state.profile.jop = action.payload.jop;
             state.profile.maritalStatus = action.payload.maritalStatus;
+            state.profile.timestamp = action.payload.timestamp;
 
         },
         setUserSliceProfileOtherUser(state, action) {
@@ -78,6 +83,7 @@ export const userSlice = createSlice({
             state.profileOtherUser.city = action.payload.city;
             state.profileOtherUser.jop = action.payload.jop;
             state.profileOtherUser.maritalStatus = action.payload.maritalStatus;
+            state.profileOtherUser.timestamp = action.payload.timestamp;
 
         },
         removeUser(state) {

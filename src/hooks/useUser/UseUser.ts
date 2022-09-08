@@ -1,12 +1,12 @@
 import {doc, getDoc, serverTimestamp, setDoc} from "firebase/firestore";
 import {db} from "../../firebase/firebase";
-import {IUpdateUserProfileProps} from "../../types/auth/user";
+import {IUpdateUserProfileProps} from "../../types/profile";
 import {useState} from "react";
 
 import {useSnackBar} from "../useSneckBar/useSnackBars";
-import {useAppDispatch, useAppSelector} from "../redux";
+import {useAppDispatch} from "../redux";
 import {setUserSliceProfile} from '../../redux/slice/userSlice'
-import {useAuth} from "../useAuth/useAuth";
+
 
 
 export function useUsers() {

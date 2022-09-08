@@ -6,12 +6,11 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import LinkMU from '@mui/material/Link'
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 
 import {convertSecondstoDate,OptionsDateTime} from '../../../helpers/date';
 
@@ -22,27 +21,31 @@ import Link from "next/link";
 import React from "react";
 import {Col} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
-import {useAuth} from "../../../hooks/useAuth/useAuth";
 import WallSidebarPostItem from "./wallSidebarPostItem/WallSidebarPostItem";
 import {useRouter} from "next/router";
 import {useAppSelector} from "../../../hooks/redux";
+import WallPostLike from "./wallPostLike/WallPostLike";
 
-const WallPostItem:FC<IWallPostItem> = ({text,pathImg,timestamp,authorName,authorId,id}) => {
+const WallPostItem:FC<IWallPostItem> = ({text,pathImg,timestamp,authorName,authorId,id,idUserWhoseWall}) => {
 
     const{id:idUser} = useAppSelector(state => state.user);
 
     const date = timestamp ? convertSecondstoDate(timestamp.seconds) : new Date();
     const UAdate = new Intl.DateTimeFormat('uk',OptionsDateTime).format(date);
     const {pathname} = useRouter();
+
+
 const imgList = pathImg?.map((item,i,array) => {
     const arrlength = array.length;
     const colXl = arrlength === 1 ? 12 :
         arrlength === 2 ? 6 :
             arrlength === 3 ? 4 : 2;
     const colSx = arrlength === 1 ? 12 : 2;
-
    return(
-       <Col sx={colSx} xl={colXl}>
+       <Col
+           key={item}
+           sx={colSx}
+           xl={colXl}>
            <CardMedia
                className={styles.img}
            component="img"
@@ -54,7 +57,7 @@ const imgList = pathImg?.map((item,i,array) => {
 });
 
     const sidebarPostItem = authorId ===  idUser || pathname === '/' ?<WallSidebarPostItem
-        authorId={authorId}
+        idUser={idUserWhoseWall}
         idPost={id}/>: null;
 
 
@@ -68,8 +71,7 @@ const imgList = pathImg?.map((item,i,array) => {
                     sidebarPostItem
                 }
                 title={<Link
-                    href={`/users/${authorId}`}
-                >
+                    href={`/users/${authorId}`}>
                     <a>
                         <Typography
                             color="secondary"
@@ -91,14 +93,19 @@ const imgList = pathImg?.map((item,i,array) => {
                 {imgList}
             </Row>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
+                <WallPostLike
+                    idUser={idUserWhoseWall}
+                    idPost={id}
+                    idCurrentUser={idUser}
+                    isLike={true}
+                    lenghtLike={5}
+
+                />
+
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
             </CardActions>
-
         </Card>
     );
 };

@@ -19,13 +19,10 @@ interface IAddImagePostProps {
 
 
 const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
-    const [file, setFile] = useState<any>({
-        name: 'initail'
-    });
+    const [file, setFile] = useState<any>();
     const [dataImg, setDataImg] = useState<string[]>([]);
     const [per, setPerc] = useState<null | number>(null);
-    const storageRef = ref(storage, file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+
 
     useEffect(() => {
         onChangeDownload(dataImg);
@@ -33,7 +30,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
 
     useEffect(() => {
         const uploadFile = () => {
-            if (!(file.name === 'initail')) {
+            if ((file.name)) {
                 const name = new Date().getTime() + file.name;
                 const pathImg = `images/${path}/${name}`;
 

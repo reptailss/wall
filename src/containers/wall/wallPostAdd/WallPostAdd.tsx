@@ -37,7 +37,8 @@ const WallPostAdd:FC<IWallPostAddProps> = ({id}) => {
                         text:text,
                         authorId:idUser,
                         authorName: name,
-                        pathImg: dataImg
+                        pathImg: dataImg,
+                        idUserWhoseWall:id
                     },
                 }
             )

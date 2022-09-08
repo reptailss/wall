@@ -20,6 +20,10 @@ const store = configureStore({
     reducer: {
         theme,user,snackBars
     },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 

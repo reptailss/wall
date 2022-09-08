@@ -10,18 +10,14 @@ interface IWallPostListProps {
     id: string
 }
 
-
 const WallPostList: FC<IWallPostListProps> = ({id}) => {
     const [data, setData] = useState<IWallPostItem[]>([]);
 
-    const unsub = () => {
-
-    };
-
+    let unsub = () => {};
 
     useEffect(() => {
       if(db && id){
-          const unsub = onSnapshot(
+           unsub = onSnapshot(
               query(collection(db, "users", id, 'posts'), orderBy('timestamp', 'desc'), limit(5)),
               (snapShot) => {
                   let list: any = [];
@@ -45,18 +41,17 @@ const WallPostList: FC<IWallPostListProps> = ({id}) => {
     const listPost = data.map((item) => {
         return (
             <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{
-                    type: 'Tween',
-                    opacity: {duration: 1.2},
-                }}
-                key={item.id}>
-                <WallPostItem
-                    {...item}/>
-            </motion.div>
-
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
+        transition={{
+        type: 'Tween',
+        opacity: {duration: 1.2},
+        }}
+        key={item.id}>
+        <WallPostItem
+        {...item}/>
+        </motion.div>
         )
     });
 

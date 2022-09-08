@@ -4,22 +4,18 @@ import Menu from "../../../../components/menu/Menu";
 import {MenuItem} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useWall} from "../../../../hooks/useWall/useWall";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {IWallPostMutationProps} from "../../../../types/wall/post";
 
 
-interface IWallSidebarPostItemProps {
-    idPost: string,
-    authorId: string
-}
 
 
-const WallSidebarPostItem: FC<IWallSidebarPostItemProps> = ({idPost,authorId}) => {
-    const {deleteWallPost} = useWall();
+const WallSidebarPostItem: FC<IWallPostMutationProps> = ({idPost,idUser}) => {
+    const {deleteWallPost,loadingDeleteWallPost} = useWall();
 
     const onDeletePost = async () => {
-        console.log(authorId,' autor');
-        console.log(idPost,' post');
         await deleteWallPost({
-            idUser:authorId, idPost: idPost
+            idUser:idUser, idPost: idPost
         })
     };
 
@@ -33,8 +29,8 @@ const WallSidebarPostItem: FC<IWallSidebarPostItemProps> = ({idPost,authorId}) =
                 name={'sidebarPostItem'}>
 
                 <MenuItem>
-                    <Button variant="outlined" onClick={onDeletePost}>
-                        del
+                    <Button disabled={loadingDeleteWallPost} variant="outlined" onClick={onDeletePost}>
+                        <DeleteIcon/>
                     </Button>
                 </MenuItem>
             </Menu>

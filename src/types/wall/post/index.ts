@@ -1,17 +1,19 @@
 import {ITimestamp} from "../../timestamp";
 
 
-export interface IWallPostItem extends IWallPostBodyItem{
-    timestamp: ITimestamp,
-    id: string
-
-}
-
 export interface IWallPostBodyItem {
     text: string,
     pathImg?: string[],
     authorName: string,
     authorId: string,
+    idUserWhoseWall: string
+
+}
+
+
+export interface IWallPostItem extends IWallPostBodyItem{
+    timestamp: ITimestamp,
+    id: string
 
 }
 
@@ -22,10 +24,19 @@ export interface IWallAddProps {
 }
 
 
-
-
 export interface IWallRemoveProps {
     idUser: string ,
     idPost: string,
+}
+
+
+export interface IWallPostMutationProps {
+    idUser: string,
+    idPost: string,
+
+}
+
+export interface IAddLikePostProps extends IWallPostMutationProps{
+    idCurrentUser: string
 }
 

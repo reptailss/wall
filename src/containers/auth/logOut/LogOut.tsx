@@ -10,7 +10,6 @@ const LogOut = () => {
 
 const {logOutUser,loadingOut} = useAuth();
 
-console.log(loadingOut)
     return (
            <Button disabled={loadingOut}>
                <Typography

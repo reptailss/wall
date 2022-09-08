@@ -13,7 +13,7 @@ import {useState} from "react";
 const Register = () => {
     const {registerUser, loadingRegister} = useAuth();
     const {setUserProfile} = useUsers();
-    const [dateBirth, setDateBirth] = useState<number>();
+    const [dateBirth, setDateBirth] = useState<number>(810413076);
 
     const formik = useFormik({
         initialValues: {

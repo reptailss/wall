@@ -1,15 +1,13 @@
-import React, {FC, ReactNode, useEffect} from 'react';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
 import Header from "../header/Header";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {getDesignTokens} from '../../constans/theme'
 import styles from './styles.module.scss'
-import {useAuth} from "../../hooks/useAuth/useAuth";
-import SpinnerBlock from "../spinner/Spinner";
 import {useRouter} from "next/router";
 import {Col, Container, Row} from "react-bootstrap";
 import Navigate from "../../containers/navigate/Navigate";
-import {setIsAuth, setUser} from "../../redux/slice/userSlice";
+import {setUser,setIsAuth} from "../../redux/slice/userSlice";
 
 import {getAuth, onAuthStateChanged,} from "firebase/auth";
 import {useUsers} from "../../hooks/useUser/UseUser";
@@ -19,13 +17,14 @@ interface ILayoutProps {
 }
 
 const Layout: FC<ILayoutProps> = ({children}) => {
+
         const auth = getAuth();
-        const dispatch = useAppDispatch();
+        const { id} = useAppSelector(state => state.user);
         const {themeMode} = useAppSelector(state => state.theme);
+        const dispatch = useAppDispatch();
         const theme = createTheme(getDesignTokens(themeMode));
-        const {loadingUser} = useAuth();
-        const {pathname} = useRouter();
         const {getUserProfile} = useUsers();
+
         const styleRoot = themeMode === 'dark' ? {
             backgroundColor: '#18191A'
         } : {};
@@ -33,50 +32,41 @@ const Layout: FC<ILayoutProps> = ({children}) => {
         const router = useRouter();
         useEffect(() => {
             if (typeof window !== "undefined") {
-                if (!(localStorage.getItem('token'))) {
+                if ( !(localStorage.getItem('token'))) {
                     router.push('/signin')
                 }
             }
 
         }, []);
 
-        if (loadingUser) {
-            return <div
-                className={styles.spinnerInner}>
-                <SpinnerBlock/>
-            </div>
-        }
-        if ((pathname === '/signin') || (pathname === '/register') || (pathname === '/sendPassword')) {
-            return (
-                <div
-                    style={styleRoot}
-                    className={styles.root}>
-                    <ThemeProvider theme={theme}>
-                        <>
-                            {children}
-                        </>
-                    </ThemeProvider>
-                </div>
-            )
-        }
+
+        useEffect(() => {
+            const onGetUserProfile = async () => {
+                if (auth.currentUser && id) {
+                    await getUserProfile(id)
+                }
+            };
+            onGetUserProfile();
+        }, [auth]);
 
 
-        const authChangeState = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                dispatch(setIsAuth(true));
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    token: user.refreshToken,
-                }));
+        useEffect(() => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    dispatch(setUser({
+                        email: user.email,
+                        id: user.uid,
+                        token: user.refreshToken,
+                    }));
+                    dispatch(setIsAuth(true));
 
-                getUserProfile(user.uid);
-                localStorage.setItem('id', user.uid);
+                    getUserProfile(user.uid)
+                } else {
 
-            } else {
+                }
+            })
+        }, []);
 
-            }
-        });
 
 
         return (
@@ -88,8 +78,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
                         <Header/>
                     </Col>
                     <Container
-                        className={styles.container}
-                    >
+                        className={styles.container}>
                         <Row>
                             <Col sx={12} xl={2}>
                                 <Navigate/>
