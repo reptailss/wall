@@ -2,73 +2,57 @@ import React, {FC, useEffect, useState} from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import {IAddLikePostProps, ILikeItem,} from "../../../../types/wall/post";
+import {IAddLikePostProps} from "../../../../types/wall/post";
 import {useWall} from "../../../../hooks/useWall/useWall";
 import {db} from "../../../../firebase/firebase";
 
 
-import { collection,  getDocs, } from "firebase/firestore";
+const WallPostLike: FC<IAddLikePostProps> = ({idUser, idPost, idCurrentUser}) => {
 
+    const [likes, setLikes] = useState<{ id: string }[]>();
+    const [isLike, setIsLike] = useState<boolean>(false);
 
-
-interface IWallPostLikeProps extends IAddLikePostProps{
-    isLike: boolean,
-    lenghtLike: number
-}
-
-const WallPostLike: FC<IWallPostLikeProps> = ({idUser, idPost,idCurrentUser}) => {
-
-    const [likes,setLikes] = useState<{id:string}[]>();
-    const [isLike,setIsLike] = useState<boolean>(false);
-    const [loadingLikes,setLoadingLikes] = useState<boolean>(false);
-
-    const {addLikePost,loadingAddLikePost,deleteLikePost,loadingDeleteLikePost} = useWall();
+    const {
+        addLikePost,
+        loadingAddLikePost,
+        deleteLikePost,
+        loadingDeleteLikePost,
+        getLikesPost,
+        loadingGetLikesPost
+    } = useWall();
 
 
     const onGetLikes = async () => {
-        const docRef = collection(db, "users",idUser, "posts",idPost,"likes");
-        setLoadingLikes(true);
-
-        await getDocs(docRef)
-            .then((response) => {
-                setLikes(response.docs.map((data) => {
-                    return { ...data.data(), id: data.id }
-                }))
-            }).catch((error)=>{
-                console.log(error);
-                throw error
-            }).finally(()=>{
-                setLoadingLikes(false);
-            });
-
-        console.log(likes)
-
+        const res = await getLikesPost({
+            idPost, idUser
+        });
+        setLikes(res)
     };
 
-    useEffect(()=>{
-    if(idPost && db){
-        onGetLikes();
-    }
-    },[idPost]);
+    useEffect(() => {
+        if (idPost && db) {
+            onGetLikes();
+        }
+    }, [idPost]);
 
 
     useEffect(() => {
-    if(likes) {
-        setIsLike(likes.findIndex((like) => like.id === idCurrentUser) !== -1);
-    }
-    },[likes]);
+        if (likes) {
+            setIsLike(likes.findIndex((like) => like.id === idCurrentUser) !== -1);
+        }
+    }, [likes]);
 
     const onClickLike = async () => {
 
-        if(!isLike){
+        if (!isLike) {
             await addLikePost({
-                idUser, idPost,idCurrentUser
+                idUser, idPost, idCurrentUser
             });
             await onGetLikes();
-        } else{
+        } else {
             await deleteLikePost({
-                idUser, idPost,idCurrentUser
-            })
+                idUser, idPost, idCurrentUser
+            });
             await onGetLikes();
         }
 
@@ -80,7 +64,7 @@ const WallPostLike: FC<IWallPostLikeProps> = ({idUser, idPost,idCurrentUser}) =>
 
     return (
         <IconButton
-            disabled={loadingLikes || loadingAddLikePost || loadingDeleteLikePost}
+            disabled={loadingGetLikesPost || loadingAddLikePost || loadingDeleteLikePost}
             onClick={onClickLike}
             aria-label="share">
             <Badge

@@ -1,4 +1,4 @@
-import  {useState, FC, memo} from "react";
+import  {useState, FC} from "react";
 
 import DatePicker from "react-datepicker";
 
@@ -10,8 +10,6 @@ interface IDataInputProps {
     onChangeDateValue: (data: number) => void,
     dateProp: string
 }
-
-
 
 const DateInput :FC<IDataInputProps> = ({onChangeDateValue,dateProp}) => {
         const date =  dateProp && new Date(dateProp).getTime();
@@ -34,9 +32,7 @@ const DateInput :FC<IDataInputProps> = ({onChangeDateValue,dateProp}) => {
                     onChange={onChangeDate}
                 />
             </>
-
         );
-
 
     };
 

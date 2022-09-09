@@ -47,7 +47,9 @@ const UserPage = () => {
             <UserAvatar/>
         </Col>
         <Col xl={8}>
-            <InfoProfile profile={profileUserOther}/>
+            <InfoProfile
+                idUser={id}
+                profile={profileUserOther}/>
             <Wall id={id}/>
         </Col>
     </> : spinner;

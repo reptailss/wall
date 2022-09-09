@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import styles from './styles.module.scss'
 import {convertSecondstoDate, OptionsDate} from "../../../../helpers/date";
 import {ITimestamp} from "../../../../types/timestamp";
-import {motion} from "framer-motion";
+import { motion} from "framer-motion";
 
 interface ISideBarInfoProfileProps {
     dateBirth: number,
@@ -13,7 +13,7 @@ interface ISideBarInfoProfileProps {
 }
 
 
-const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,maritalStatus,timestamp}) => {
+const SideBarRedProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,maritalStatus,timestamp}) => {
 
     const date = dateBirth ?  convertSecondstoDate(dateBirth) : 0;
     const uadate = new Intl.DateTimeFormat('uk',OptionsDate).format(date);
@@ -22,7 +22,7 @@ const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,mar
     const uadateRegister = new Intl.DateTimeFormat('uk',OptionsDate).format(dateRegister);
     return (
         <motion.div
-            key={'infoprofile'}
+            key={'redprofile'}
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}
@@ -34,7 +34,7 @@ const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,mar
             <div className={styles.list}>
                 <div className={styles.item}>
                     <div className={styles.itemInfo}>
-                       Дата народження
+                       Дата народження red red
                     </div>
                     <div className={styles.itemContent}>
                         {dateBirth ? uadate : null}
@@ -82,4 +82,4 @@ const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,mar
     );
 };
 
-export default SideBarInfoProfile;
+export default SideBarRedProfile;

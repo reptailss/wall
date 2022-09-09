@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 
 
@@ -97,9 +96,6 @@ const imgList = pathImg?.map((item,i,array) => {
                     idUser={idUserWhoseWall}
                     idPost={id}
                     idCurrentUser={idUser}
-                    isLike={true}
-                    lenghtLike={5}
-
                 />
 
                 <IconButton aria-label="share">

@@ -1,0 +1,17 @@
+.root{
+  padding: 10px 0;
+}
+
+.list{
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  row-gap: 10px;
+}
+.item{
+  display: flex;
+  justify-content: space-between;
+}
+.itemInfo{
+color: var(--text-opacity-white)
+}

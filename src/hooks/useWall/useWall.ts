@@ -15,6 +15,7 @@ import {
 export function useWall() {
     const {setSnackBar} = useSnackBar();
     const [loadingAddWallPost, setLoadingAddWallPost] = useState<boolean>(false);
+    const [loadingGetLikesPost, setLoadingGetLikesPost] = useState<boolean>(false);
     const [loadingDeleteWallPost, setLoadingDeleteWallPost] = useState<boolean>(false);
     const [loadingDeleteLikePost, setLoadingDeleteLikePost] = useState<boolean>(false);
     const [loadingAddLikePost, setLoadingAddLikePost] = useState<boolean>(false);
@@ -85,13 +86,36 @@ export function useWall() {
     };
 
 
+    const getLikesPost = async (props:IWallPostMutationProps) => {
+        const {idUser,idPost} = props;
+        const docRef = collection(db, "users",idUser, "posts",idPost,"likes");
+        setLoadingGetLikesPost(true);
+        const res = await getDocs(docRef);
+        try{
+            const results = (res.docs.map((data) => {
+                return { ...data.data(), id: data.id }
+            }));
+            setLoadingGetLikesPost(false);
+            return results;
+
+
+        }catch (error) {
+            setLoadingGetLikesPost(false);
+        }
+
+
+    };
+
+
+
     return {
         loadingAddWallPost,
         loadingDeleteWallPost,
         loadingAddLikePost,
         loadingDeleteLikePost,
+        loadingGetLikesPost,
 
-
+        getLikesPost,
         addWallPost,
         deleteWallPost,
         addLikePost,

@@ -17,7 +17,7 @@ const HomePage = () => {
                 <ChangeUserAvatar/>
             </Col>
             <Col xl={8}>
-                <InfoProfile profile={profile}/>
+                <InfoProfile idUser={id} profile={profile}/>
                 <Wall id={id}/>
             </Col>
 
