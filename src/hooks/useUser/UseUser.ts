@@ -72,7 +72,7 @@ export function useUsers() {
         } catch (error: any) {
             setLoadingGetUserProfileOther(false)
             setSnackBar(error.code, 'error');
-            console.log(error)
+            console.log(error);
             throw  error;
         }
 

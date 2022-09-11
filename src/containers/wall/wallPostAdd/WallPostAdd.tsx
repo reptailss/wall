@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import {validationSchemaAddPostWall} from '../../../constans/validate/wall'
 import SpinnerBlock from "../../../components/spinner/Spinner";
 import AddImagePost from "./addImagePost/AddImagePost";
-import Button from '@mui/material/Button'
+import {Button, Paper} from "@mui/material";
 import {useWall} from "../../../hooks/useWall/useWall";
 import {FC, useState} from "react";
 import SendIcon from '@mui/icons-material/Send';
@@ -92,12 +92,13 @@ const WallPostAdd:FC<IWallPostAddProps> = ({id}) => {
         <SpinnerBlock/>;
 
     return (
-        <div className={styles.root}>
+        <Paper
+            className={styles.root}>
             {content}
             <AddImagePost
                 onChangeDownload={ onChangeDownload}
                 path={`users/${id}/wall`}/>
-        </div>
+        </Paper>
     );
 };
 

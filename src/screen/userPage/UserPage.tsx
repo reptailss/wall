@@ -10,14 +10,22 @@ import {useUsers} from "../../hooks/useUser/UseUser";;
 import SpinnerBlock from "../../components/spinner/Spinner";
 
 import styles from './styles.module.scss'
-import UserAvatar from "../../containers/user/userAvatar/UserAvatar";
+import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
+import {IUserProfile} from "../../types/profile";
 
 
 
 
 const UserPage = () => {
 
-    const [profileUserOther,setrofileUserOther] = useState<any>();
+    const [profileUserOther,setrofileUserOther] = useState<IUserProfile>({name: '',
+        surname: '',
+        dateBirth: 0,
+        city: '',
+        jop: '',
+        maritalStatus: '',
+        timestamp:{seconds:0,nanoseconds:0},
+        currentAvatar: ''});
 
     const router = useRouter();
     const { id }: any = router.query;
@@ -25,7 +33,9 @@ const UserPage = () => {
 
     const onGetUser = async () =>{
         const res = await getUserProfileOther(id);
-        setrofileUserOther(res)
+        //@ts-ignore
+        setrofileUserOther(res);
+        console.log(profileUserOther)
     };
 
     useEffect(  () => {
@@ -42,9 +52,11 @@ const UserPage = () => {
     </Col>;
 
 
-    const content = !loadingGetUserProfileOther ?   <>
+    const content = !loadingGetUserProfileOther && profileUserOther ?   <>
         <Col xl={4}>
-            <UserAvatar/>
+            <UserAvatar
+                currentAvatar={profileUserOther.currentAvatar}
+            />
         </Col>
         <Col xl={8}>
             <InfoProfile

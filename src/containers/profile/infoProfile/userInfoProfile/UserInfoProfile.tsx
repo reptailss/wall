@@ -4,17 +4,16 @@ import { Typography} from "@mui/material";
 
 interface IUserInfoProfileProps {
     name: string,
-    surname:string
 }
 
-const UserInfoProfile:FC<IUserInfoProfileProps> = ({name,surname}) => {
+const UserInfoProfile:FC<IUserInfoProfileProps> = ({name}) => {
     return (
         <div className={styles.topInfo}>
             <Typography
                 color="text.primary"
                 className={styles.name}
                 variant="body1">
-                {name} {surname}
+                {name}
             </Typography>
             <Typography
                 color="text.secondary"

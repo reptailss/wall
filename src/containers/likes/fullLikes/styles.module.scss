@@ -1,0 +1,12 @@
+.btn{
+text-transform: none!important;
+ border-bottom: 1px solid var(--text-primary-dark);
+}
+
+.list{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ column-gap: 10px;
+}

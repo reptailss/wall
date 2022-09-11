@@ -4,8 +4,9 @@ import {
     sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
 } from "firebase/auth";
+
+import {doc, getDoc,} from "firebase/firestore";
 
 
 import {useAppDispatch} from "../redux";
@@ -13,7 +14,8 @@ import {removeUser, setUser,setIsAuth} from '../../redux/slice/userSlice'
 import {useSnackBar} from "../useSneckBar/useSnackBars";
 import {useRouter} from 'next/router'
 import {useState} from "react";
-import {useUsers} from "../useUser/UseUser";
+import {db} from "../../firebase/firebase";
+
 
 
 export function useAuth() {
@@ -26,6 +28,7 @@ export function useAuth() {
     const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
     const [loadingRegister, setLoadingRegister] = useState<boolean>(false);
     const [loadingSendPassword, setLoadingSendPassword] = useState<boolean>(false);
+    const [loadingCheckFreeData,setLoadingCheckFreeData] = useState<boolean>(false);
 
 
     const loginUser = async (email: string, password: string) => {
@@ -125,6 +128,20 @@ export function useAuth() {
         }
     };
 
+    const checkFreeData = async (login: string) =>{
+        const docRef = doc(db, "users", login);
+        setLoadingCheckFreeData(true);
+        try {
+
+            const res = await getDoc(docRef);
+            setLoadingCheckFreeData(false);
+            return res.data();
+        } catch (error) {
+            setLoadingCheckFreeData(false);
+            return (error);
+        }
+    };
+
 
 
 
@@ -137,11 +154,13 @@ export function useAuth() {
         loadingRegister,
         loadingSendPassword,
         loadingUser,
+        loadingCheckFreeData,
+
         logOutUser,
         loginUser,
         registerUser,
         sendPasswordReset,
-
+        checkFreeData
 
 
     };

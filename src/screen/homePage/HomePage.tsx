@@ -1,20 +1,23 @@
-
 import {Col, Row} from "react-bootstrap";
 import Wall from "../../containers/wall";
 import InfoProfile from "../../containers/profile/infoProfile/InfoProfile";
-import UserAvatar from "../../containers/user/userAvatar/UserAvatar";
-import ChangeUserAvatar from "../../containers/user/changeUserAvatar/ChangeUserAvatar";
+
 import {useAppSelector} from "../../hooks/redux";
+import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
+import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
     const profile = useAppSelector(state => state.user.profile);
+    const{currentAvatar} = profile;
 
     return (
         <Row>
             <Col xl={4}>
-                <UserAvatar/>
-                <ChangeUserAvatar/>
+                <UserAvatar
+                    currentAvatar={currentAvatar}
+                />
+                <ChangeAvatarBtn/>
             </Col>
             <Col xl={8}>
                 <InfoProfile idUser={id} profile={profile}/>

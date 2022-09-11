@@ -1,20 +1,21 @@
-import {FC, MouseEvent, useEffect, useRef, useState} from 'react'
+import {FC, useEffect, useRef, useState} from 'react'
 
-import styles from './styles.module.scss'
-import Button from '@mui/material/Button'
 import {storage} from "../../../../firebase/firebase";
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+
 import {AnimatePresence, motion} from "framer-motion";
-import IconButton from '@mui/material/IconButton';
+
 import ClearIcon from '@mui/icons-material/Clear';
+import {Button, IconButton} from '@mui/material'
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
 import SpinnerBlock from "../../../../components/spinner/Spinner";
 
-
+import styles from './styles.module.scss'
 
 interface IAddImagePostProps {
     path: string,
-    onChangeDownload: (img:string[]) => void,
+    onChangeDownload: (img: string[]) => void,
 }
 
 
@@ -26,7 +27,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
 
     useEffect(() => {
         onChangeDownload(dataImg);
-    },[dataImg]);
+    }, [dataImg]);
 
     useEffect(() => {
         const uploadFile = () => {
@@ -82,6 +83,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
 
     const content = <div className={styles.rootAddImg}>
         <input
+            accept=".png, .jpg, .jpeg"
             style={{display: 'none'}}
             type="file"
             id="file"
@@ -93,7 +95,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
             className={styles.btn}
             disabled={per !== null && per < 100}
         >
-            <AttachFileIcon/>
+            <PhotoCamera/>
         </Button>
     </div>;
 
@@ -107,14 +109,14 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
             onDeleteStorage();
         };
 
-    const onDeleteStorage = () => {
-        deleteObject(desertRef).then(() => {
+        const onDeleteStorage = () => {
+            deleteObject(desertRef).then(() => {
 
-        }).catch((error) => {
-            console.log(error)
-            throw error;
-        });
-    };
+            }).catch((error) => {
+                console.log(error)
+                throw error;
+            });
+        };
 
         return (
             <motion.div
@@ -135,7 +137,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
                     className={styles.iconBtn}
                     onClick={(e) => onDelete()}
                     aria-label="delete">
-                    <ClearIcon  fontSize="small"/>
+                    <ClearIcon fontSize="small"/>
                 </IconButton>
 
 

@@ -10,10 +10,16 @@ import DateInput from "../../../components/dateInput/DateInput";
 import {useState} from "react";
 
 
+
 const Register = () => {
-    const {registerUser, loadingRegister} = useAuth();
+    const {
+        registerUser,
+        loadingRegister,
+    } = useAuth();
     const {setUserProfile} = useUsers();
     const [dateBirth, setDateBirth] = useState<number>(810413076);
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -24,7 +30,8 @@ const Register = () => {
             dateBirth: '',
             city: '',
             jop: '',
-            maritalStatus: ''
+            maritalStatus: '',
+
         },
         validationSchema: validationSchemaRegister,
         onSubmit: async (values) => {
@@ -34,7 +41,7 @@ const Register = () => {
             await setUserProfile({
                     id: res.id,
                     body: {
-                        name, surname, dateBirth, city, jop, maritalStatus
+                        name:`${name} ${surname}`, dateBirth, city, jop, maritalStatus,currentAvatar: 'https://firebasestorage.googleapis.com/v0/b/blog-f279e.appspot.com/o/avatar.png?alt=media&token=993f58a6-9b02-42d2-910f-9170deaa54c4'
                     }
                 }
             );
@@ -42,6 +49,7 @@ const Register = () => {
 
         },
     });
+
 
 
 
@@ -72,6 +80,7 @@ const Register = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
         />
+
         <TextField
             className={styles.input}
             fullWidth

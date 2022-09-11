@@ -1,0 +1,55 @@
+
+
+.root{
+  margin-top: 10px;
+}
+
+.row{
+  justify-content: center;
+  @media (max-width: 1200px) {
+    flex-direction: column-reverse!important;
+  }
+}
+
+.btn{
+  display: flex;
+  align-items: center;
+}
+
+.img{
+  object-fit: cover;
+  object-position: center center;
+  max-height: 500px;
+  width: 100%;
+
+}
+.imgroot{
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn{
+  position: absolute;
+  top:5px;
+  right: 5px;
+  background-color: var(--primary-light)!important;
+}
+.btnWrap{
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+.btnImg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & span{
+    margin-right: 3px;
+  }
+}

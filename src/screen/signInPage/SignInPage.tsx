@@ -4,9 +4,6 @@ import Login from "../../containers/auth/login/Login";
 import styles from './styles.module.scss'
 import Logo from "../../resources/svg/logo/Logo";
 import {Typography} from "@mui/material";
-import Modal from "../../components/modal/Modal";
-import Register from "../../containers/auth/register/Register";
-import SendPassword from "../../containers/auth/sendPassword/SendPassword";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import LinkMU from '@mui/material/Link'

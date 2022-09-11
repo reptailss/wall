@@ -60,7 +60,8 @@ export function useWall() {
        const {idUser,idPost,idCurrentUser} = props;
         try {
             await setDoc(doc(db, "users", idUser, "posts",idPost,"likes",idCurrentUser), {
-                like: true
+                like: true,
+
             });
             setSnackBar('ви успішно поставили вподобайку!', 'success');
             setLoadingAddLikePost(false);

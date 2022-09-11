@@ -129,3 +129,16 @@
   align-items: center;
   column-gap: 25px;
 }
+
+
+.wrapLoginInput{
+  position: relative;
+  width: 100%;
+}
+
+.freeLogin{
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  font-size: 14px;
+}

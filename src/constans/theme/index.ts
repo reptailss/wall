@@ -25,7 +25,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             ...(mode === 'light'
                 ? {
                     default: '#FFFFFF',
-                    paper: '#74748A',
+                    paper: '#3659a033',
                 }
                 : {
                     default: '#303030',

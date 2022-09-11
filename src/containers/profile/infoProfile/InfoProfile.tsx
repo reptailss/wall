@@ -6,7 +6,7 @@ import UserInfoProfile from "./userInfoProfile/UserInfoProfile";
 import {IUserProfile} from "../../../types/profile";
 import {AnimatePresence} from "framer-motion";
 import SideBarRedProfile from "./sideBarRedProfile/SideBarRedProfile";
-import WallSidebarPostItem from "../../wall/wallPostItem/WallPostItem";
+
 
 import {useRouter} from "next/router";
 import {useAppSelector} from "../../../hooks/redux";
@@ -58,7 +58,6 @@ const InfoProfile: FC<IInfoProfileProps> = ({profile,idUser}) => {
                 <Paper className={styles.paper}>
                     <UserInfoProfile
                         name={name}
-                        surname={surname}
                     />
                     {profileBlock}
                     {redProfileButton}

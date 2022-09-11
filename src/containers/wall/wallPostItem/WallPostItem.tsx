@@ -23,7 +23,7 @@ import Row from "react-bootstrap/Row";
 import WallSidebarPostItem from "./wallSidebarPostItem/WallSidebarPostItem";
 import {useRouter} from "next/router";
 import {useAppSelector} from "../../../hooks/redux";
-import WallPostLike from "./wallPostLike/WallPostLike";
+import Likes from "../../likes/Likes";
 
 const WallPostItem:FC<IWallPostItem> = ({text,pathImg,timestamp,authorName,authorId,id,idUserWhoseWall}) => {
 
@@ -83,6 +83,7 @@ const imgList = pathImg?.map((item,i,array) => {
                     variant="body2"
                     className={styles.date}>{UAdate}</Typography>}
             />
+
             <CardContent>
                 <Typography variant="body2" color="text.other">
                     {text}
@@ -92,15 +93,15 @@ const imgList = pathImg?.map((item,i,array) => {
                 {imgList}
             </Row>
             <CardActions disableSpacing>
-                <WallPostLike
+
+                <Likes
                     idUser={idUserWhoseWall}
-                    idPost={id}
-                    idCurrentUser={idUser}
+                    pathItemId={id}
+                    pathRoot={'post'}
+                    authorNameLike={authorName}
                 />
 
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
+
             </CardActions>
         </Card>
     );

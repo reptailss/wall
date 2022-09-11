@@ -1,0 +1,17 @@
+.root {
+  margin: 10px 0;
+}
+
+.img {
+max-height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+  height: 300px;
+  @media (max-width: 500px) {
+   height: auto;
+  }
+}
+
+
+

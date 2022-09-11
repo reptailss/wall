@@ -15,16 +15,9 @@ interface IInitialState {
         jop: string,
         maritalStatus: string,
         timestamp:any,
+        currentAvatar: string
     },
-    profileOtherUser: {
-        name: string,
-        surname: string,
-        dateBirth: number,
-        city: string,
-        jop: string,
-        maritalStatus: string,
-        timestamp:any,
-    }
+
 }
 
 const initialState: IInitialState = {
@@ -40,16 +33,9 @@ const initialState: IInitialState = {
         jop: '',
         maritalStatus: '',
         timestamp:{},
+        currentAvatar: ''
     },
-    profileOtherUser: {
-        name: '',
-        surname: '',
-        dateBirth: 0,
-        city: '',
-        jop: '',
-        maritalStatus: '',
-        timestamp:{},
-    }
+
 };
 
 
@@ -74,18 +60,10 @@ export const userSlice = createSlice({
             state.profile.jop = action.payload.jop;
             state.profile.maritalStatus = action.payload.maritalStatus;
             state.profile.timestamp = action.payload.timestamp;
+            state.profile.currentAvatar = action.payload.currentAvatar;
 
         },
-        setUserSliceProfileOtherUser(state, action) {
-            state.profileOtherUser.name = action.payload.name;
-            state.profileOtherUser.surname = action.payload.surname;
-            state.profileOtherUser.dateBirth = action.payload.dateBirth;
-            state.profileOtherUser.city = action.payload.city;
-            state.profileOtherUser.jop = action.payload.jop;
-            state.profileOtherUser.maritalStatus = action.payload.maritalStatus;
-            state.profileOtherUser.timestamp = action.payload.timestamp;
 
-        },
         removeUser(state) {
             state.email = null;
             state.token = null;
@@ -98,6 +76,6 @@ export const userSlice = createSlice({
 });
 
 
-export const {setUser, removeUser, setUserSliceProfile,setUserSliceProfileOtherUser,setIsAuth} = userSlice.actions;
+export const {setUser, removeUser, setUserSliceProfile,setIsAuth} = userSlice.actions;
 
 export default userSlice.reducer;
