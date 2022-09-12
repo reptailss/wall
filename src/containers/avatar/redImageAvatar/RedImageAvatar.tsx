@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 
 import styles from './styles.module.scss'
-import Button from '@mui/material/Button'
+import {Button} from '@mui/material'
 import {storage} from "../../../firebase/firebase";
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';

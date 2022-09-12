@@ -1,6 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./normalize";
 
+
+
 :root{
   --primary-light: #68709A;
   --primary-dark: #28946b;
@@ -44,3 +46,8 @@ a {
 }
 }
 
+
+.swiper-button-prev:after,.swiper-button-next:after{
+  color: var(--primary-dark);
+
+}
