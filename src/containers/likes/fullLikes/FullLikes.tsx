@@ -22,6 +22,8 @@ const FullLikes:FC<ILikeListProps> = ({likes}) => {
 
         return(
                 <LikeItem
+                    key={item.id}
+
                     {...item}
                 />
         )
