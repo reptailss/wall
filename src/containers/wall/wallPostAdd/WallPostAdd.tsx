@@ -69,7 +69,7 @@ const WallPostAdd:FC<IWallPostAddProps> = ({id}) => {
                 fullWidth
                 id={'text'}
                 name={'text'}
-                label={'Ваше повідомелння...'}
+                label={'Ваше повідомелння..'}
                 value={formik.values.text}
                 onChange={formik.handleChange}
                 error={formik.touched.text && Boolean(formik.errors.text)}
