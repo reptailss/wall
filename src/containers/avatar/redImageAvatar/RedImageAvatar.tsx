@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 
 import styles from './styles.module.scss'
 import {Button} from '@mui/material'
@@ -14,58 +14,97 @@ import {useAppSelector} from "../../../hooks/redux";
 import {useAvatar} from '../../../hooks/useAvatar/useAvatar'
 import {useUsers} from "../../../hooks/useUser/UseUser";
 import {useRouter} from "next/router";
-
+import AvatarEditors from "../../../components/avatarEditors/AvatarEditors";
 
 
 const RedImageAvatar = () => {
     const [file, setFile] = useState<any>();
     const [dataImg, setDataImg] = useState<string>();
     const [per, setPerc] = useState<null | number>(null);
-    const{id} = useAppSelector(state => state.user);
+    const {id} = useAppSelector(state => state.user);
     const router = useRouter();
-    const {updateCurrentAvatar,loadingUpdateCurrentAvatar,addAvatarsCollection} = useAvatar();
+    const {updateCurrentAvatar, loadingUpdateCurrentAvatar, addAvatarsCollection} = useAvatar();
     const {getUserProfile} = useUsers();
 
+    //
+    // useEffect(() => {
+    //     const uploadFile = () => {
+    //         if ((file.name)) {
+    //             const name = new Date().getTime() + file.name;
+    //             const pathImg = `users/${id}/avatar/${name}`;
+    //
+    //             const storageRef = ref(storage, pathImg);
+    //             const uploadTask = uploadBytesResumable(storageRef, file);
+    //
+    //             uploadTask.on(
+    //                 "state_changed",
+    //                 (snapshot) => {
+    //                     const progress =
+    //                         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //                     setPerc(progress);
+    //                     switch (snapshot.state) {
+    //                         case "paused":
+    //                             console.log("Upload is paused");
+    //                             break;
+    //                         case "running":
+    //                             console.log("Upload is running");
+    //                             break;
+    //                         default:
+    //                             break;
+    //                     }
+    //                 },
+    //                 (error) => {
+    //                     console.log(error);
+    //                 },
+    //                 () => {
+    //                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //                         setDataImg(downloadURL);
+    //                     });
+    //                 }
+    //             );
+    //         }
+    //     };
+    //     file && uploadFile();
+    // }, []);
 
-    useEffect(() => {
-        const uploadFile = () => {
-            if ((file.name)) {
-                const name = new Date().getTime() + file.name;
-                const pathImg = `users/${id}/avatar/${name}`;
 
-                const storageRef = ref(storage, pathImg);
-                const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadFile = () => {
+        if ((file.name)) {
+            const name = new Date().getTime() + file.name;
+            const pathImg = `users/${id}/avatar/${name}`;
 
-                uploadTask.on(
-                    "state_changed",
-                    (snapshot) => {
-                        const progress =
-                            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        setPerc(progress);
-                        switch (snapshot.state) {
-                            case "paused":
-                                console.log("Upload is paused");
-                                break;
-                            case "running":
-                                console.log("Upload is running");
-                                break;
-                            default:
-                                break;
-                        }
-                    },
-                    (error) => {
-                        console.log(error);
-                    },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                            setDataImg(downloadURL);
-                        });
+            const storageRef = ref(storage, pathImg);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setPerc(progress);
+                    switch (snapshot.state) {
+                        case "paused":
+                            console.log("Upload is paused");
+                            break;
+                        case "running":
+                            console.log("Upload is running");
+                            break;
+                        default:
+                            break;
                     }
-                );
-            }
-        };
-        file && uploadFile();
-    }, [file]);
+                },
+                (error) => {
+                    console.log(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        setDataImg(downloadURL);
+                    });
+                }
+            );
+        }
+    };
+
 
     const hiddenFileInput = useRef<HTMLInputElement>(null);
     const handleClick = () => {
@@ -112,18 +151,31 @@ const RedImageAvatar = () => {
     </div>;
 
     const onUpdateCurrentAvatar = async () => {
-       if(dataImg && id) {
-           await updateCurrentAvatar({id,pathImg: dataImg});
-           await addAvatarsCollection({id,pathImg: dataImg});
-           await getUserProfile(id);
-           router.push('/');
-       }
+        if (dataImg && id) {
+            file && await uploadFile()
+            await updateCurrentAvatar({id, pathImg: dataImg});
+            await addAvatarsCollection({id, pathImg: dataImg});
+            await getUserProfile(id);
+            router.push('/');
+        }
+    };
+
+    const onChangeAvatar = async (img: string) => {
+        console.log('effect')
+        setDataImg(img);
+
     };
 
 
     return (
         <div className={styles.root}>
+            <div className={styles.test}>
+                <AvatarEditors
+                    file={file}
+                    onSaveAvatar={onChangeAvatar}/>
+            </div>
             <Row className={styles.row}>
+
                 <Col xl={8}>
                     <AnimatePresence>
                         {dataImg && <motion.div
@@ -139,6 +191,8 @@ const RedImageAvatar = () => {
                             <img
                                 className={styles.img}
                                 src={dataImg} alt=""/>
+
+
                             <div className={styles.btnWrap}>
                                 <Button
                                     onClick={onDelete}
