@@ -8,19 +8,27 @@ interface IAvatarEditorsProps {
     file: any
 }
 
+interface IpictureInitial {
+    cropperOpen: boolean,
+    img: null | string,
+    zoom: number,
+    croppedImg: string,
+    rotate: number
+}
 
 const AvatarEditors:FC<IAvatarEditorsProps> = ({onSaveAvatar,file}) => {
     var editor = "";
-    const [picture, setPicture] = useState({
+    const [picture, setPicture] = useState<IpictureInitial>({
         cropperOpen: false,
         img: null,
         zoom: 2,
-        croppedImg: ''
+        croppedImg: '',
+        rotate: 0
     });
 
     const[rotate,setRotate] = useState();
 
-    const handleSlider = (event, value) => {
+    const handleSlider = (event:any, value:any) => {
         setPicture({
             ...picture,
             zoom: value
@@ -34,11 +42,11 @@ const AvatarEditors:FC<IAvatarEditorsProps> = ({onSaveAvatar,file}) => {
         });
     };
 
-    const setEditorRef = (ed) => {
+    const setEditorRef = (ed:any) => {
         editor = ed;
     };
 
-    const handleSave = (e) => {
+    const handleSave = (e:any) => {
         if (setEditorRef) {
             const canvasScaled = editor.getImageScaledToCanvas();
             const croppedImg = canvasScaled.toDataURL();
@@ -54,11 +62,14 @@ const AvatarEditors:FC<IAvatarEditorsProps> = ({onSaveAvatar,file}) => {
 
     };
 
-    const onChangeRotate = () => {
-        setRotate()
+    const onChangeRotate = (event:any, value:any) => {
+        setPicture({
+            ...picture,
+            rotate: value
+        });
     }
 
-    const handleFileChange = (e) => {
+    const handleFileChange = (e:any) => {
         let url = URL.createObjectURL(e.target.files[0]);
         setPicture({
             ...picture,
@@ -88,7 +99,7 @@ const AvatarEditors:FC<IAvatarEditorsProps> = ({onSaveAvatar,file}) => {
             <div >
 
 
-                {picture.cropperOpen && (
+                {picture.cropperOpen && picture.img && (
                     <Box display="block">
                         <AvatarEditor
                             ref={setEditorRef}
@@ -96,31 +107,28 @@ const AvatarEditors:FC<IAvatarEditorsProps> = ({onSaveAvatar,file}) => {
                             width={200}
                             height={200}
                             border={50}
-                            // color={[0, 0, 0, 1]} // RGBA
-                            rotate={0}
+                            rotate={picture.rotate}
                             scale={picture.zoom}
                         />
                         <Slider
-                            aria-label="raceSlider"
                             value={picture.zoom}
                             min={1}
                             max={10}
                             step={0.1}
                             onChange={handleSlider}
-                        ></Slider>
+                        />
                         <Slider
-                            aria-label="raceSlider"
-                            value={picture.zoom}
+                            value={picture.rotate}
                             min={1}
-                            max={10}
-                            step={0.1}
-                            onChange={handleSlider}
-                        ></Slider>
+                            max={360}
+                            step={1}
+                            onChange={onChangeRotate}
+                        />
                         <Box>
-                            <Button variant="contained" onClick={handleCancel}>
-                                Cancel
+                            <Button  onClick={handleCancel}>
+                                Очистити
                             </Button>
-                            <Button onClick={handleSave}>Save</Button>
+                            <Button variant="contained" onClick={handleSave}>Зберегти</Button>
                         </Box>
                     </Box>
                 )}
