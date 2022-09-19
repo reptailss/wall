@@ -25,6 +25,9 @@ export  const validationSchemaRegister = yup.object({
         .required('введіть ваш пароль'),
     name: yup
         .string().required('введіть Імя'),
+    login: yup
+        .string().required('введіть ваш логін')
+        .min(3, 'мінімум 3 символів'),
     surname: yup
         .string().required('ввдеіть призвіще'),
     city: yup

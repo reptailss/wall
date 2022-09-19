@@ -10,13 +10,14 @@ interface IInitialState {
     profile: {
         name: string,
         surname: string,
-        dateBirth: number,
+        dateBirth: number | null,
         city: string,
         jop: string,
         maritalStatus: string,
         timestamp:any,
-        currentAvatar: string
+        currentAvatar: string,
     },
+    loadingProfile: boolean
 
 }
 
@@ -28,13 +29,14 @@ const initialState: IInitialState = {
     profile: {
         name: '',
         surname: '',
-        dateBirth: 0,
+        dateBirth:null,
         city: '',
         jop: '',
         maritalStatus: '',
         timestamp:{},
-        currentAvatar: ''
+        currentAvatar: '',
     },
+    loadingProfile: true,
 
 };
 
@@ -69,6 +71,9 @@ export const userSlice = createSlice({
             state.token = null;
             state.id = '';
         },
+        setLoadingProfile(state,action) {
+            state.loadingProfile = action.payload.loadingProfile;
+        }
 
     },
 
@@ -76,6 +81,6 @@ export const userSlice = createSlice({
 });
 
 
-export const {setUser, removeUser, setUserSliceProfile,setIsAuth} = userSlice.actions;
+export const {setUser, removeUser, setUserSliceProfile,setIsAuth,setLoadingProfile} = userSlice.actions;
 
 export default userSlice.reducer;

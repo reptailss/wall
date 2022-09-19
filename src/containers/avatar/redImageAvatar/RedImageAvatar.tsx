@@ -26,46 +26,6 @@ const RedImageAvatar = () => {
     const {updateCurrentAvatar, loadingUpdateCurrentAvatar, addAvatarsCollection} = useAvatar();
     const {getUserProfile} = useUsers();
 
-    //
-    // useEffect(() => {
-    //     const uploadFile = () => {
-    //         if ((file.name)) {
-    //             const name = new Date().getTime() + file.name;
-    //             const pathImg = `users/${id}/avatar/${name}`;
-    //
-    //             const storageRef = ref(storage, pathImg);
-    //             const uploadTask = uploadBytesResumable(storageRef, file);
-    //
-    //             uploadTask.on(
-    //                 "state_changed",
-    //                 (snapshot) => {
-    //                     const progress =
-    //                         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //                     setPerc(progress);
-    //                     switch (snapshot.state) {
-    //                         case "paused":
-    //                             console.log("Upload is paused");
-    //                             break;
-    //                         case "running":
-    //                             console.log("Upload is running");
-    //                             break;
-    //                         default:
-    //                             break;
-    //                     }
-    //                 },
-    //                 (error) => {
-    //                     console.log(error);
-    //                 },
-    //                 () => {
-    //                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                         setDataImg(downloadURL);
-    //                     });
-    //                 }
-    //             );
-    //         }
-    //     };
-    //     file && uploadFile();
-    // }, []);
 
 
     const uploadFile = () => {
@@ -75,7 +35,7 @@ const RedImageAvatar = () => {
 
             const storageRef = ref(storage, pathImg);
             const uploadTask = uploadBytesResumable(storageRef, file);
-
+            console.log('upload')
             uploadTask.on(
                 "state_changed",
                 (snapshot) => {
@@ -95,8 +55,10 @@ const RedImageAvatar = () => {
                 },
                 (error) => {
                     console.log(error);
+                    console.log('upload err')
                 },
                 () => {
+                    console.log('upload ok')
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setDataImg(downloadURL);
                     });
@@ -107,16 +69,18 @@ const RedImageAvatar = () => {
 
 
     const hiddenFileInput = useRef<HTMLInputElement>(null);
-    const handleClick = () => {
+    const addImageFile = () => {
         if (hiddenFileInput.current) {
             hiddenFileInput.current.click();
+        }
+        if(dataImg){
+            setDataImg('')
         }
 
     };
     const OnChangeFile = (e: any) => {
         setFile(e.target.files[0])
     };
-
 
     const onDelete = () => {
         const desertRef = ref(storage, dataImg);
@@ -126,6 +90,22 @@ const RedImageAvatar = () => {
             throw error;
         });
         setDataImg('');
+    };
+
+
+    const onUpdateCurrentAvatar = async () => {
+        if (dataImg && id) {
+            file && await uploadFile()
+            await updateCurrentAvatar({id, pathImg: dataImg});
+            await addAvatarsCollection({id, pathImg: dataImg});
+            await getUserProfile(id);
+            router.push('/');
+        }
+    };
+
+    const onChangeAvatar = async (img: string) => {
+        setDataImg(img);
+        console.log('reset',dataImg)
     };
 
 
@@ -139,7 +119,7 @@ const RedImageAvatar = () => {
             onChange={(e) => OnChangeFile(e)}
         />
         <Button
-            onClick={handleClick}
+            onClick={addImageFile}
             variant="contained"
             className={styles.btn}
             disabled={per !== null && per < 100}
@@ -150,33 +130,19 @@ const RedImageAvatar = () => {
         </Button>
     </div>;
 
-    const onUpdateCurrentAvatar = async () => {
-        if (dataImg && id) {
-            file && await uploadFile()
-            await updateCurrentAvatar({id, pathImg: dataImg});
-            await addAvatarsCollection({id, pathImg: dataImg});
-            await getUserProfile(id);
-            router.push('/');
-        }
-    };
-
-    const onChangeAvatar = async (img: string) => {
-        console.log('effect')
-        setDataImg(img);
-
-    };
-
-
     return (
         <div className={styles.root}>
-            <div className={styles.test}>
-                <AvatarEditors
-                    file={file}
-                    onSaveAvatar={onChangeAvatar}/>
-            </div>
-            <Row className={styles.row}>
 
-                <Col xl={8}>
+            <div className={styles.row}>
+                <div className={styles.btns}>
+                    {!(per !== null && per < 100) ? content : <SpinnerBlock/>}
+                </div>
+                <div>
+                    <div className={styles.test}>
+                        <AvatarEditors
+                            file={file}
+                            onSaveAvatar={onChangeAvatar}/>
+                    </div>
                     <AnimatePresence>
                         {dataImg && <motion.div
                             className={styles.imgroot}
@@ -213,7 +179,7 @@ const RedImageAvatar = () => {
                                     size="small"
                                     className={styles.btnImg}
                                 >
-                                    <span> Зберегти</span>
+                                    <span> Оновити аватар</span>
                                     <SaveIcon
                                         fontSize="small"
                                     />
@@ -223,13 +189,10 @@ const RedImageAvatar = () => {
 
                         </motion.div>}
                     </AnimatePresence>
-                </Col>
+                </div>
 
-                <Col xl={2}>
-                    {!(per !== null && per < 100) ? content : <SpinnerBlock/>}
-                </Col>
 
-            </Row>
+            </div>
 
 
         </div>

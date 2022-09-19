@@ -22,3 +22,6 @@ export interface ILikeItem {
     authorNameLike: string,
     id: string
 }
+export interface ICounterCommentsProps extends ILikesProps{
+    totalLikes: number
+}

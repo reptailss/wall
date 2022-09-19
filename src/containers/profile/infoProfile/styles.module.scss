@@ -4,6 +4,7 @@
 
 .paper{
   padding: 15px 10px;
+  position: relative;
 }
 
 .topInfo{
@@ -24,6 +25,12 @@
   margin-bottom: 10px;
 }
 .btn{
+  position: absolute;
+  top: 0;
+  right: 0;
   margin-left: auto;
   display: block;
+}
+.wrap{
+  display: flex;
 }

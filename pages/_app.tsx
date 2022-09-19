@@ -14,18 +14,18 @@ import {useRouter} from "next/router";
 function MyApp({Component, pageProps}: AppProps) {
     const router = useRouter();
     const {pathname} = router;
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            if (!(localStorage.getItem('token'))) {
-                if (!((pathname === '/signin') || (pathname === '/register') || (pathname === '/sendpassword'))) {
-                    router.push('/signin')
-                }
-
-            }
-        }
-
-
-    }, []);
+    // useEffect(() => {
+    //     if (typeof window !== "undefined") {
+    //         if (!(localStorage.getItem('token'))) {
+    //             if (!((pathname === '/signin') || (pathname === '/register') || (pathname === '/sendpassword'))) {
+    //                 router.push('/signin')
+    //             }
+    //
+    //         }
+    //     }
+    //
+    //
+    // }, []);
 
     return (
 

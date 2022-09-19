@@ -26,6 +26,7 @@ const Likes:FC<LikesProps> = ({idUser,pathRoot,pathItemId,authorNameLike}) => {
 
 
     const [likes, setLikes] = useState<ILikeItem[]>();
+
     const [isLike, setIsLike] = useState<boolean>(false);
 
     const {
@@ -35,50 +36,112 @@ const Likes:FC<LikesProps> = ({idUser,pathRoot,pathItemId,authorNameLike}) => {
 
         getLikes,
         addLike,
-        deleteLike
+        deleteLike,
+        getTotalLikes,
+        setTotalLikes,
     } = useLikes();
 
+    //
+    // const onGetLikes = async () => {
+    //     const res = await getLikes({
+    //         pathRoot, idUser,pathItemId
+    //     });
+    //     //@ts-ignore
+    //     setLikes(res)
+    // };
 
-    const onGetLikes = async () => {
-        const res = await getLikes({
-            pathRoot, idUser,pathItemId
+    //
+    //
+    // useEffect(() => {
+    //     if (pathItemId && db) {
+    //         onGetLikes();
+    //     }
+    //     if (pathItemId && db) {
+    //         onGetLikes();
+    //     }
+    // }, [pathItemId]);
+    //
+    //
+    // useEffect(() => {
+    //     if (likes) {
+    //         setIsLike(likes.findIndex((like) => like.id === idCurrentUser) !== -1);
+    //     }
+    // }, [likes]);
+    //
+    // const onClickLike = async () => {
+    //
+    //     if (!isLike) {
+    //         await addLike({
+    //             idUser,pathRoot, pathItemId, idCurrentUser,authorNameLike:profile.name
+    //         });
+    //         await onGetLikes();
+    //     } else {
+    //         await deleteLike({
+    //             idUser, pathItemId, idCurrentUser,pathRoot
+    //         });
+    //         await onGetLikes();
+    //     }
+    //
+    // };
+
+
+
+
+
+
+
+    const [totalLikesState, setTotalLikesState] = useState<number>(0);
+
+
+    const onGetCounter = async () => {
+       const res = await getTotalLikes({
+            idUser,
+            pathRoot,
+            pathItemId,
         });
-        //@ts-ignore
-        setLikes(res)
+        setTotalLikesState(res);
+        return res;
+
     };
+    const onSetCounter = async (num:number) => {
+        await setTotalLikes({
+            idUser,
+            pathRoot,
+            pathItemId,
+            totalLikes:num
+        });
+
+    };
+    const onClickLike = async () => {
+
+      const res = await onGetCounter();
+      await onSetCounter(res + 1);
+
+    };
+
+
+
 
     useEffect(() => {
         if (pathItemId && db) {
-            onGetLikes();
+          onGetCounter();
         }
     }, [pathItemId]);
 
 
-    useEffect(() => {
-        if (likes) {
-            setIsLike(likes.findIndex((like) => like.id === idCurrentUser) !== -1);
-        }
-    }, [likes]);
+    // const onSetTotalComments = (num:number) =>{
+    //     setTotalComments(num)
+    // };
 
-    const onClickLike = async () => {
 
-        if (!isLike) {
-            await addLike({
-                idUser, pathItemId, idCurrentUser,pathRoot,authorNameLike:profile.name
-            });
-            await onGetLikes();
-        } else {
-            await deleteLike({
-                idUser, pathItemId, idCurrentUser,pathRoot
-            });
-            await onGetLikes();
-        }
 
-    };
+
+
 
 
     const colorFavorite = isLike ? 'info' : 'inherit';
     const num = likes ? likes.length : 0;
+
 
     return (
         <>
@@ -92,7 +155,7 @@ const Likes:FC<LikesProps> = ({idUser,pathRoot,pathItemId,authorNameLike}) => {
                         vertical: 'bottom',
                         horizontal: 'right',
                     }}
-                    badgeContent={num} color="primary">
+                    badgeContent={totalLikesState} color="primary">
                     <FavoriteIcon
                         color={colorFavorite}
                     />

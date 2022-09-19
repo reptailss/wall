@@ -13,16 +13,17 @@ import {useAppSelector} from "../../../hooks/redux";
 
 export interface IInfoProfileProps {
     profile: IUserProfile,
-    idUser: string
+    idUser: string,
+    loadingProfile: boolean
 }
 
 
-const InfoProfile: FC<IInfoProfileProps> = ({profile,idUser}) => {
+const InfoProfile: FC<IInfoProfileProps> = ({profile, idUser, loadingProfile}) => {
 
     const [redProfile, setRedProfile] = useState<boolean>(false);
     const {name, surname, dateBirth, city, jop, maritalStatus, timestamp} = profile;
     const {pathname} = useRouter();
-    const{id} = useAppSelector(state => state.user);
+    const {id, isAuth} = useAppSelector(state => state.user);
 
 
     const profileBlock = redProfile ? <SideBarRedProfile
@@ -33,6 +34,7 @@ const InfoProfile: FC<IInfoProfileProps> = ({profile,idUser}) => {
             timestamp={timestamp}
         /> :
         <SideBarInfoProfile
+            loadingProfile={loadingProfile}
             dateBirth={dateBirth}
             city={city}
             jop={jop}
@@ -56,11 +58,12 @@ const InfoProfile: FC<IInfoProfileProps> = ({profile,idUser}) => {
         <AnimatePresence>
             <div className={styles.root}>
                 <Paper className={styles.paper}>
+                        {isAuth && !loadingProfile && redProfileButton}
                     <UserInfoProfile
                         name={name}
+                        status={'...'}
                     />
                     {profileBlock}
-                    {redProfileButton}
                 </Paper>
 
             </div>

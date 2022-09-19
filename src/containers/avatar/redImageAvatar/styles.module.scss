@@ -4,12 +4,7 @@
   margin-top: 10px;
 }
 
-.row{
-  justify-content: center;
-  @media (max-width: 1200px) {
-    flex-direction: column-reverse!important;
-  }
-}
+
 
 .btn{
   display: flex;
@@ -19,13 +14,12 @@
 .img{
   object-fit: cover;
   object-position: center center;
-  max-height: 500px;
   width: 100%;
 
 }
 .imgroot{
   position: relative;
-  max-width: 500px;
+  max-width: 550px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -54,3 +48,6 @@
   }
 }
 
+.btns{
+  margin-bottom: 10px;
+}

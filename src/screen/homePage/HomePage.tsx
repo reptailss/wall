@@ -8,7 +8,7 @@ import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
-    const profile = useAppSelector(state => state.user.profile);
+    const {profile,loadingProfile} = useAppSelector(state => state.user);
     const{currentAvatar} = profile;
 
     return (
@@ -20,7 +20,10 @@ const HomePage = () => {
                 <ChangeAvatarBtn/>
             </Col>
             <Col xl={8}>
-                <InfoProfile idUser={id} profile={profile}/>
+                <InfoProfile
+                    loadingProfile={loadingProfile}
+                    idUser={id}
+                    profile={profile}/>
                 <Wall id={id}/>
             </Col>
 

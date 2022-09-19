@@ -7,6 +7,15 @@ export     const OptionsDateTime:Intl.DateTimeFormatOptions = {
    minute: "numeric"
 };
 
+export     const OptionsDateTimeComment:Intl.DateTimeFormatOptions = {
+   day:'numeric',
+   month: 'numeric',
+   year: 'numeric',
+   hour: 'numeric',
+   minute: "numeric"
+};
+
+
 export     const OptionsDate:Intl.DateTimeFormatOptions = {
    day:'numeric',
    month: 'short',

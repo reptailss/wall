@@ -29,6 +29,8 @@ export function useWall() {
             const newAddPostRef = doc(collection(db, "users",id, "posts"));
             await setDoc(newAddPostRef, {
                 ...body,
+                totalComments:0,
+                totalLikes:0,
                 timestamp: serverTimestamp()
             });
             setSnackBar('ви успішно добавили пост!', 'success');

@@ -8,7 +8,8 @@ export interface IUserProfile {
     jop: string,
     maritalStatus: string,
     timestamp? :ITimestamp,
-    currentAvatar: string
+    currentAvatar: string,
+    uid?:string
 
 }
 
@@ -20,7 +21,8 @@ export interface IUpdateUserProfileProps {
         city: string,
         jop: string,
         maritalStatus: string,
-        currentAvatar: string
+        currentAvatar: string,
+        uid:string
     },
     snack?: boolean
 }

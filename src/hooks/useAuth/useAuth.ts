@@ -4,6 +4,7 @@ import {
     sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signOut,
+    updateProfile
 } from "firebase/auth";
 
 import {doc, getDoc,} from "firebase/firestore";
@@ -40,15 +41,13 @@ export function useAuth() {
             const{user} = res;
             dispatch(setUser({
                 email: user.email,
-                id: user.uid,
+                id: user.displayName,
                 token: user.refreshToken,
             }));
-            localStorage.setItem('token', user.refreshToken);
-            localStorage.setItem('id', user.uid);
             setLoadingLogin(false);
             setLoadingUser(false);
             setSnackBar('Ви успішно увійшли!', 'success');
-            router.push('/');
+            router.push(`/`);
         }catch (error:any) {
             setLoadingLogin(false);
             setLoadingUser(false);
@@ -64,8 +63,6 @@ export function useAuth() {
         try{
             await signOut(auth);
             dispatch( setIsAuth(false));
-            localStorage.removeItem('token');
-            localStorage.removeItem('id');
             dispatch(removeUser());
             setLoadingOut(false);
             setLoadingUser(false);
@@ -90,21 +87,17 @@ export function useAuth() {
             const {user} = res;
             dispatch(setUser({
                 email: user.email,
-                id: user.uid,
+                id: user.displayName,
                 token: user.refreshToken,
 
             }));
-            dispatch( setIsAuth(true));
-            localStorage.setItem('token', user.refreshToken);
-            localStorage.setItem('id', user.uid);
+            dispatch( setIsAuth(true));;
             setSnackBar('Ви успішно зареєструвалися!', 'success');
-            router.push('/');
+            router.push(`/`);
             setLoadingRegister(false);
             setLoadingUser(false);
 
-            return {
-                id:user.uid
-            }
+            return res;
         } catch (error:any) {
             setLoadingRegister(false);
             setLoadingUser(false);
@@ -128,7 +121,7 @@ export function useAuth() {
         }
     };
 
-    const checkFreeData = async (login: string) =>{
+    const checkFreeLogin = async (login: string) =>{
         const docRef = doc(db, "users", login);
         setLoadingCheckFreeData(true);
         try {
@@ -140,6 +133,19 @@ export function useAuth() {
             setLoadingCheckFreeData(false);
             return (error);
         }
+    };
+
+    const updateLoginUser = (props:any) =>{
+        const{user,login} = props;
+        try {
+          const res =  updateProfile(user, {
+                displayName: login
+            })
+        }catch (error:any) {
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+        
     };
 
 
@@ -155,12 +161,12 @@ export function useAuth() {
         loadingSendPassword,
         loadingUser,
         loadingCheckFreeData,
-
+        updateLoginUser,
         logOutUser,
         loginUser,
         registerUser,
         sendPasswordReset,
-        checkFreeData
+        checkFreeLogin
 
 
     };

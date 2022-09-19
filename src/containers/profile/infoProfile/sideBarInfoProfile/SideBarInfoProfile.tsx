@@ -3,23 +3,31 @@ import styles from './styles.module.scss'
 import {convertSecondstoDate, OptionsDate} from "../../../../helpers/date";
 import {ITimestamp} from "../../../../types/timestamp";
 import {motion} from "framer-motion";
+import {Typography} from "@mui/material";
+import SkeletonText from "../../../../components/skeletons/SkeletonText";
+import {Col, Row} from "react-bootstrap";
 
 interface ISideBarInfoProfileProps {
     dateBirth: number,
     city: string,
     jop: string,
     maritalStatus: string,
-    timestamp? :ITimestamp,
+    timestamp?: ITimestamp,
+    loadingProfile: boolean
 }
 
 
-const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,maritalStatus,timestamp}) => {
+const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, maritalStatus, timestamp, loadingProfile}) => {
 
-    const date = dateBirth ?  convertSecondstoDate(dateBirth) : 0;
-    const uadate = new Intl.DateTimeFormat('uk',OptionsDate).format(date);
 
-    const dateRegister = timestamp?.seconds ?  convertSecondstoDate(timestamp.seconds) : 0;
-    const uadateRegister = new Intl.DateTimeFormat('uk',OptionsDate).format(dateRegister);
+    const date = dateBirth ? convertSecondstoDate(dateBirth) : 0;
+    const uadate = new Intl.DateTimeFormat('uk', OptionsDate).format(date);
+
+    const dateRegister = timestamp?.seconds ? convertSecondstoDate(timestamp.seconds) : 0;
+    const uadateRegister = new Intl.DateTimeFormat('uk', OptionsDate).format(dateRegister);
+
+    console.log(loadingProfile)
+
     return (
         <motion.div
             key={'infoprofile'}
@@ -31,53 +39,88 @@ const SideBarInfoProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,mar
                 opacity: {duration: 1.2},
             }}
             className={styles.root}>
-            <div className={styles.list}>
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                       Дата народження
-                    </div>
-                    <div className={styles.itemContent}>
-                        {dateBirth ? uadate : null}
-                    </div>
-                </div>
+            <Row >
+                <Col xs={6} className={styles.item}>
+                    <Typography className={styles.itemInfo}
+                                variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'Дата народження'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1"
+                        className={styles.itemContent}>
+                        {loadingProfile  ? <SkeletonText/> : uadate}
+                    </Typography>
+                </Col>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Місце народження
-                    </div>
-                    <div className={styles.itemContent}>
-                        {city}
-                    </div>
-                </div>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Робота
-                    </div>
-                    <div className={styles.itemContent}>
-                        {jop}
-                    </div>
-                </div>
+                <Col xs={6} className={styles.item}>
+                    <Typography className={styles.itemInfo}
+                                variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : ' Місце народження'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1"
+                        className={styles.itemContent}>
+                        {loadingProfile || !city ? <SkeletonText/> : city}
+                    </Typography>
+                </Col>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Сімейний статус
-                    </div>
-                    <div className={styles.itemContent}>
-                        {maritalStatus}
-                    </div>
-                </div>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Дата реєстрації
-                    </div>
-                    <div className={styles.itemContent}>
-                        {timestamp ? uadateRegister : null}
-                    </div>
-                </div>
+                <Col xs={6} className={styles.item}>
+                    <Typography className={styles.itemInfo}
+                                variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'Робота'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1"
+                        className={styles.itemContent}>
+                        {loadingProfile ? <SkeletonText/> : jop}
+                    </Typography>
+                </Col>
 
-            </div>
+
+                <Col xs={6} className={styles.item}>
+                    <Typography className={styles.itemInfo}
+                                variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'Сімейний статус'}
+                    </Typography>
+                </Col>
+
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1"
+                        className={styles.itemContent}>
+                        {loadingProfile ? <SkeletonText/> : maritalStatus}
+                    </Typography>
+                </Col>
+
+
+                <Col xs={6} className={styles.item}>
+                    <Typography className={styles.itemInfo}
+                                variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'Дата реєстрації'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1"
+                        className={styles.itemContent}>
+                        {timestamp && !loadingProfile  ? uadateRegister: <SkeletonText/>}
+                    </Typography>
+                </Col>
+
+            </Row>
         </motion.div>
     );
 };

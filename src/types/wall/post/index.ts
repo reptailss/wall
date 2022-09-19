@@ -13,7 +13,8 @@ export interface IWallPostBodyItem {
 
 export interface IWallPostItem extends IWallPostBodyItem{
     timestamp: ITimestamp,
-    id: string
+    id: string,
+    totalCommments: number
 
 }
 

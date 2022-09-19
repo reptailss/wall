@@ -17,7 +17,7 @@ const LikeList:FC<ILikeListProps> = ({likes}) => {
         }
         const sign = i === array.length -1 ? '' : ',';
         return(
-           <>
+           <div className={styles.item} key={item.id}>
                <LikeItem
                    {...item}
                />
@@ -28,7 +28,7 @@ const LikeList:FC<ILikeListProps> = ({likes}) => {
                    {sign}
                </Typography>
 
-           </>
+           </div>
         )
     }) ;
 

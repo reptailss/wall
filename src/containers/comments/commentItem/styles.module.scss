@@ -1,0 +1,19 @@
+.link{
+  transition: all .3s;
+  margin-right: 4px;
+  font-weight: 500;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+.root{
+  padding: 0 15px;
+}
+.content{
+  display: flex;
+}
+.date{
+  display: block;
+  text-align: right;
+}

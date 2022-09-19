@@ -17,9 +17,8 @@ interface ILayoutProps {
 }
 
 const Layout: FC<ILayoutProps> = ({children}) => {
-
         const auth = getAuth();
-        const { id} = useAppSelector(state => state.user);
+        const { id,isAuth} = useAppSelector(state => state.user);
         const {themeMode} = useAppSelector(state => state.theme);
         const dispatch = useAppDispatch();
         const theme = createTheme(getDesignTokens(themeMode));
@@ -30,14 +29,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
         } : {};
 
         const router = useRouter();
-        useEffect(() => {
-            if (typeof window !== "undefined") {
-                if ( !(localStorage.getItem('token'))) {
-                    router.push('/signin')
-                }
-            }
 
-        }, []);
 
 
         useEffect(() => {
@@ -51,20 +43,31 @@ const Layout: FC<ILayoutProps> = ({children}) => {
 
 
         useEffect(() => {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    dispatch(setUser({
-                        email: user.email,
-                        id: user.uid,
-                        token: user.refreshToken,
-                    }));
-                    dispatch(setIsAuth(true));
+            const onGetUser = () => {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        // router.push(`/`);
+                        dispatch(setUser({
+                            email: user.email,
+                            id: user.displayName,
+                            token: user.refreshToken,
+                        }));
+                        dispatch(setIsAuth(true));
 
-                    getUserProfile(user.uid)
-                } else {
+                        if(user.displayName){
+                            getUserProfile(user.displayName)
+                        }
 
-                }
-            })
+                    } else {
+
+                    }
+                });
+
+            };
+            onGetUser();
+            return () =>{
+                onGetUser();
+            }
         }, []);
 
 
@@ -81,7 +84,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
                         className={styles.container}>
                         <Row>
                             <Col sx={12} xl={2}>
-                                <Navigate/>
+                                {isAuth && <Navigate/>}
                             </Col>
                             <Col sx={12} xl={10}>
                                 {children}

@@ -15,10 +15,13 @@ import Link from "next/link";
 import LinkMU from '@mui/material/Link'
 import UserSideBar from "../../containers/user/userSideBar/UserSideBar";
 import {useRouter} from "next/router";
+import SignInButton from "../signInButton/signInButton";
 
 const Header = () => {
     const {themeMode} = useAppSelector(state => state.theme);
     const dispatch = useAppDispatch();
+
+    const{isAuth} = useAppSelector(state => state.user);
 
     const toggleTheme = () => {
         if (themeMode === 'light') {
@@ -54,6 +57,7 @@ const Header = () => {
 
                             </Col>
                             <Col className={styles.menu} sx={9}>
+                                {!isAuth && <SignInButton/>}
                                 <Button color="secondary" onClick={toggleTheme}>
                                     theme
                                 </Button>

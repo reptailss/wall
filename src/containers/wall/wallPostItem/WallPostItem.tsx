@@ -24,6 +24,7 @@ import WallSidebarPostItem from "./wallSidebarPostItem/WallSidebarPostItem";
 import {useRouter} from "next/router";
 import {useAppSelector} from "../../../hooks/redux";
 import Likes from "../../likes/Likes";
+import Comments from "../../comments/Comments";
 
 const WallPostItem:FC<IWallPostItem> = ({text,pathImg,timestamp,authorName,authorId,id,idUserWhoseWall}) => {
 
@@ -92,17 +93,20 @@ const imgList = pathImg?.map((item,i,array) => {
             <Row className={styles.rowImg}>
                 {imgList}
             </Row>
-            <CardActions disableSpacing>
 
-                <Likes
+            <Likes
+                idUser={idUserWhoseWall}
+                pathItemId={id}
+                pathRoot={'posts'}
+                authorNameLike={authorName}
+            />
+            <div className={styles.comments}>
+                <Comments
                     idUser={idUserWhoseWall}
                     pathItemId={id}
-                    pathRoot={'post'}
-                    authorNameLike={authorName}
+                    pathRoot={'posts'}
                 />
-
-
-            </CardActions>
+            </div>
         </Card>
     );
 };

@@ -3,13 +3,16 @@
 }
 
 .img {
-max-height: 100%;
   width: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  object-fit: contain;
   object-position: center center;
-  height: 300px;
-  @media (max-width: 500px) {
-   height: auto;
+  height: 290px!important;
+  @media (min-width: 768px) {
+    height: 600px!important;
+  }
+  @media (min-width: 1200px) {
+    height: 350px!important;
   }
 }
 

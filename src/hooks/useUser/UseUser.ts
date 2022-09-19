@@ -5,13 +5,13 @@ import {useState} from "react";
 
 import {useSnackBar} from "../useSneckBar/useSnackBars";
 import {useAppDispatch} from "../redux";
-import {setUserSliceProfile} from '../../redux/slice/userSlice'
+import {setUserSliceProfile,setLoadingProfile} from '../../redux/slice/userSlice'
 
 
 
 export function useUsers() {
     const {setSnackBar} = useSnackBar();
-    const [loadingSetUserProfile, setloadingSetUserProfile] = useState<boolean>(false);
+
     const [loadingGetUserProfile, setloadingGetUserProfile] = useState<boolean>(true);
     const [loadingGetUserProfileOther, setLoadingGetUserProfileOther] = useState<boolean>(true);
     const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ export function useUsers() {
 
     const setUserProfile = async (props: IUpdateUserProfileProps) => {
 
-        setloadingSetUserProfile(true);
+        setloadingGetUserProfile(true);
         const {id, body, snack} = props;
         try {
             await setDoc(doc(db, 'users', id), {
@@ -31,17 +31,18 @@ export function useUsers() {
                 setSnackBar('Ви успішно Оновили профіль!', 'success');
             }
 
-            setloadingSetUserProfile(false);
+            setloadingGetUserProfile(false);
         } catch (error: any) {
-            setloadingSetUserProfile(false);
+            setloadingGetUserProfile(false);
             setSnackBar(error.code, 'error');
             console.log(error)
             throw  error;
         }
     };
 
-    const getUserProfile = async (id: string) => {
-        setloadingGetUserProfile(true)
+    const getUserProfile = async (id: string ) => {
+        setloadingGetUserProfile(true);
+        dispatch(setLoadingProfile(true));
         const docRef = doc(db, "users", id);
         try {
             const res = await getDoc(docRef);
@@ -50,11 +51,13 @@ export function useUsers() {
                 ...profile
             }));
             setloadingGetUserProfile(false);
+            dispatch(setLoadingProfile(false));
 
         } catch (error: any) {
-            setloadingGetUserProfile(false)
+            setloadingGetUserProfile(false);
+            dispatch(setLoadingProfile(false));
             setSnackBar(error.code, 'error');
-            console.log(error)
+            console.log(error);
             throw  error;
         }
 
@@ -81,7 +84,6 @@ export function useUsers() {
 
 
     return {
-        loadingSetUserProfile,
         loadingGetUserProfile,
         loadingGetUserProfileOther,
         setUserProfile,

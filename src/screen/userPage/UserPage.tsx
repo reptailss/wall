@@ -35,7 +35,6 @@ const UserPage = () => {
         const res = await getUserProfileOther(id);
         //@ts-ignore
         setrofileUserOther(res);
-        console.log(profileUserOther)
     };
 
     useEffect(  () => {
@@ -52,25 +51,22 @@ const UserPage = () => {
     </Col>;
 
 
-    const content = !loadingGetUserProfileOther && profileUserOther ?   <>
-        <Col xl={4}>
-            <UserAvatar
-                currentAvatar={profileUserOther.currentAvatar}
-            />
-        </Col>
-        <Col xl={8}>
-            <InfoProfile
-                idUser={id}
-                profile={profileUserOther}/>
-            <Wall id={id}/>
-        </Col>
-    </> : spinner;
-
 
 
     return (
         <Row>
-            {content}
+            <Col xl={4}>
+                <UserAvatar
+                    currentAvatar={profileUserOther.currentAvatar}
+                />
+            </Col>
+            <Col xl={8}>
+                <InfoProfile
+                    idUser={id}
+                    loadingProfile={loadingGetUserProfileOther}
+                    profile={profileUserOther}/>
+                <Wall id={id}/>
+            </Col>
         </Row>
     )
 
