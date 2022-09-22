@@ -1,9 +1,9 @@
 import React from 'react';
-import RedImageAvatar from "../../containers/avatar/redImageAvatar/RedImageAvatar";
+import UpdateAvatar from "../../containers/avatar/updateAvatar/updateAvatar";
 
 const RedAvatarPage = () => {
     return (
-                <RedImageAvatar/>
+                <UpdateAvatar/>
     );
 };
 

@@ -5,9 +5,10 @@ import {ICommentItem} from "../../types/comments";
 import {useAppSelector} from "../../hooks/redux";
 import CommentList from "./commentList/CommentList";
 import CommentAdd from "./commentAdd/commentAdd";
-import FullComments from "./fullComments/FullComments";
+import ModalFullComments from "./fullComments/ModalFullComments"
 
 import styles from './styles.module.scss'
+
 
 
 
@@ -28,6 +29,7 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
 
     const {
         getComments,
+        getTotalComments
     } = useComments();
 
 
@@ -40,8 +42,19 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
         setComments(res.reverse())
     };
 
+    const onGetTotalComments = async () => {
+        const res = await getTotalComments({
+            idUser,
+            pathRoot,
+            pathItemId,
+        });
+        setTotalComments(res)
+
+    };
+
     useEffect(() => {
         if (pathItemId && db) {
+            onGetTotalComments();
             onGetComments();
         }
     }, [pathItemId]);
@@ -51,12 +64,19 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
         setTotalComments(num)
     };
 
+
+
+
+
     return (
         <>
             {comments && totalComments  > 3 && <div>
-                <FullComments
+                <ModalFullComments
+                    idUser={idUser}
+                    pathRoot={pathRoot}
+                    pathItemId={pathItemId}
                     totalComments={totalComments}
-                    comments={comments}/>
+                   />
             </div>}
             {comments && <CommentList comments={comments}/>}
             <div className={styles.commentAdd}>
@@ -68,6 +88,7 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
                     pathRoot={pathRoot}
                     onAddCommentProps={onGetComments}
                     onSetTotalComments={onSetTotalComments}
+
                 />
             </div>
 

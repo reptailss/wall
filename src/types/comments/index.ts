@@ -14,8 +14,9 @@ export interface ICommentsProps {
     idUser: string,
     pathRoot: string,
     pathItemId : string,
-    limitComment: number,
-    orderByComment: "desc" | "asc"
+    limitComment?: number,
+    orderByComment: "desc" | "asc",
+    startId?: ITimestamp
 }
 
 export interface IAddCommentProps extends IComment{

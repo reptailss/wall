@@ -1,14 +1,15 @@
-import {setDoc,
-    getDocs,
+import {
     collection,
-    doc
-    ,deleteDoc,
-    updateDoc,
+    doc,
     getDoc,
-    query,
-    orderBy,
+    getDocs,
     limit,
-    startAfter,
+    orderBy,
+    query,
+    serverTimestamp,
+    setDoc,
+    updateDoc,
+    deleteDoc
 } from "firebase/firestore";
 import {db} from "../../firebase/firebase";
 import {useState} from "react";
@@ -16,13 +17,12 @@ import {useState} from "react";
 import {useSnackBar} from "../useSneckBar/useSnackBars";
 import {
     IAddLikeProps,
+    ICounterCommentsProps,
+    IGetLikesProps,
     ILikesProps,
     IMutationLikeProps,
-    ICounterCommentsProps,
 } from "../../types/likes/";
-import {ICommentsProps} from "../../types/comments";
-
-
+import {IMutationCommentProps} from "../../types/comments";
 
 
 export function useLikes() {
@@ -33,96 +33,94 @@ export function useLikes() {
     const [loadingAddLike, setLoadingAddLike] = useState<boolean>(false);
     const [loadingGetTotalLikes, setLoadingGetTotalLikes] = useState<boolean>(false);
     const [loadingSetTotalLikes, setLoadingSetTotalLikes] = useState<boolean>(false);
-
-
-    //
-    // const addLike = async (props: IAddLikeProps) => {
-    //     setLoadingAddLike(true);
-    //     const {idUser,pathRoot,pathItemId,idCurrentUser,authorNameLike} = props;
-    //     try {
-    //         await setDoc(doc(db, "users", idUser, pathRoot,pathItemId,"likes",idCurrentUser), {
-    //             like: true,
-    //             authorNameLike:authorNameLike
-    //         });
-    //         setSnackBar('ви успішно поставили вподобайку!', 'success');
-    //         setLoadingAddLike(false);
-    //     } catch (error: any) {
-    //         setLoadingAddLike(false);
-    //         setSnackBar(error.code, 'error');
-    //         throw  error;
-    //     }
-    // };
-    //
-    //
-    // const deleteLike = async (props: IMutationLikeProps) => {
-    //     setLoadingDeleteLike(true);
-    //     const {idUser,pathRoot,pathItemId,idCurrentUser} = props;
-    //     try {
-    //         await deleteDoc(doc(db, "users", idUser, pathRoot,pathItemId,"likes",idCurrentUser));
-    //         setLoadingDeleteLike(false);
-    //     } catch (error: any) {
-    //         setLoadingDeleteLike(false);
-    //         setSnackBar(error.code, 'error');
-    //         throw  error;
-    //     }
-    // };
-    //
-    //
-    // const getLikes = async (props:ILikesProps) => {
-    //     const {idUser,pathRoot,pathItemId} = props;
-    //     const docRef = collection(db, "users",idUser, pathRoot,pathItemId,"likes");
-    //     setLoadingGetLikes(true);
-    //     const res = await getDocs(docRef);
-    //     try{
-    //         const results = (res.docs.map((data) => {
-    //             return { ...data.data(), id: data.id }
-    //         }));
-    //         setLoadingGetLikes(false);
-    //         return results;
-    //
-    //
-    //     }catch (error) {
-    //         setLoadingGetLikes(false);
-    //     }
-    //
-    //
-    // };
-    //
-    //
+    const [loadingCheckLike, setLoadingSetCheckLike] = useState<boolean>(false);
 
 
 
 
 
+    const addLike = async (props: IAddLikeProps) => {
+        setLoadingAddLike(true);
+        const {idUser,pathRoot,pathItemId,idCurrentUser,authorNameLike} = props;
+        try {
+            await setDoc(doc(db, "users", idUser, pathRoot,pathItemId,"likes",idCurrentUser), {
+                like: true,
+                authorNameLike:authorNameLike,
+                timestamp: serverTimestamp()
+            });
+            setSnackBar('ви успішно поставили вподобайку!', 'success');
+            setLoadingAddLike(false);
+        } catch (error: any) {
+            setLoadingAddLike(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+    };
 
 
-    const getComments = async (props:ICommentsProps) => {
-        const {idUser,pathRoot,pathItemId,limitComment,orderByComment} = props;
-        // const docRef = collection(db, "users",idUser, pathRoot,pathItemId,"comments");
-        const docRef = collection(db, "users",idUser, pathRoot,pathItemId,"comments");
-        const queryRef = query(docRef, orderBy("timestamp",orderByComment), limit(limitComment));
-        setLoadingGetComments(true);
-        const res = await getDocs(queryRef);
-        try{
-            const results = (res.docs.map((data) => {
-                return { ...data.data(), id: data.id }
-            }));
-            setLoadingGetComments(false);
-            return results;
-
-
-        }catch (error) {
-            setLoadingGetComments(false);
+    const deleteLike = async (props: IMutationLikeProps) => {
+        setLoadingDeleteLike(true);
+        const {idUser,pathRoot,pathItemId,idCurrentUser} = props;
+        try {
+            await deleteDoc(doc(db, "users", idUser, pathRoot,pathItemId,"likes",idCurrentUser));
+            setLoadingDeleteLike(false);
+        } catch (error: any) {
+            setLoadingDeleteLike(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
         }
     };
 
 
 
+    const checkLike = async (props: IMutationLikeProps) => {
+        setLoadingSetCheckLike(true);
+        const {idUser,pathRoot,pathItemId,idCurrentUser} = props;
+        const docRef = doc(db, "users", idUser, pathRoot, pathItemId,"likes",idCurrentUser);
+        try {
+            const res = await getDoc(docRef);
+            setLoadingSetCheckLike(false);
 
-    const getTotalLikes = async (props:ILikesProps) => {
+            if (res.exists()) {
+                return res.data().like;
+            } else {
+                return false;
+            }
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            console.log(error);
+            setLoadingSetCheckLike(false);
+            throw  error;
+        }
+
+    };
+
+
+    const getLikes = async (props: IGetLikesProps) => {
+        const {idUser, pathRoot, pathItemId, limitLikes, orderByLikes} = props;
+        const docRef = collection(db, "users", idUser, pathRoot, pathItemId, "likes");
+        const queryRef = query(docRef, orderBy("timestamp", orderByLikes), limit(limitLikes));
+        setLoadingGetLikes(true);
+        const res = await getDocs(queryRef);
+        try {
+            const results = (res.docs.map((data) => {
+                return {...data.data(), id: data.id}
+            }));
+            setLoadingGetLikes(false);
+            return results;
+
+
+        } catch (error) {
+            setLoadingGetLikes(false);
+        }
+    };
+
+
+    const getTotalLikes = async (props: ILikesProps) => {
         setLoadingGetTotalLikes(true);
-        const {idUser,pathRoot,pathItemId} = props;
-        const docRef = doc(db, "users",idUser, pathRoot,pathItemId,);
+        const {idUser, pathRoot, pathItemId} = props;
+        const docRef = doc(db, "users", idUser, pathRoot, pathItemId,);
         try {
             const res = await getDoc(docRef);
             setLoadingGetTotalLikes(false);
@@ -144,10 +142,10 @@ export function useLikes() {
 
     const setTotalLikes = async (props: ICounterCommentsProps) => {
         setLoadingSetTotalLikes(true);
-        const {idUser,pathRoot,pathItemId,totalLikes} = props;
+        const {idUser, pathRoot, pathItemId, totalLikes} = props;
         try {
-            await updateDoc(doc(db, "users",idUser, pathRoot,pathItemId), {
-                totalLikes:totalLikes
+            await updateDoc(doc(db, "users", idUser, pathRoot, pathItemId), {
+                totalLikes: totalLikes
             });
             setLoadingSetTotalLikes(false);
 
@@ -160,14 +158,15 @@ export function useLikes() {
     };
 
 
-
     return {
         loadingAddLike,
         loadingDeleteLike,
         loadingGetLikes,
         loadingGetTotalLikes,
         loadingSetTotalLikes,
+        loadingCheckLike,
 
+        checkLike,
         getTotalLikes,
         setTotalLikes,
         getLikes,

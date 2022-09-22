@@ -17,13 +17,20 @@ import {useRouter} from "next/router";
 import AvatarEditors from "../../../components/avatarEditors/AvatarEditors";
 
 
-const RedImageAvatar = () => {
+const UpdateAvatar = () => {
     const [file, setFile] = useState<any>();
     const [dataImg, setDataImg] = useState<string>();
     const [per, setPerc] = useState<null | number>(null);
     const {id} = useAppSelector(state => state.user);
     const router = useRouter();
-    const {updateCurrentAvatar, loadingUpdateCurrentAvatar, addAvatarsCollection} = useAvatar();
+    const {updateCurrentAvatar,
+        loadingUpdateCurrentAvatar,
+        addAvatarsCollection,
+        getTotalAvatars,
+        setTotalAvatars,
+        loadingGetTotalAvatars,
+        loadingSetTotalAvatars,
+    } = useAvatar();
     const {getUserProfile} = useUsers();
 
 
@@ -35,7 +42,6 @@ const RedImageAvatar = () => {
 
             const storageRef = ref(storage, pathImg);
             const uploadTask = uploadBytesResumable(storageRef, file);
-            console.log('upload')
             uploadTask.on(
                 "state_changed",
                 (snapshot) => {
@@ -92,6 +98,24 @@ const RedImageAvatar = () => {
         setDataImg('');
     };
 
+    const onGetTotalAvatars = async () => {
+        return await getTotalAvatars({
+            idUser: id,
+            pathRoot:"avatars",
+            pathItemId,
+        });
+
+    };
+    const onSetCounter = async (num:number) => {
+        await setTotalAvatars({
+            idUser,
+            pathRoot,
+            pathItemId,
+            totalAvatars:num
+        });
+
+    };
+    
 
     const onUpdateCurrentAvatar = async () => {
         if (dataImg && id) {
@@ -199,4 +223,4 @@ const RedImageAvatar = () => {
     );
 };
 
-export default RedImageAvatar;
+export default UpdateAvatar;

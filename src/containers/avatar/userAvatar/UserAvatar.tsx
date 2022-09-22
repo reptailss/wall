@@ -10,6 +10,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 import useMedia from "../../../hooks/useMedia/useMedia";
 import SkeletonPhoto from "../../../components/skeletons/SkeletonPhoto";
+import {useAppSelector} from "../../../hooks/redux";
 
 
 interface UserAvatar {
@@ -17,14 +18,15 @@ interface UserAvatar {
 }
 
 const UserAvatar:FC<UserAvatar> = ({currentAvatar}) => {
-
+const {id:currentIdUser} = useAppSelector(state => state.user);
 
 
 
 const router = useRouter();
     const { id }: any = router.query;
+    const {pathname} = useRouter();
 
-
+    const idAvatar = (pathname === '/') ? currentIdUser : id;
 
     const avatar = currentAvatar ? <motion.div
         key={'img'}
@@ -36,7 +38,7 @@ const router = useRouter();
             opacity: {duration: 1.2},
         }}
     >
-        <Link href={`/avatars/${id}`}>
+        <Link href={`/avatars/${idAvatar}`}>
             <a>
                 <img
 

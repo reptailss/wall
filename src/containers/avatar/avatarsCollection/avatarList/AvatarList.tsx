@@ -41,7 +41,7 @@ const AvatarList: FC<IAvatarListProps> = ({avatars, idUser,onChangeIndex}) => {
                    <Likes
                        idUser={idUser}
                        pathItemId={id}
-                       pathRoot={'post'}
+                       pathRoot={'avatars'}
                        authorNameLike={name}
                    />
                </Paper>

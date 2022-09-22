@@ -25,3 +25,11 @@ export interface ILikeItem {
 export interface ICounterCommentsProps extends ILikesProps{
     totalLikes: number
 }
+
+export interface IGetLikesProps {
+    idUser: string,
+    pathRoot: string,
+    pathItemId : string,
+    limitLikes: number,
+    orderByLikes: "desc" | "asc"
+}

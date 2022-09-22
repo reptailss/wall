@@ -6,7 +6,27 @@ text-transform: none!important;
 .list{
  display: flex;
  flex-direction: column;
+ row-gap: 30px;
+ height: 100%;
+ overflow-y: auto;
+}
+
+.root{
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+ max-width: 500px;
+ margin: 0 auto;
+}
+.btnswrap{
+ display: flex;
  align-items: center;
- justify-content: center;
- column-gap: 10px;
+ justify-content: flex-end;
+ margin-bottom: 10px;
+}
+.btn{
+ text-transform: initial!important;
+}
+.text{
+ margin-right: 3px ;
 }

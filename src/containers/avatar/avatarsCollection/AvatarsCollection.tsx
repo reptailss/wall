@@ -8,6 +8,7 @@ import styles from './styles.module.scss'
 import AvatarSidebar from "./avatarSidebar/AvatarSidebar";
 import {Paper} from "@mui/material";
 import {useAppSelector} from "../../../hooks/redux";
+import Comments from "../../comments/Comments";
 
 interface IAvatarsCollectionProps {
     id: string
@@ -60,6 +61,11 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
                         onChangeIndex={onChangeIndex}
                         idUser={id}
                         avatars={avatars}/>}
+                    {avatars &&   <Comments
+                        idUser={currentUserId}
+                        pathRoot={'avatars'}
+                        pathItemId={avatars[indexAvatar].id}
+                    />}
                 </Col>
 
                 {myPage && <Col xl={3}>

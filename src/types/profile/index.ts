@@ -3,7 +3,7 @@ import {ITimestamp} from "../timestamp";
 export interface IUserProfile {
     name:  string,
     surname: string,
-    dateBirth: number,
+    dateBirth: number | null,
     city:  string,
     jop: string,
     maritalStatus: string,

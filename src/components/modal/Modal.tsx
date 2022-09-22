@@ -14,10 +14,11 @@ interface IModalProps {
     children: ReactNode,
     button?: ReactNode,
     fullWidthButton?: boolean,
-    fullScreenModal?: boolean
+    fullScreenModal?: boolean,
+    padding?: number
 }
 
-const Modal:FC<IModalProps> = ({children,button,fullWidthButton,fullScreenModal})=> {
+const Modal:FC<IModalProps> = ({children,button,fullWidthButton,fullScreenModal,padding})=> {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -35,12 +36,12 @@ const Modal:FC<IModalProps> = ({children,button,fullWidthButton,fullScreenModal}
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: fullScreenModal ? '80vw' : 400,
+        width: fullScreenModal ? '95vw' : 400,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-        height:fullScreenModal ? '80vh' : 'auto'
+        height:fullScreenModal ? '95vh' : '85vh',
     };
 
     return (

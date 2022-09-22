@@ -24,8 +24,6 @@ const CommentAdd:FC<ICommentAddProps> = ({idUser,pathRoot,pathItemId,idCurrentUs
 
     const {addComment,
         loadingAddComment,
-        loadingGetCounterComments,
-        loadingSetCounterComments,
         getTotalComments,
         setTotalComments,
 
@@ -41,7 +39,7 @@ const CommentAdd:FC<ICommentAddProps> = ({idUser,pathRoot,pathItemId,idCurrentUs
             )
     };
 
-    const onGetCounter = async () => {
+    const onGetTotalComments = async () => {
         return await getTotalComments({
             idUser,
             pathRoot,
@@ -67,9 +65,9 @@ const CommentAdd:FC<ICommentAddProps> = ({idUser,pathRoot,pathItemId,idCurrentUs
         onSubmit: async (values) => {
            await onAddComments(values.text);
             formik.resetForm({});
-            const oldTotalComments = await onGetCounter();
+            const oldTotalComments = await onGetTotalComments();
            await onSetCounter(oldTotalComments+1);
-           const newTotalComments = await onGetCounter();
+           const newTotalComments = await onGetTotalComments();
             onSetTotalComments(newTotalComments);
            await onAddCommentProps();
 

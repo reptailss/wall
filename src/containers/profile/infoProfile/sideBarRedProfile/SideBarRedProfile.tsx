@@ -5,7 +5,7 @@ import {ITimestamp} from "../../../../types/timestamp";
 import { motion} from "framer-motion";
 
 interface ISideBarInfoProfileProps {
-    dateBirth: number,
+    dateBirth: number | null,
     city: string,
     jop: string,
     maritalStatus: string,
