@@ -17,7 +17,9 @@ const HomePage = () => {
                 <UserAvatar
                     currentAvatar={currentAvatar}
                 />
-                <ChangeAvatarBtn/>
+                <ChangeAvatarBtn
+                text={'змінити'}
+                />
             </Col>
             <Col xl={8}>
                 <InfoProfile

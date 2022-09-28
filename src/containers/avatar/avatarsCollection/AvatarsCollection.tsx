@@ -6,9 +6,10 @@ import {Col, Row} from "react-bootstrap";
 
 import styles from './styles.module.scss'
 import AvatarSidebar from "./avatarSidebar/AvatarSidebar";
-import {Paper} from "@mui/material";
+import {Paper, Typography} from "@mui/material";
 import {useAppSelector} from "../../../hooks/redux";
 import Comments from "../../comments/Comments";
+import ChangeAvatarBtn from "../changeAvatarBtn/ChangeAvatarBtn";
 
 interface IAvatarsCollectionProps {
     id: string
@@ -16,17 +17,16 @@ interface IAvatarsCollectionProps {
 
 const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
 
-    const {id:currentUserId} = useAppSelector(state => state.user);
+    const {id: currentUserId} = useAppSelector(state => state.user);
     const myPage = id === currentUserId;
 
 
     const [avatars, setAvatars] = useState<IAvatarItem[]>();
-    const[indexAvatar,setIndexAvatar] = useState<number>(0);
+    const [indexAvatar, setIndexAvatar] = useState<number>(0);
 
-    const onChangeIndex = (index:number) => {
+    const onChangeIndex = (index: number) => {
         setIndexAvatar(index)
     };
-
 
 
     const {getAvatarsCollection, loadingGetAvatarCollection} = useAvatar();
@@ -52,29 +52,46 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
         <div>
             <Row className={styles.root}>
                 {avatars && <Col className={styles.counterroot} xl={12}>
-                   <Paper className={styles.counter}>
-                       {indexAvatar +1} фото з {avatars.length}
-                   </Paper>
+                    <Paper className={styles.counter}>
+                        {indexAvatar + 1} фото з {avatars.length}
+                    </Paper>
                 </Col>}
-                <Col xl={colAvatarList}>
-                    {avatars && <AvatarList
-                        onChangeIndex={onChangeIndex}
-                        idUser={id}
-                        avatars={avatars}/>}
-                    {avatars &&   <Comments
-                        idUser={currentUserId}
-                        pathRoot={'avatars'}
-                        pathItemId={avatars[indexAvatar].id}
-                    />}
-                </Col>
+                <Row className={styles.wrap}>
+                    <Col
+                        className={styles.list}
+                        xl={colAvatarList}>
+                        {avatars && avatars.length ? <>
+                            <AvatarList
+                                onChangeIndex={onChangeIndex}
+                                idUser={id}
+                                avatars={avatars}/>
+                            <Comments
+                                idUser={currentUserId}
+                                pathRoot={'avatars'}
+                                pathItemId={avatars[indexAvatar].id}
+                            />
+                        </> : <Typography
+                            variant={'body2'}
+                            color={'text.other'}
+                            className={styles.notAvatar}>
+                            тут поки що нічого..
+                            <div className={styles.addPhoto}>
+                                <ChangeAvatarBtn
+                                    text={'добавити фото'}
+                                />
+                            </div>
 
-                {myPage && <Col xl={3}>
-                    <AvatarSidebar
-                        indexAvatar={indexAvatar}
-                        idUser={id}
-                        avatars={avatars}
-                    />
-                </Col>}
+                        </Typography>};
+                    </Col>
+
+                    {myPage && avatars && avatars.length ? <Col xl={3}>
+                        <AvatarSidebar
+                            indexAvatar={indexAvatar}
+                            idUser={id}
+                            avatars={avatars}
+                        />
+                    </Col> : null}
+                </Row>
 
             </Row>
 

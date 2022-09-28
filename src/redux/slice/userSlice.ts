@@ -17,7 +17,12 @@ interface IInitialState {
         timestamp:any,
         currentAvatar: string,
     },
-    loadingProfile: boolean
+    loadingProfile: boolean,
+    totalFriends:{
+        totalConfirm: number,
+        totalOtherRequest: number,
+        totalRequest: number,
+    }
 
 }
 
@@ -37,6 +42,11 @@ const initialState: IInitialState = {
         currentAvatar: '',
     },
     loadingProfile: true,
+    totalFriends:{
+        totalConfirm: 0,
+        totalOtherRequest: 0,
+        totalRequest: 0,
+    }
 
 };
 
@@ -73,7 +83,13 @@ export const userSlice = createSlice({
         },
         setLoadingProfile(state,action) {
             state.loadingProfile = action.payload.loadingProfile;
-        }
+        },
+        setTotalFriends(state, action) {
+            state.totalFriends.totalConfirm = action.payload.totalConfirm;
+            state.totalFriends.totalOtherRequest = action.payload.totalOtherRequest;
+            state.totalFriends.totalRequest = action.payload.totalRequest;
+
+        },
 
     },
 
@@ -81,6 +97,6 @@ export const userSlice = createSlice({
 });
 
 
-export const {setUser, removeUser, setUserSliceProfile,setIsAuth,setLoadingProfile} = userSlice.actions;
+export const {setUser, removeUser, setUserSliceProfile,setIsAuth,setLoadingProfile,setTotalFriends} = userSlice.actions;
 
 export default userSlice.reducer;

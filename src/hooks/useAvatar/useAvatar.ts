@@ -59,7 +59,7 @@ export function useAvatar() {
             await setDoc(newaddAvatarsCollectiontRef, {
                 pathImg: pathImg,
                 totalLikes:0,
-                totalAvatars:0,
+                totalComments:0,
                 timestamp: serverTimestamp()
             });
             setAddAvatarsCollection(false);

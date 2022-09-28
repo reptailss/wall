@@ -28,7 +28,7 @@ const AvatarList: FC<IAvatarListProps> = ({avatars, idUser,onChangeIndex}) => {
         onChangeIndex(selectedIndex);
     };
 
-    const list = avatars?.map((item, i, array) => {
+    const list = avatars?.map((item) => {
         const {pathImg, id} = item;
         return (
             <Carousel.Item
@@ -55,7 +55,7 @@ const AvatarList: FC<IAvatarListProps> = ({avatars, idUser,onChangeIndex}) => {
 
 
             <Carousel className={styles.slider} interval={null} activeIndex={index} onSelect={handleSelect}>
-                {list}
+                {avatars && list}
             </Carousel>
         </div>
     );

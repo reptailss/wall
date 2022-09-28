@@ -98,23 +98,23 @@ const UpdateAvatar = () => {
         setDataImg('');
     };
 
-    const onGetTotalAvatars = async () => {
-        return await getTotalAvatars({
-            idUser: id,
-            pathRoot:"avatars",
-            pathItemId,
-        });
-
-    };
-    const onSetCounter = async (num:number) => {
-        await setTotalAvatars({
-            idUser,
-            pathRoot,
-            pathItemId,
-            totalAvatars:num
-        });
-
-    };
+    // const onGetTotalAvatars = async () => {
+    //     return await getTotalAvatars({
+    //         idUser: id,
+    //         pathRoot:"avatars",
+    //         pathItemId,
+    //     });
+    //
+    // };
+    // const onSetCounter = async (num:number) => {
+    //     await setTotalAvatars({
+    //         idUser,
+    //         pathRoot,
+    //         pathItemId,
+    //         totalAvatars:num
+    //     });
+    //
+    // };
     
 
     const onUpdateCurrentAvatar = async () => {

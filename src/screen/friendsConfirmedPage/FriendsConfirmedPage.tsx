@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FriendsPage = () => {
+const FriendsConfirmedPage = () => {
     return (
         <div>
             re
@@ -8,4 +8,4 @@ const FriendsPage = () => {
     );
 };
 
-export default FriendsPage;
+export default FriendsConfirmedPage;

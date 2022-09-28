@@ -1,7 +1,16 @@
-.root{
+.root {
   padding: 15px 20px;
   width: 100%;
+  @media (max-width: 1200px) {
+    display: flex;
+    column-gap: 20px;
+
+  }
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 }
-.btn{
+
+.btn {
   margin-top: 10px;
 }

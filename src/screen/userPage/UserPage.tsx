@@ -12,6 +12,9 @@ import SpinnerBlock from "../../components/spinner/Spinner";
 import styles from './styles.module.scss'
 import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 import {IUserProfile} from "../../types/profile";
+import {useAppSelector} from "../../hooks/redux";
+import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
+import AddFriendBtn from "../../containers/friends/addFriendBtn/AddFriendBtn";
 
 
 
@@ -19,7 +22,6 @@ import {IUserProfile} from "../../types/profile";
 const UserPage = () => {
 
     const [profileUserOther,setrofileUserOther] = useState<IUserProfile>({name: '',
-        surname: '',
         dateBirth: 0,
         city: '',
         jop: '',
@@ -30,6 +32,8 @@ const UserPage = () => {
     const router = useRouter();
     const { id }: any = router.query;
     const {getUserProfileOther,loadingGetUserProfileOther} = useUsers();
+    const {id: currentUserId} = useAppSelector(state => state.user);
+    const myPage = id === currentUserId;
 
     const onGetUser = async () =>{
         const res = await getUserProfileOther(id);
@@ -44,11 +48,6 @@ const UserPage = () => {
 
     },[id]);
 
-    const spinner = <Col
-        className={styles.spinnerInner}
-        sx={12}>
-        <SpinnerBlock/>
-    </Col>;
 
 
 
@@ -59,6 +58,12 @@ const UserPage = () => {
                 <UserAvatar
                     currentAvatar={profileUserOther.currentAvatar}
                 />
+                {myPage && <ChangeAvatarBtn
+                text={'змінити'}
+                />}
+                {!myPage && id && <AddFriendBtn
+                    userId={id}
+                />}
             </Col>
             <Col xl={8}>
                 <InfoProfile

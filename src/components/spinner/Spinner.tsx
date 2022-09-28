@@ -19,7 +19,8 @@ const SpinnerBlock = () => {
                     opacity: {duration: 1.2},
                 }}
             >
-                <CircularProgress/>
+                <CircularProgress
+                />
             </motion.div>
         </AnimatePresence>
 

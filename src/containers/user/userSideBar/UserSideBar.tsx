@@ -13,7 +13,9 @@ import {useAppSelector} from "../../../hooks/redux";
 
 const UserSideBar = () => {
     const {loadingUser} = useAuth();
-    const {email,isAuth} = useAppSelector(state => state.user);
+    const {email,isAuth,id} = useAppSelector(state => state.user);
+
+
 
 
 
@@ -29,7 +31,7 @@ const UserSideBar = () => {
                 {email}
             </div>
             <MenuItem>
-               dd
+                {id}
             </MenuItem>
             <MenuItem>
                 <LogOut/>

@@ -26,7 +26,6 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
     const dateRegister = timestamp?.seconds ? convertSecondstoDate(timestamp.seconds) : 0;
     const uadateRegister = new Intl.DateTimeFormat('uk', OptionsDate).format(dateRegister);
 
-    console.log(loadingProfile)
 
     return (
         <motion.div

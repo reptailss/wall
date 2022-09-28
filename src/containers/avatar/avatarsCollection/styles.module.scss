@@ -9,3 +9,26 @@ padding: 10px 15px;
 .counterroot{
   margin-bottom: 10px;
 }
+
+.notAvatar{
+  text-align: center;
+  padding: 10px 30px;
+}
+.addPhoto{
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 10px;
+}
+.wrap{
+  @media (max-width: 1200px) {
+    flex-direction: column-reverse!important;
+  }
+}
+
+.list{
+  @media (max-width: 1200px) {
+    margin-top: 30px;
+  }
+}

@@ -24,7 +24,7 @@ const Navigate = () => {
         {
             icon: <PeopleIcon
                 fontSize="large"
-            />, text: 'Друзі', path: '/friends'
+            />, text: 'Друзі', path: '/friendsRequest'
         },
         {icon: <MessageBtnState/>, text: 'Повідомлення', path: '/message'},
     ];

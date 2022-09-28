@@ -1,16 +1,17 @@
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, ReactNode, useEffect} from 'react';
 import Header from "../header/Header";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {getDesignTokens} from '../../constans/theme'
 import styles from './styles.module.scss'
-import {useRouter} from "next/router";
 import {Col, Container, Row} from "react-bootstrap";
 import Navigate from "../../containers/navigate/Navigate";
-import {setUser,setIsAuth} from "../../redux/slice/userSlice";
+import {setIsAuth, setTotalFriends, setUser} from "../../redux/slice/userSlice";
 
 import {getAuth, onAuthStateChanged,} from "firebase/auth";
 import {useUsers} from "../../hooks/useUser/UseUser";
+import {doc, onSnapshot} from "firebase/firestore";
+import {db} from "../../firebase/firebase";
 
 interface ILayoutProps {
     children: ReactNode;
@@ -18,7 +19,7 @@ interface ILayoutProps {
 
 const Layout: FC<ILayoutProps> = ({children}) => {
         const auth = getAuth();
-        const { id,isAuth} = useAppSelector(state => state.user);
+        const {id, isAuth} = useAppSelector(state => state.user);
         const {themeMode} = useAppSelector(state => state.theme);
         const dispatch = useAppDispatch();
         const theme = createTheme(getDesignTokens(themeMode));
@@ -27,9 +28,6 @@ const Layout: FC<ILayoutProps> = ({children}) => {
         const styleRoot = themeMode === 'dark' ? {
             backgroundColor: '#18191A'
         } : {};
-
-        const router = useRouter();
-
 
 
         useEffect(() => {
@@ -41,12 +39,25 @@ const Layout: FC<ILayoutProps> = ({children}) => {
             onGetUserProfile();
         }, [auth]);
 
+        let unsub = () => {};
+
+        useEffect(() => {
+            if (db && id) {
+                unsub = onSnapshot(doc(db, "users", id, "friends", "counter"), (doc) => {
+                    dispatch(setTotalFriends(doc.data()))
+                });
+            }
+
+            return () => {
+                unsub();
+            };
+        }, [db, id]);
+
 
         useEffect(() => {
             const onGetUser = () => {
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
-                        // router.push(`/`);
                         dispatch(setUser({
                             email: user.email,
                             id: user.displayName,
@@ -54,7 +65,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
                         }));
                         dispatch(setIsAuth(true));
 
-                        if(user.displayName){
+                        if (user.displayName) {
                             getUserProfile(user.displayName)
                         }
 
@@ -65,11 +76,10 @@ const Layout: FC<ILayoutProps> = ({children}) => {
 
             };
             onGetUser();
-            return () =>{
+            return () => {
                 onGetUser();
             }
         }, []);
-
 
 
         return (

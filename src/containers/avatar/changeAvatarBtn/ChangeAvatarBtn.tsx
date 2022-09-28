@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import Button from '@mui/material/Button';
 import styles from "./styles.module.scss";
 import Link from "next/link";
@@ -6,7 +6,12 @@ import LinkMU from '@mui/material/Link'
 
     ;
 
-const ChangeAvatarBtn = () => {
+
+interface IChangeAvatarBtnProps {
+    text?: string
+}
+
+const ChangeAvatarBtn:FC<IChangeAvatarBtnProps> = ({text}) => {
     return (
 
 
@@ -18,7 +23,7 @@ const ChangeAvatarBtn = () => {
                     component={'div'}
                     className={styles.redAvatarBtn}
                     variant="outlined" color="secondary">
-                    змінити
+                    {text}
                 </Button>
             </LinkMU>
         </Link>
