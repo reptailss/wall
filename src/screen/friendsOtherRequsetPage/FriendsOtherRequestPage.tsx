@@ -2,14 +2,16 @@ import React from 'react';
 import FriendsRequest from "../../containers/friends/friendsRequest/FriendsRequest";
 import NavigateFriends from "../../containers/friends/navigateFriends/NavigateFriends";
 
-const FriendsRequestPage = () => {
+const FriendsOtherRequestPage = () => {
     return (
         <>
             <NavigateFriends/>
-            <FriendsRequest/>
+            <FriendsRequest
+            path={'otherRequest'}
+            />
         </>
 
     )
 };
 
-export default FriendsRequestPage;
+export default FriendsOtherRequestPage;

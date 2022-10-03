@@ -81,6 +81,7 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
     };
 
 
+
     const content = <div className={styles.rootAddImg}>
         <input
             accept=".png, .jpg, .jpeg"
@@ -105,7 +106,6 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
 
         const onDelete = () => {
             setDataImg(dataImg.filter(el => el !== item));
-            console.log(dataImg)
             onDeleteStorage();
         };
 

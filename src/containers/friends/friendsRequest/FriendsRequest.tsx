@@ -1,18 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {useFriends} from "../../../hooks/useFriends/useFriends";
 import {useAppSelector} from "../../../hooks/redux";
 import {IFriendItem} from "../../../types/friends";
 import FriendItemRequest from "./friendItemRequest/FriendItemRequest";
 import SpinnerBlock from "../../../components/spinner/Spinner";
 
+import NotFriends from "../notFriends/NotFriends";
 
+interface IFriendsRequestProps {
+    path: 'otherRequest' | 'myRequest'
 
-const FriendsRequest = () => {
+}
+
+const FriendsRequest:FC<IFriendsRequestProps> = ({path}) => {
 
     const{getFriendsRequestUsers,
         loadingGetFriendsRequestUsers,
     } = useFriends();
-    const {id} = useAppSelector(state => state.user);
+    const {id,totalFriends} = useAppSelector(state => state.user);
 
     const [friends,setFriends] = useState<IFriendItem[]>();
 
@@ -20,11 +25,11 @@ const FriendsRequest = () => {
        if(id){
            onGetFriendsRequestUsers();
        }
-    },[id]);
+    },[id,totalFriends,path]);
     const onGetFriendsRequestUsers = async () => {
-
        const res = await getFriendsRequestUsers({
-            currentUserId:id
+            currentUserId:id,
+           path
         });
       //@ts-ignore
         setFriends(res);
@@ -32,16 +37,19 @@ const FriendsRequest = () => {
 
 
 
-    const friendsList = friends && friends.map((item)=>{
+    const friendsList = friends && friends.length && friends.map((item)=>{
         return <FriendItemRequest
-            onChangeFriend={onGetFriendsRequestUsers}
+            path={path}
             key={item.id}
             {...item}/>
     });
 
     return (
        <div>
-           {loadingGetFriendsRequestUsers ? <SpinnerBlock/> : friendsList}
+           {loadingGetFriendsRequestUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
+           <NotFriends
+               text={' у вас немає заявок'}
+           />}
        </div>
     )
 };

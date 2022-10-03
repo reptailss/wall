@@ -9,6 +9,7 @@ import {useUsers} from "../../../hooks/useUser/UseUser";
 import DateInput from "../../../components/dateInput/DateInput";
 import {useEffect, useState} from "react";
 import useDebounce from "../../../hooks/useDebounce/useDebounce";
+import {useFriends} from "../../../hooks/useFriends/useFriends";
 
 
 const Register = () => {
@@ -21,6 +22,7 @@ const Register = () => {
     const {setUserProfile} = useUsers();
     const [dateBirth, setDateBirth] = useState<number>(810413076);
     const [freeLogin,setFreeLogin] = useState<boolean>(true);
+    const {setTotalFriends} = useFriends();
 
 
     const formik = useFormik({
@@ -56,6 +58,14 @@ const Register = () => {
             await updateLoginUser({
                 user:res.user,
                 login
+            });
+            await setTotalFriends({
+                userId:login,
+                body:{
+                    totalConfirm: 0,
+                    totalOtherRequest: 0,
+                    totalMyRequest: 0,
+                }
             })
 
 

@@ -1,0 +1,18 @@
+.root{
+  margin-top: 15px;
+
+}
+.full{
+
+  transition: all .3s;
+  &:hover{
+    opacity: .5;
+    cursor: pointer;
+  }
+}
+.info{
+  padding: 10px 15px 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

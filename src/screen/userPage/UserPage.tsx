@@ -15,6 +15,8 @@ import {IUserProfile} from "../../types/profile";
 import {useAppSelector} from "../../hooks/redux";
 import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
 import AddFriendBtn from "../../containers/friends/addFriendBtn/AddFriendBtn";
+import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
+import AddMessageBtn from "../../containers/chats/addMessageBtn/AddMessageBtn";
 
 
 
@@ -54,16 +56,25 @@ const UserPage = () => {
 
     return (
         <Row>
-            <Col xl={4}>
+            <Col className={styles.inner} xl={4}>
+
                 <UserAvatar
                     currentAvatar={profileUserOther.currentAvatar}
                 />
                 {myPage && <ChangeAvatarBtn
                 text={'змінити'}
                 />}
+
                 {!myPage && id && <AddFriendBtn
                     userId={id}
                 />}
+                {!myPage &&  <div className={styles.message}><AddMessageBtn
+                    userId={id}
+                /></div>}
+                <FriendsSidebar
+                userId={id}
+                />
+
             </Col>
             <Col xl={8}>
                 <InfoProfile

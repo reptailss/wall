@@ -11,12 +11,12 @@ import LinkMU from '@mui/material/Link'
 import {useAppSelector} from "../../../../hooks/redux";
 import {useFriends} from "../../../../hooks/useFriends/useFriends";
 
-interface IFriendItemRequestProps extends IFriendItem{
-    onChangeFriend: () => void
+interface IFriendItemRequestProps extends IFriendItem {
+    path: 'otherRequest' | 'myRequest'
 }
 
 
-const FriendItemRequest: FC<IFriendItemRequestProps> = ({id,onChangeFriend}) => {
+const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
     const {id: currentUserId} = useAppSelector(state => state.user);
     const [profileFriend, setProfileFriend] = useState<IUserProfile>({
         name: '',
@@ -32,14 +32,18 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id,onChangeFriend}) => 
         getUserProfileOther,
         loadingGetUserProfileOther,
 
+
     } = useUsers();
 
     const {
         confirmFriend,
-        deleteFriendsRequest,
+        deleteMyRequest,
+        deleteOtherRequest,
 
-        loadingDeleteFriendsRequest,
+        loadingDeleteOtherRequest,
+        loadingDeleteMyRequest,
         loadingConfirmFriend,
+
     } = useFriends();
 
     useEffect(() => {
@@ -55,36 +59,30 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id,onChangeFriend}) => 
         setProfileFriend(res);
     };
 
-
-
-
-
     const onConfirmFriend = async () => {
         await confirmFriend({
             userId: id, currentUserId
         });
-        await onChangeFriend();
     };
 
-
-    const onDeleteRequest = async () => {
-
-        await deleteFriendsRequest({
-            props: {
-                userId: id,
-                currentUserId
-            },
-            snack: true,
-            path: 'myRequest',
-            reverse: true
-
+    const onDeleteOtherRequest = async () => {
+        await deleteOtherRequest({
+            userId: id,
+            currentUserId
         });
-        await onChangeFriend();
+    };
+
+    const onDeleteMyRequest = async () => {
+        await deleteMyRequest({
+            userId: id,
+            currentUserId
+        });
 
     };
 
-    const loadingBtn =  loadingDeleteFriendsRequest
-       || loadingConfirmFriend;
+    const loadingBtn = loadingConfirmFriend
+        || loadingDeleteMyRequest
+        || loadingDeleteOtherRequest;
 
     const {name, currentAvatar} = profileFriend;
 
@@ -115,22 +113,36 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id,onChangeFriend}) => 
 
             </div>
             <div className={styles.sidebar}>
-                <LoadingButton
-                    loading={loadingBtn}
-                    onClick={onConfirmFriend}
-                    disabled={loadingBtn}
-                    className={styles.btn}
-                    variant="outlined" color="secondary">
-                    підтвредити
-                </LoadingButton>
-                <LoadingButton
-                    loading={loadingBtn}
-                    onClick={onDeleteRequest}
-                    disabled={loadingBtn}
-                    className={styles.btn}
-                    variant="outlined" color="secondary">
-                    відхилити
-                </LoadingButton>
+
+
+                {path === 'otherRequest' ? <>
+                        <LoadingButton
+                            loading={loadingBtn}
+                            onClick={onConfirmFriend}
+                            disabled={loadingBtn}
+                            className={styles.btn}
+                            variant="outlined" color="secondary">
+                            підтвредити
+                        </LoadingButton>
+                        <LoadingButton
+                            loading={loadingBtn}
+                            onClick={onDeleteOtherRequest}
+                            disabled={loadingBtn}
+                            className={styles.btn}
+                            variant="outlined" color="secondary">
+                            відхилити
+                        </LoadingButton>
+                    </> :
+                    <>
+                        <LoadingButton
+                            loading={loadingBtn}
+                            onClick={onDeleteMyRequest}
+                            disabled={loadingBtn}
+                            className={styles.btn}
+                            variant="outlined" color="secondary">
+                            відмінити заявку
+                        </LoadingButton>
+                    </>}
             </div>
         </Paper>
     );

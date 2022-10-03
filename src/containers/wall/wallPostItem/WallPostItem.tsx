@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 
 import {IWallPostItem} from "../../../types/wall/post";
 import Card from '@mui/material/Card';
@@ -21,8 +21,11 @@ import {useRouter} from "next/router";
 import {useAppSelector} from "../../../hooks/redux";
 import Likes from "../../likes/Likes";
 import Comments from "../../comments/Comments";
+import {useUsers} from "../../../hooks/useUser/UseUser";
+import {IUserProfile} from "../../../types/profile";
 
 const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall}) => {
+
 
     const {id: idUser} = useAppSelector(state => state.user);
 
@@ -30,6 +33,29 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
     const UAdate = new Intl.DateTimeFormat('uk', OptionsDateTime).format(date);
     const {pathname} = useRouter();
 
+    const {getUserProfileOther,loadingGetUserProfileOther} = useUsers();
+
+    const [profileUserOther,setrofileUserOther] = useState<IUserProfile>({name: '',
+        dateBirth: 0,
+        city: '',
+        jop: '',
+        maritalStatus: '',
+        timestamp:{seconds:0,nanoseconds:0},
+        currentAvatar: ''});
+
+
+    const onGetUser = async () =>{
+        const res = await getUserProfileOther(authorId);
+        //@ts-ignore
+        setrofileUserOther(res);
+    };
+
+    useEffect(  () => {
+        if(authorId){
+            onGetUser();
+        }
+
+    },[authorId]);
 
     const imgList = pathImg?.map((item, i, array) => {
         const arrlength = array.length;
@@ -61,7 +87,9 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         <Card>
             <CardHeader
                 avatar={
-                    <AvatarUserSmall name={authorName}/>
+                    <AvatarUserSmall
+                        pathImg={profileUserOther.currentAvatar}
+                        name={authorId}/>
                 }
                 action={
                     sidebarPostItem
@@ -72,7 +100,7 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
                         <Typography
                             color="secondary"
                             variant="body2"
-                        >{authorName}
+                        >{authorId}
                         </Typography>
                     </a>
                 </Link>}

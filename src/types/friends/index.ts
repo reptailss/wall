@@ -1,10 +1,21 @@
+import {ITimestamp} from "../timestamp";
+
 export interface IFriendsRequestProps {
     userId:string,
     currentUserId:string
 }
 export interface IGetFriendsRequestProps {
-    currentUserId:string
+    currentUserId:string,
+    path: 'otherRequest' | 'myRequest'
 }
+
+export interface IGetFriendsConfirmedProps {
+    userId:string,
+    limitFriend?: number,
+    orderByComment?: "desc" | "asc",
+    startId?: ITimestamp
+}
+
 export interface IFriendItem {
     id: string,
     friend: boolean

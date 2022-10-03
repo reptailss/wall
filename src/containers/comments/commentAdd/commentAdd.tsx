@@ -66,7 +66,6 @@ const CommentAdd:FC<ICommentAddProps> = ({idUser,pathRoot,pathItemId,idCurrentUs
            await onAddComments(values.text);
             formik.resetForm({});
             const oldTotalComments = await onGetTotalComments();
-            console.log(oldTotalComments)
            await onSetCounter(oldTotalComments+1);
            const newTotalComments = await onGetTotalComments();
             onSetTotalComments(newTotalComments);

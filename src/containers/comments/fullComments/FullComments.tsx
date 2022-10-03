@@ -43,6 +43,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
     } = useComments();
 
     const scrollToBottom = () => {
+        //@ts-ignore
         messagesEndRef.current?.scrollIntoView({behavior: "smooth"})
     };
 

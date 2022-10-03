@@ -1,0 +1,19 @@
+.root{
+
+}
+.link{
+  cursor: pointer;
+  transition: all .3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &:hover{
+    opacity: .5;
+  }
+}
+
+.avatar{
+  width: 90px;
+  height: 90px;
+}

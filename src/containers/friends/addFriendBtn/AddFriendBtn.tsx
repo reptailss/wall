@@ -3,7 +3,8 @@ import styles from "./styles.module.scss";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {useFriends} from "../../../hooks/useFriends/useFriends";
 import {useAppSelector} from "../../../hooks/redux";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
+import React from "react";
 
 
 interface IAddFriendBtnProps {
@@ -17,18 +18,21 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
 
         const {
-            addFriendsRequest,
-            deleteFriendsRequest,
+
             deleteFriend,
             confirmFriend,
             checkFriendStatus,
+            addFriend,
+            deleteMyRequest,
+
             statusFriend,
 
             loadingCheckFriendStatus,
-            loadingAddFriendsRequest,
             loadingDeleteFriendsRequest,
             loadingConfirmFriend,
-            addFriend
+            loadingAddFriend,
+
+
 
 
         } = useFriends();
@@ -36,23 +40,7 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
 
         const onAddFriends = async () => {
-            // await addFriendsRequest({
-            //     props: {
-            //         userId,
-            //         currentUserId: id
-            //     },
-            //     snack: true,
-            //     path: 'otherRequest'
-            // });
-            // await addFriendsRequest({
-            //     props: {
-            //         userId,
-            //         currentUserId: id
-            //     },
-            //     snack: true,
-            //     path: 'myRequest'
-            // });
-            //
+
             await addFriend({
                 userId,
                 currentUserId: id
@@ -69,23 +57,12 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
         };
 
 
-    const onDeleteRequest = async () => {
-        await deleteFriendsRequest({
-            props: {
-                userId,
-                currentUserId: id
-            },
-            snack: true,
-            path: 'otherRequest'
-        });
-        await deleteFriendsRequest({
-            props: {
-                userId,
-                currentUserId: id
-            },
-            snack: true,
-            path: 'myRequest'
-        });
+    const onDeleteMyRequest = async () => {
+
+        await deleteMyRequest({
+            userId,
+            currentUserId: id
+        })
 
     };
 
@@ -114,9 +91,9 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
         }, [id]);
 
-    const loading = loadingAddFriendsRequest
-    || loadingDeleteFriendsRequest
+    const loading = loadingDeleteFriendsRequest
     || loadingConfirmFriend
+    || loadingAddFriend
     || loadingCheckFriendStatus;
 
         const text = statusFriend === 'otherRequest' ? 'прийняти заявку'
@@ -132,7 +109,7 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
                 await  onConfirmFriend();
             }
             if(statusFriend === 'myRequest'){
-                await  onDeleteRequest();
+                await  onDeleteMyRequest();
             }
             if(statusFriend === 'confirm'){
                 await  onDeleteFriends();
@@ -149,7 +126,13 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
                     component={'div'}
                     className={styles.redAvatarBtn}
                     variant="outlined" color="secondary">
-                    {text}
+
+                    <Typography
+                        className={styles.text}
+                        variant={'caption'}
+                    >
+                        {text}
+                    </Typography>
                 </LoadingButton>
 
 
@@ -159,6 +142,6 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
 
 
-}
+};
 
 export default AddFriendBtn;

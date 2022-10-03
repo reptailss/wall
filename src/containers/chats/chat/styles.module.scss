@@ -1,0 +1,13 @@
+.root{
+  height: calc(100vh - 66px);
+  display: flex;
+  flex-direction: column;
+}
+.chatlist{
+  height: 100%;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+.list{
+  height: 100%;
+}

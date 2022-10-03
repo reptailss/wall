@@ -1,0 +1,32 @@
+.root{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  transition: all .3s;
+  &:hover{
+    cursor: pointer;
+    background-color: var(--background-paper-dark);
+  }
+}
+.inner{
+  width: 100%;
+  margin-left: 15px;
+}
+.name{
+  font-weight: 500!important;
+}
+
+.messages{
+  margin-top: 10px;
+  font-weight: 200!important;
+}
+
+.skeletonName{
+
+  max-width: 100px;
+}
+
+.skeletonMessage{
+  max-width: 250px;
+}

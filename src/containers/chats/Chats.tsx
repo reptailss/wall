@@ -1,11 +1,11 @@
 import React from 'react';
 
-const MessagesPage = () => {
+const Chats = () => {
     return (
         <div>
-            message
+            gg
         </div>
     );
 };
 
-export default MessagesPage;
+export default Chats;

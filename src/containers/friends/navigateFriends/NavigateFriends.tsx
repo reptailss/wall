@@ -11,13 +11,12 @@ const NavigateFriends = () => {
     const {pathname} = useRouter();
 
     const variantlConfirmed = pathname === '/friendsConfirmed' ? 'contained' : 'outlined';
-    const variantRequest = pathname === '/friendsRequest' ? 'contained' : 'outlined';
-    const variantCurrentRequest = pathname === '/friendsCurrentRequest' ? 'contained' : 'outlined';
-
-    const {id} = useAppSelector(state => state.user);
+    const variantOtherRequest = pathname === '/friendsOtherRequest' ? 'contained' : 'outlined';
+    const variantMytRequest = pathname === '/friendsMyRequest' ? 'contained' : 'outlined';
 
 
-    const {totalConfirm, totalOtherRequest, totalRequest} = useAppSelector(state => state.user.totalFriends);
+
+    const {totalConfirm, totalOtherRequest, totalMyRequest} = useAppSelector(state => state.user.totalFriends);
 
     return (
         <Paper className={styles.root}>
@@ -34,7 +33,7 @@ const NavigateFriends = () => {
                     </Button>
                 </LinkMU>
             </Link>
-            <Link href={'/friendsRequest'}>
+            <Link href={'/friendsOtherRequest'}>
                 <LinkMU underline="none"
                         component="div"
                         color="secondary">
@@ -43,13 +42,13 @@ const NavigateFriends = () => {
 
                         component={'div'}
                         className={styles.btn}
-                        variant={variantRequest}
+                        variant={variantOtherRequest}
                         color="secondary">
                         заявки ({totalOtherRequest})
                     </Button>
                 </LinkMU>
             </Link>
-            <Link href={'/friendsCurrentRequest'}>
+            <Link href={'/friendsMyRequest'}>
                 <LinkMU underline="none"
                         component="div"
                         color="secondary">
@@ -58,9 +57,9 @@ const NavigateFriends = () => {
 
                         component={'div'}
                         className={styles.btn}
-                        variant={variantCurrentRequest}
+                        variant={variantMytRequest}
                         color="secondary">
-                        мої заявки ({totalRequest})
+                        мої заявки ({totalMyRequest})
                     </Button>
                 </LinkMU>
             </Link>

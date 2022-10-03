@@ -1,0 +1,14 @@
+
+.root{
+ transition: all .3s;
+  margin-top: 10px;
+  display: flex;
+  &:hover{
+    cursor: pointer;
+    opacity: .5;
+  }
+}
+.text{
+  margin-right: 10px;
+  text-transform: initial!important;
+}

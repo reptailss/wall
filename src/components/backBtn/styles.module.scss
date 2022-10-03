@@ -1,0 +1,14 @@
+.text{
+  margin-left: 3px;
+}
+
+.back{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+  &:hover{
+    cursor: pointer;
+    opacity: .5;
+  }
+}

@@ -5,6 +5,7 @@ import InfoProfile from "../../containers/profile/infoProfile/InfoProfile";
 import {useAppSelector} from "../../hooks/redux";
 import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
 import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
+import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
 
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
@@ -20,6 +21,9 @@ const HomePage = () => {
                 <ChangeAvatarBtn
                 text={'змінити'}
                 />
+                <FriendsSidebar
+                    myPage
+                    userId={id}/>
             </Col>
             <Col xl={8}>
                 <InfoProfile

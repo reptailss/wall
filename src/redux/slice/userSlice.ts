@@ -21,7 +21,7 @@ interface IInitialState {
     totalFriends:{
         totalConfirm: number,
         totalOtherRequest: number,
-        totalRequest: number,
+        totalMyRequest: number,
     }
 
 }
@@ -45,7 +45,7 @@ const initialState: IInitialState = {
     totalFriends:{
         totalConfirm: 0,
         totalOtherRequest: 0,
-        totalRequest: 0,
+        totalMyRequest: 0,
     }
 
 };
@@ -87,7 +87,7 @@ export const userSlice = createSlice({
         setTotalFriends(state, action) {
             state.totalFriends.totalConfirm = action.payload.totalConfirm;
             state.totalFriends.totalOtherRequest = action.payload.totalOtherRequest;
-            state.totalFriends.totalRequest = action.payload.totalRequest;
+            state.totalFriends.totalMyRequest = action.payload.totalMyRequest;
 
         },
 

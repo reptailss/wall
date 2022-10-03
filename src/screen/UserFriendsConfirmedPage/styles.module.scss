@@ -1,0 +1,9 @@
+.info{
+  padding: 10px 15px;
+  margin-top: 10px;
+  transition: all .3s;
+  &:hover{
+    opacity: .5;
+    cursor: pointer;
+  }
+}

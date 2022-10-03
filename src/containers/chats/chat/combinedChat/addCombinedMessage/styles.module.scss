@@ -1,0 +1,64 @@
+
+.input {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, .2);
+  //border-radius: 5px;
+  font-size: 14px !important;
+
+  & label {
+    color: inherit;
+    height: 100%;
+  }
+}
+
+.innerinput {
+  position: relative;
+  width: 100%;
+  display: block;
+
+
+}
+
+
+.button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px 10px !important;;
+  text-align: center !important;
+  font-size: 15px;
+  width: auto !important;
+  background-color: transparent !important;
+  outline: none;
+  transition: all .3s;
+  min-width: auto;
+  border: none !important;
+  box-shadow: none;
+
+  &:hover:not([disabled]) {
+    opacity: .5;
+  }
+
+
+}
+
+.root {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+
+}
+
+
+.inner {
+  margin-bottom: 20px;
+  width: 100%;
+  @media (max-width: 500px) {
+    margin-bottom: 10px;
+  }
+}

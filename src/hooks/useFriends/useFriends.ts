@@ -5,7 +5,11 @@ import {collection,
     getDocs,
     serverTimestamp,
     setDoc,
-    updateDoc
+    updateDoc,
+    query,
+    orderBy,
+    limit,
+
 } from "firebase/firestore";
 import {db} from "../../firebase/firebase";
 import {useState} from "react";
@@ -17,7 +21,7 @@ import {
     IFriendsRequestProps,
     IGetFriendsRequestProps,
     ICounterFriendsProps,
-    ISetCounterFriendsProps
+    ISetCounterFriendsProps, IGetFriendsConfirmedProps
 } from "../../types/friends";
 
 
@@ -54,20 +58,37 @@ export function useFriends() {
     const [loadingGetFriendsRequestUsers,
         setLoadingGetFriendsRequestUsers] = useState<boolean>(true);
 
+    const [loadingGetFriendsConfirmedUsers,
+        setLoadingGetFriendsConfirmedUsers] = useState<boolean>(true);
+
     const [loadingDeleteFriend,
         setLoadingDeleteFriend] = useState<boolean>(false);
 
     const [loadingCheckFriendStatus,
         setLoadingCheckFriendStatus] = useState<boolean>(true);
 
+    const [loadingDeleteMyRequest,
+        setLoadingDeleteMyRequest] = useState<boolean>(false);
+
+    const [loadingDeleteOtherRequest,
+        setLoadingDeleteOtherRequest] = useState<boolean>(false);
+
+
+    const [loadingGetTotal, setLoadingGetTotal] = useState<boolean>(false);
+
+    const [loadingSetTotalRequest,
+        setLoadingSetTotalRequest] = useState<boolean>(false);
+
+    const [loadingAddFriend,
+        setLoadingAddFriend] = useState<boolean>(false);
+
+
     const [statusFriend, setStatusFriend] = useState<'initial'
         | 'myRequest'
         | 'otherRequest'
         | 'confirm'>('initial');
 
-    const [loadingGetTotal, setLoadingGetTotal] = useState<boolean>(false);
-    const [loadingSetTotalRequest, setLoadingSetTotalRequest] = useState<boolean>(false);
-
+    //base
 
     const addFriendsRequest = async (params: IFriendsParamsReverse) => {
         setLoadingAddFriendsRequest(true);
@@ -339,14 +360,25 @@ export function useFriends() {
 
 
     const getFriendsRequestUsers = async (props: IGetFriendsRequestProps) => {
-        const {currentUserId} = props;
+        const {currentUserId,path} = props;
 
-        const ref = collection(db,
+        const refMyRequest = collection(db,
+            "users",
+            currentUserId,
+            "friends",
+            "list",
+            "myRequest");
+
+
+        const refOtherRequest = collection(db,
             "users",
             currentUserId,
             "friends",
             "list",
             "otherRequest");
+
+
+        const ref = path === 'myRequest' ? refMyRequest : refOtherRequest;
         setLoadingGetFriendsRequestUsers(true);
         const res = await getDocs(ref);
         try {
@@ -362,6 +394,106 @@ export function useFriends() {
         }
     };
 
+
+    const getFriendsConfirmedUsers = async (props: IGetFriendsConfirmedProps) => {
+        const {userId,
+            limitFriend,
+            orderByComment='desc',
+            startId} = props;
+
+        setLoadingGetFriendsConfirmedUsers(true);
+
+
+        const docRef = collection(db,
+            "users",
+            userId,
+            "friends",
+            "list",
+            "confirmed");
+
+
+        const ref = limitFriend ? query(docRef,
+            orderBy("timestamp", orderByComment),
+            limit(limitFriend)) : query(docRef,
+            orderBy("timestamp", orderByComment));
+
+        const res = await getDocs(ref);
+        try {
+            const results = (res.docs.map((data) => {
+                return {...data.data(), id: data.id}
+            }));
+            setLoadingGetFriendsConfirmedUsers(false);
+            return results;
+
+
+        } catch (error) {
+            setLoadingGetFriendsConfirmedUsers(false);
+        }
+    };
+
+    const getTotalFriends = async (props: ICounterFriendsProps) => {
+        setLoadingGetTotal(true);
+        const {userId} = props;
+        const docRef = doc( db, "users", userId, "friends","counter");
+        try {
+            const res = await getDoc(docRef);
+            setLoadingGetTotal(false);
+
+            if (res.exists()) {
+                return res.data();
+            } else {
+                return {
+                    totalConfirm: 0,
+                    totalOtherRequest: 0,
+                    totalMyRequest: 0,
+                }
+
+            }
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            console.log(error);
+            setLoadingGetTotal(false);
+            throw  error;
+        }
+
+
+    };
+
+    const setTotalFriends = async (props: ISetCounterFriendsProps) => {
+        setLoadingSetTotalRequest(true);
+        const {userId,body} = props;
+        const docRef = doc( db, "users", userId, "friends","counter");
+
+        try {
+            const res = await getDoc(docRef);
+            setLoadingGetTotal(false);
+
+            if (res.exists()) {
+                await updateDoc(docRef, {
+                    ...body
+                });
+            } else {
+                await setDoc(doc(db, "users", userId, "friends","counter"), {
+                    ...body
+                });
+            }
+
+
+            setLoadingSetTotalRequest(false);
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            console.log(error);
+            setLoadingSetTotalRequest(false);
+            throw  error;
+        }
+    };
+
+
+
+
+//custom
 
     const confirmFriend = async (props: IFriendsRequestProps) => {
 
@@ -566,117 +698,155 @@ export function useFriends() {
 
 
 
-
-
-    const getTotalFriends = async (props: ICounterFriendsProps) => {
-        setLoadingGetTotal(true);
-        const {userId} = props;
-        const docRef = doc( db, "users", userId, "friends","counter");
-        try {
-            const res = await getDoc(docRef);
-            setLoadingGetTotal(false);
-
-            if (res.exists()) {
-                return res.data();
-            } else {
-               return {
-                   totalConfirm: 0,
-                   totalRequest:0,
-               }
-
-            }
-
-        } catch (error: any) {
-            setSnackBar(error.code, 'error');
-            console.log(error);
-            setLoadingGetTotal(false);
-            throw  error;
-        }
-
-
-    };
-
-    const setTotalFriends = async (props: ISetCounterFriendsProps) => {
-        setLoadingSetTotalRequest(true);
-        const {userId,body} = props;
-        const docRef = doc( db, "users", userId, "friends","counter");
-
-        try {
-            const res = await getDoc(docRef);
-            setLoadingGetTotal(false);
-
-            if (res.exists()) {
-                await updateDoc(docRef, {
-                    ...body
-                });
-            } else {
-                await setDoc(doc(db, "users", userId, "friends","counter"), {
-                    ...body
-                });
-            }
-
-
-            setLoadingSetTotalRequest(false);
-
-        } catch (error: any) {
-            setSnackBar(error.code, 'error');
-            console.log(error);
-            setLoadingSetTotalRequest(false);
-            throw  error;
-        }
-    };
-
-
-
     const addFriend = async (props: IFriendsRequestProps) =>{
         const {userId, currentUserId} = props;
+        setLoadingAddFriend(true);
+
+       try{
+           const totalCurrentUser = await getTotalFriends({
+               userId:currentUserId
+           });
+
+           const totalUser = await getTotalFriends({
+               userId:userId
+           });
 
 
-        const totalCurrentUser = await getTotalFriends({
-            userId:currentUserId
-        });
+           await setTotalFriends({
+               userId:currentUserId,
+               body:{
+                   totalMyRequest: totalCurrentUser.totalMyRequest +1
+               }
+           });
 
-        const totalUser = await getTotalFriends({
-            userId:userId
-        });
-
-
-        await setTotalFriends({
-            userId:currentUserId,
-            body:{
-                totalMyRequest: totalCurrentUser.totalMyRequest +1
-            }
-        });
-
-        await setTotalFriends({
-            userId:userId,
-            body:{
-                totalOtherRequest: totalUser.totalOtherRequest + 1
-            }
-        });
+           await setTotalFriends({
+               userId:userId,
+               body:{
+                   totalOtherRequest: totalUser.totalOtherRequest + 1
+               }
+           });
 
 
-        await addFriendsRequest({
-            props: {
-                userId,
-                currentUserId
-            },
-            snack: true,
-            path: 'otherRequest'
-        });
-        await addFriendsRequest({
-            props: {
-                userId,
-                currentUserId
-            },
-            snack: true,
-            path: 'myRequest'
-        });
+           await addFriendsRequest({
+               props: {
+                   userId,
+                   currentUserId
+               },
+               snack: true,
+               path: 'otherRequest'
+           });
+           await addFriendsRequest({
+               props: {
+                   userId,
+                   currentUserId
+               },
+               snack: true,
+               path: 'myRequest'
+           });
+           setLoadingAddFriend(false);
+       } catch (error:any) {
+           setLoadingAddFriend(false);
+           setSnackBar(error.code, 'error');
+           throw  error;
+       }
 
     };
     
-    
-    
+    const deleteMyRequest = async (props: IFriendsRequestProps) =>{
+        const {userId, currentUserId} = props;
+
+        setLoadingDeleteMyRequest(true);
+      try{
+          await deleteFriendsRequest({
+              props: {
+                  userId,
+                  currentUserId
+              },
+              snack: true,
+              path: 'otherRequest'
+          });
+
+          await deleteFriendsRequest({
+              props: {
+                  userId,
+                  currentUserId
+              },
+              snack: true,
+              path: 'myRequest'
+          });
+
+          const totalCurrentUser = await getTotalFriends({
+              userId:currentUserId
+          });
+
+          const totalUser = await getTotalFriends({
+              userId:userId
+          });
+
+
+          await setTotalFriends({
+              userId:currentUserId,
+              body:{
+
+                  totalMyRequest: totalCurrentUser.totalMyRequest - 1
+              }
+          });
+
+          await setTotalFriends({
+              userId:userId,
+              body:{
+                  totalOtherRequest: totalUser.totalOtherRequest - 1
+              }
+          });
+          setLoadingDeleteMyRequest(false);
+
+      } catch (error: any) {
+          setSnackBar(error.code, 'error');
+          console.log(error);
+          setLoadingDeleteMyRequest(false);
+          throw  error;
+      }
+
+    };
+
+
+
+    const deleteOtherRequest = async (props: IFriendsRequestProps) =>{
+        const {userId, currentUserId} = props;
+
+        setLoadingDeleteOtherRequest(true);
+        try{
+            await deleteFriendsRequest({
+                props: {
+                    userId,
+                    currentUserId
+                },
+                snack: true,
+                path: 'myRequest'
+            });
+
+            const totalCurrentUser = await getTotalFriends({
+                userId:currentUserId
+            });
+
+            await setTotalFriends({
+                userId:currentUserId,
+                body:{
+
+                    totalOtherRequest: totalCurrentUser.totalOtherRequest - 1
+                }
+            });
+
+            setLoadingDeleteOtherRequest(false);
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            console.log(error);
+            setLoadingDeleteOtherRequest(false);
+            throw  error;
+        }
+
+    };
 
 
     return {
@@ -693,9 +863,16 @@ export function useFriends() {
         statusFriend,
         loadingCheckFriendStatus,
         loadingGetTotal,
+        loadingGetFriendsConfirmedUsers,
+        loadingDeleteMyRequest,
+        loadingDeleteOtherRequest,
+        loadingSetTotalRequest,
+        loadingAddFriend,
 
-
+        deleteOtherRequest,
+        deleteMyRequest,
         addFriend,
+        getFriendsConfirmedUsers,
         checkFriendStatus,
         addFriendsRequest,
         deleteFriendsRequest,
