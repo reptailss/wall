@@ -8,7 +8,7 @@ import SkeletonText from "../../../../components/skeletons/SkeletonText";
 import {Col, Row} from "react-bootstrap";
 
 interface ISideBarInfoProfileProps {
-    dateBirth: number | null,,
+    dateBirth: number | null,
     city: string,
     jop: string,
     maritalStatus: string,
