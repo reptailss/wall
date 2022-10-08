@@ -21,7 +21,7 @@ export interface IInfoProfileProps {
 const InfoProfile: FC<IInfoProfileProps> = ({profile, idUser, loadingProfile}) => {
 
     const [redProfile, setRedProfile] = useState<boolean>(false);
-    const {name, surname, dateBirth, city, jop, maritalStatus, timestamp} = profile;
+    const {name, dateBirth, city, jop, maritalStatus, timestamp} = profile;
     const {pathname} = useRouter();
     const {id, isAuth} = useAppSelector(state => state.user);
 
