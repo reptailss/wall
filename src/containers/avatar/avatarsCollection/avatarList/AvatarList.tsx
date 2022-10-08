@@ -23,7 +23,7 @@ const AvatarList: FC<IAvatarListProps> = ({avatars, idUser,onChangeIndex}) => {
 
 
 
-    const handleSelect = (selectedIndex: number, e) => {
+    const handleSelect = (selectedIndex: number) => {
         setIndex(selectedIndex);
         onChangeIndex(selectedIndex);
     };
