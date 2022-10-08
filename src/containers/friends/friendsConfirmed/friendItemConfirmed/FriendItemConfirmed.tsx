@@ -10,6 +10,7 @@ import Link from "next/link";
 import LinkMU from '@mui/material/Link'
 import {useAppSelector} from "../../../../hooks/redux";
 import {useFriends} from "../../../../hooks/useFriends/useFriends";
+import AddMessageBtn from "../../../chats/addMessageBtn/AddMessageBtn";
 
 interface IFriendItemRequestProps extends IFriendItem{
     myPage?: boolean
@@ -84,22 +85,29 @@ const FriendItemConfirmed: FC<IFriendItemRequestProps> = ({id,myPage}) => {
                             className={styles.name}
                             variant="body2" color="text.other"
                         >
-                            {!loadingGetUserProfileOther ? name : <SkeletonText/>}
+                            {!loadingGetUserProfileOther ? id : <SkeletonText/>}
                         </Typography>
                     </LinkMU>
                 </Link>
-
             </div>
-            {myPage ?  <div className={styles.sidebar}>
-                <LoadingButton
-                    loading={loadingDeleteFriend}
-                    onClick={onDeleteFriend}
-                    disabled={loadingDeleteFriend}
-                    className={styles.btn}
-                    variant="outlined" color="secondary">
-                    видалити
-                </LoadingButton>
-            </div> : null}
+
+            <div className={styles.inner}>
+             <div className={styles.messages}>
+                 <AddMessageBtn userId={id}/>
+             </div>
+                {myPage ?  <div className={styles.sidebar}>
+                    <LoadingButton
+                        loading={loadingDeleteFriend}
+                        onClick={onDeleteFriend}
+                        disabled={loadingDeleteFriend}
+                        className={styles.btn}
+                        size={'small'}
+                        variant="outlined" color="secondary">
+                        видалити
+                    </LoadingButton>
+                </div> : null}
+            </div>
+
         </Paper>
     );
 };

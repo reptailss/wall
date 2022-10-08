@@ -8,12 +8,14 @@ import {useChats} from "../../../../../hooks/useChats/useChats";
 import {validationSchemaAddMessageCombinedChat} from "../../../../../constans/validate/chats";
 import SpinnerBlock from "../../../../../components/spinner/Spinner";
 import SendIcon from '@mui/icons-material/Send';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IAddCombinedMessageProps {
-    combinedId: string
+    combinedId: string,
+    userId: string
 }
 
-const AddCombinedMessage: FC<IAddCombinedMessageProps> = ({combinedId}) => {
+const AddCombinedMessage: FC<IAddCombinedMessageProps> = ({combinedId, userId}) => {
 
     const {id} = useAppSelector(state => state.user);
 
@@ -24,6 +26,9 @@ const AddCombinedMessage: FC<IAddCombinedMessageProps> = ({combinedId}) => {
         if (id) {
             await addMessageCombinedChat({
                     combinedId,
+                    userId,
+                    currentUserId: id,
+                idMessages:uuidv4().replace(/-/g, ''),
                     body: {
                         text: text,
                         userId: id,

@@ -10,6 +10,7 @@ import Link from "next/link";
 import LinkMU from '@mui/material/Link'
 import {useAppSelector} from "../../../../hooks/redux";
 import {useFriends} from "../../../../hooks/useFriends/useFriends";
+import AddMessageBtn from "../../../chats/addMessageBtn/AddMessageBtn";
 
 interface IFriendItemRequestProps extends IFriendItem {
     path: 'otherRequest' | 'myRequest'
@@ -113,7 +114,9 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
 
             </div>
             <div className={styles.sidebar}>
-
+             <div className={styles.messages}>
+                 <AddMessageBtn userId={id}/>
+             </div>
 
                 {path === 'otherRequest' ? <>
                         <LoadingButton
@@ -121,6 +124,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
                             onClick={onConfirmFriend}
                             disabled={loadingBtn}
                             className={styles.btn}
+                            size={'small'}
                             variant="outlined" color="secondary">
                             підтвредити
                         </LoadingButton>
@@ -129,6 +133,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
                             onClick={onDeleteOtherRequest}
                             disabled={loadingBtn}
                             className={styles.btn}
+                            size={'small'}
                             variant="outlined" color="secondary">
                             відхилити
                         </LoadingButton>
@@ -139,6 +144,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
                             onClick={onDeleteMyRequest}
                             disabled={loadingBtn}
                             className={styles.btn}
+                            size={'small'}
                             variant="outlined" color="secondary">
                             відмінити заявку
                         </LoadingButton>

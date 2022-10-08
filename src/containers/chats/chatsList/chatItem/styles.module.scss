@@ -30,3 +30,18 @@
 .skeletonMessage{
   max-width: 250px;
 }
+
+.unread{
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background-color: #434343;
+}
+.wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

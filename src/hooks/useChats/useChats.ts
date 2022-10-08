@@ -1,14 +1,16 @@
-import {collection,
+import {
+    collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
+    limit,
+    orderBy,
+    query,
     serverTimestamp,
     setDoc,
-    updateDoc,
-    orderBy,
-    limit,
     startAfter,
-    query,
+    updateDoc,
 } from "firebase/firestore";
 import {db} from "../../firebase/firebase";
 import {useState} from "react";
@@ -17,16 +19,20 @@ import {useSnackBar} from "../useSneckBar/useSnackBars";
 
 import {
     IAddMessageCombinedChatProps,
+    IAddUnreadMessagesProps,
     ICheckChatProps,
     ICreateChatProps,
     ICreateUserChatProps,
+    IDeleteUnreadMessagesProps,
     IGetMessagesCombinedChatProps,
     IGetTotalMessagesCombinedChatProps,
+    IGetUnreadMessages,
     IGetUserChatProps,
-    IGetUserChatsrops, IMessagesProps,
+    IGetUserChatsrops,
+    IMessagesProps,
+    ISetLastMessageProps,
     ISetTotalMessagesCombinedChatProps,
 } from "../../types/chats";
-
 
 export function useChats() {
 
@@ -65,17 +71,30 @@ export function useChats() {
 
     const [loadingGetMessages,
         setLoadingGetMessages] = useState<boolean>(false);
+
     const [loadingLoadPageMessages,
-        setLoLoadPageMessages] = useState<boolean>(false);
+        setLoadPageMessages] = useState<boolean>(false);
+
+
+    const [loadingDeleteUnreadMessage,
+        setDeleteUnreadMessage] = useState<boolean>(false);
+
+
+    const [loadingGetUnreadMessages,
+        setLoadingGetUnreadMessages] = useState<boolean>(true);
+
+
 
 
     const createCombinedId = (props: ICreateChatProps) => {
 
         const {userId, currentUserId} = props;
 
-        return currentUserId > userId
-            ? currentUserId + userId
-            : currentUserId + userId
+        let arr = [];
+        arr.push(userId);
+        arr.push(currentUserId);
+        arr.sort();
+        return arr.join('');
     };
 
 
@@ -92,7 +111,10 @@ export function useChats() {
                 combinedId);
 
             await setDoc(ref, {
-                lastMessage: '',
+                lastMessage: {
+                    userIdLastMessage: "",
+                    text: ""
+                },
                 interlocutorId,
                 createUserChat: serverTimestamp()
             });
@@ -120,7 +142,7 @@ export function useChats() {
                 combinedId);
 
             await setDoc(ref, {
-                lastMessage: '',
+
                 participant: [userId, currentUserId],
                 totalMessages: 0,
                 createChat: serverTimestamp()
@@ -270,27 +292,143 @@ export function useChats() {
         }
     };
 
+    const setLastMessage = async (props: ISetLastMessageProps) => {
+        const {combinedId, userId, lastMessage, userIdLastMessage} = props;
+        const ref = doc(db, "users", userId, "userChats", combinedId);
+        try {
+
+            await updateDoc(ref, {
+                lastMessage: {
+                    text: lastMessage,
+                    userIdLastMessage
+                }
+            });
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            console.log(error);
+            throw  error;
+        }
+    };
+
 
     const addMessageCombinedChat = async (props: IAddMessageCombinedChatProps) => {
         setLoadingAddMessageCombinedChat(true);
-        const {combinedId, body} = props;
+        const {combinedId, body, userId, currentUserId, idMessages} = props;
         try {
-            const ref = doc(collection(db, "chats", combinedId, "messages"));
+            const ref = doc(db,
+                "chats",
+                combinedId, "messages",
+                idMessages);
+
             await setDoc(ref, {
                 ...body,
                 createMessage: serverTimestamp()
             });
+
+            await addUnreadMessages({
+                userId,
+                userChatId: combinedId,
+                idMessages,
+                text: body.text,
+                currentUserId
+            });
+
             const oldTotalMessages = await getTotalMessagesCombinedChat({combinedId});
             await setTotalMessagesCombinedChat({
                 combinedId,
                 totalMessages: oldTotalMessages + 1
             });
 
+            await setLastMessage({
+                userId, lastMessage: body.text,
+                combinedId,
+                userIdLastMessage: currentUserId
+            });
+
+            await setLastMessage({
+                userId: currentUserId, lastMessage: body.text,
+                combinedId,
+                userIdLastMessage: currentUserId
+            });
+
+
             setLoadingAddMessageCombinedChat(false);
         } catch (error: any) {
             setLoadingAddMessageCombinedChat(false);
             setSnackBar(error.code, 'error');
             throw  error;
+        }
+    };
+
+    const addUnreadMessages = async (props: IAddUnreadMessagesProps) => {
+        const {userId, userChatId, idMessages, text, currentUserId} = props;
+        try {
+            const ref = doc(db,
+                "users",
+                userId, "userChats",
+                userChatId, "unreadMessages", idMessages);
+
+            await setDoc(ref, {
+                text, userId: currentUserId,
+                unread: true,
+                whoId:userId
+            });
+
+        } catch (error: any) {
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+    };
+
+    const deleteUnreadMessages = async (props: IDeleteUnreadMessagesProps) => {
+        setDeleteUnreadMessage(true);
+
+        const {currentUserId, userChatId, idMessages} = props;
+        try {
+            const ref = doc(db,
+                "users",
+                currentUserId, "userChats",
+                userChatId, "unreadMessages", idMessages);
+
+            await deleteDoc(ref);
+
+
+            setDeleteUnreadMessage(false);
+        } catch (error: any) {
+            setDeleteUnreadMessage(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+    };
+
+
+
+
+    const getUnreadMessages = async (props: IGetUnreadMessages) => {
+
+        const {currentUserId, userChatId} = props;
+
+        setLoadingGetUnreadMessages(true);
+
+        const ref = collection(db,
+            "users",
+            currentUserId,
+            "userChats",
+            userChatId,
+            "unreadMessages");
+
+        const res = await getDocs(ref);
+        try {
+            const results = (res.docs.map((data) => {
+                return {...data.data(), id: data.id}
+            }));
+            setLoadingGetUnreadMessages(false);
+            return results;
+
+
+        } catch (error) {
+            setLoadingGetUnreadMessages(false);
         }
     };
 
@@ -321,7 +459,6 @@ export function useChats() {
     };
 
 
-
     const getMessages = async (props: IMessagesProps) => {
         const {
             combinedId,
@@ -339,7 +476,7 @@ export function useChats() {
             orderBy("createMessage", orderByComment),
             limit(limitComment)) : query(docRef,
             orderBy("createMessage", orderByComment));
-        setLoLoadPageMessages(true);
+        setLoadingGetMessages(true);
         const res = await getDocs(queryRef);
         try {
             const results = (res.docs.map((data) => {
@@ -355,15 +492,20 @@ export function useChats() {
     };
 
     const loadMessagesPage = async (props: IMessagesProps) => {
+
+        setLoadPageMessages(true);
+
         const {
             combinedId,
             limitComment,
             orderByComment,
             startId
         } = props;
+
         const docRef = collection(db, "chats",
             combinedId,
             "messages");
+
         const queryRef = limitComment ? query(
             docRef,
             orderBy("createMessage", orderByComment),
@@ -374,19 +516,18 @@ export function useChats() {
                 orderBy("createMessage", orderByComment),
                 startAfter(startId));
 
-        setLoLoadPageMessages(true);
 
         try {
             const res = await getDocs(queryRef);
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}
             }));
-            setLoLoadPageMessages(false);
+            setLoadPageMessages(false);
             return results;
 
 
         } catch (error) {
-            setLoLoadPageMessages(false);
+            setLoadPageMessages(false);
         }
     };
 
@@ -404,9 +545,12 @@ export function useChats() {
 
         loadingGetMessages,
         loadingLoadPageMessages,
+        loadingDeleteUnreadMessage,
+        loadingGetUnreadMessages,
 
 
-
+        getUnreadMessages,
+        deleteUnreadMessages,
         addMessageCombinedChat,
         getMessagesCombinedChat,
         createUserChat,
@@ -416,7 +560,7 @@ export function useChats() {
         CheckChat,
         setTotalMessagesCombinedChat,
         getTotalMessagesCombinedChat,
-
+        createCombinedId,
         loadMessagesPage,
         getMessages,
     };

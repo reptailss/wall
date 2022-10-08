@@ -9,4 +9,7 @@
   column-gap: 5px;
   padding: 10px 10px;
   margin-top: 10px;
+  @media (max-width: 500px) {
+flex-wrap: wrap;
+  }
 }

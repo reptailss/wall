@@ -1,19 +1,32 @@
-.link{
+.link {
   transition: all .3s;
   margin-right: 4px;
   font-weight: 500;
 
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
-.root{
+
+.root {
   padding: 0 15px;
-}
-.content{
   display: flex;
+  margin-top: 5px;
+  flex-direction: row-reverse;
+  //justify-content: center;
+  //align-items: start;
 }
-.date{
+
+.content {
+  padding: 5px 10px;
+  display: inline-block;
+  max-width: 85%;
+  border-radius: 10px;
+
+}
+
+.date {
   display: block;
   text-align: right;
+  font-size: 10px!important;
 }

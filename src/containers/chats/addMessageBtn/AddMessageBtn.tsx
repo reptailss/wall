@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import {useChats} from "../../../hooks/useChats/useChats";
 import {useAppSelector} from "../../../hooks/redux";
 import {useRouter} from "next/router";
+import useMedia from "../../../hooks/useMedia/useMedia";
 
 interface IAddMessageBtnProps {
     userId: string
@@ -18,6 +19,8 @@ const AddMessageBtn: FC<IAddMessageBtnProps> = ({userId}) => {
     const {id} = useAppSelector(state => state.user);
 
     const {CheckChat, loadingCheckChat,createChat} = useChats();
+
+    const{isDesktop} = useMedia();
 
     const onClickBtn = async () => {
         const combinedId = await CheckChat({
@@ -38,14 +41,13 @@ const AddMessageBtn: FC<IAddMessageBtnProps> = ({userId}) => {
 
     return (
         <Button
-            // disabled={loadingCheckChat}
             onClick={onClickBtn}
             className={styles.root}>
             <Typography
                 className={styles.text}
                 color={'text.primary'}
                 variant={'caption'}
-            >написати
+            >{isDesktop ? 'написати' : null}
             </Typography>
             <MailIcon fontSize="small" color="action"/>
         </Button>

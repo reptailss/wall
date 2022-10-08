@@ -27,7 +27,10 @@ export interface IChatUser {
     createUserChat:ITimestamp,
     id:string,
     interlocutorId:string,
-    lastMessage:string,
+    lastMessage:{
+        text:string,
+        userIdLastMessage:string
+    },
 
 }
 
@@ -38,6 +41,9 @@ export interface IGetUserChatProps {
 
 export interface IAddMessageCombinedChatProps {
     combinedId: string,
+    userId:string,
+    currentUserId:string,
+    idMessages:string,
     body:{
         text:string,
         userId:string
@@ -73,3 +79,37 @@ export interface IMessagesProps {
     orderByComment: "desc" | "asc",
     startId?: ITimestamp
 }
+
+export interface ISetLastMessageProps {
+    userId:string,
+    combinedId: string,
+    lastMessage: string,
+    userIdLastMessage:string
+
+}
+
+export interface IAddUnreadMessagesProps {
+    userId:string,
+    userChatId:string,
+    idMessages: string,
+    text:string,
+    currentUserId:string,
+}
+
+export interface IDeleteUnreadMessagesProps  {
+    currentUserId:string,
+    userChatId:string,
+    idMessages: string,
+}
+
+export interface IUnreadMessages {
+    id:string,
+    text:string,
+    userId:string
+}
+
+export interface IGetUnreadMessages {
+    currentUserId:string,
+    userChatId:string,
+}
+

@@ -18,7 +18,7 @@ const LikeItem:FC<ILikeItemProps> = ({authorNameLike,id}) => {
                         component="div"
                         color="text.primary"
                         className={styles.item}>
-                   {authorNameLike}
+                   {id}
 
                 </LinkMU>
             </Link>

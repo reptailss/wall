@@ -4,7 +4,7 @@ import AvatarUserSmall from "../../components/avatarUserSmall/AvatarUserSmall";
 import Paper from '@mui/material/Paper';
 import NavigateItem from "./navigateItem/navigateItem";
 import styles from './styles.module.scss'
-import MessageBtnState from "../message/messageBtnState/MessageBtnState";
+import MessageBtnState from "../chats/messageBtnState/MessageBtnState";
 import {useRouter} from "next/router";
 import FriendsBtnState from "../friends/FriendsBtnState/FriendsBtnState";
 import {useAppSelector} from "../../hooks/redux";

@@ -10,6 +10,7 @@ import {Paper, Typography} from "@mui/material";
 import {useAppSelector} from "../../../hooks/redux";
 import Comments from "../../comments/Comments";
 import ChangeAvatarBtn from "../changeAvatarBtn/ChangeAvatarBtn";
+import SpinnerBlock from "../../../components/spinner/Spinner";
 
 interface IAvatarsCollectionProps {
     id: string
@@ -48,6 +49,28 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
 
     const colAvatarList = myPage ? 8 : 10;
 
+    const content = loadingGetAvatarCollection ? <SpinnerBlock/> : avatars && avatars.length ? <>
+        <AvatarList
+            onChangeIndex={onChangeIndex}
+            idUser={id}
+            avatars={avatars}/>
+        <Comments
+            idUser={currentUserId}
+            pathRoot={'avatars'}
+            pathItemId={avatars[indexAvatar].id}
+        />
+    </> : <Typography
+        variant={'body2'}
+        color={'text.other'}
+        className={styles.notAvatar}>
+        тут поки що нічого..
+        <div className={styles.addPhoto}>
+            <ChangeAvatarBtn
+                text={'добавити фото'}
+            />
+        </div>
+    </Typography>;
+
     return (
         <div>
             <Row className={styles.root}>
@@ -60,28 +83,7 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
                     <Col
                         className={styles.list}
                         xl={colAvatarList}>
-                        {avatars && avatars.length ? <>
-                            <AvatarList
-                                onChangeIndex={onChangeIndex}
-                                idUser={id}
-                                avatars={avatars}/>
-                            <Comments
-                                idUser={currentUserId}
-                                pathRoot={'avatars'}
-                                pathItemId={avatars[indexAvatar].id}
-                            />
-                        </> : <Typography
-                            variant={'body2'}
-                            color={'text.other'}
-                            className={styles.notAvatar}>
-                            тут поки що нічого..
-                            <div className={styles.addPhoto}>
-                                <ChangeAvatarBtn
-                                    text={'добавити фото'}
-                                />
-                            </div>
-
-                        </Typography>};
+                        {content}
                     </Col>
 
                     {myPage && avatars && avatars.length ? <Col xl={3}>
