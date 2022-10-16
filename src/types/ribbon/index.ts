@@ -8,7 +8,7 @@ export interface IRibbonItem {
     pathImg?: string[],
     userId:string,
     idRibbonContent:string,
-    id:string
+    id?:string
 }
 
 export interface IAddRibbonItemProps {
