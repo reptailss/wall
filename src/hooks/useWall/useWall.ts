@@ -24,10 +24,17 @@ export function useWall() {
 
     const addWallPost = async (props: IWallAddProps) => {
         setLoadingAddWallPost(true);
-        const {id, body} = props;
+        const {id, body,idPost} = props;
         try {
             const newAddPostRef = doc(collection(db, "users",id, "posts"));
-            await setDoc(newAddPostRef, {
+
+            const ref = doc(db,
+                "users",
+                id, "posts",
+                idPost);
+
+
+            await setDoc(ref, {
                 ...body,
                 totalComments:0,
                 totalLikes:0,

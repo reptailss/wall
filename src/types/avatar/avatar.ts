@@ -2,7 +2,8 @@ import {ICounterCommentsProps} from "../comments";
 
 export interface IUpdateCurrentAvatarProps {
     id: string,
-    pathImg: string
+    pathImg: string,
+
 }
 
 export interface IGetAvatarsCollection {
@@ -26,4 +27,13 @@ export interface ICounterAvatarsProps {
 
 export interface ISetAvatarsCommentsProps extends ICounterAvatarsProps {
     totalAvatars: number
+}
+
+
+
+export interface IAddAvatarsCollectionProps {
+    id: string,
+    pathImg: string,
+    idAvatar:string
+
 }

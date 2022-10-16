@@ -9,12 +9,15 @@ interface IUserNavigateItemProps {
     icon: ReactNode,
     path: string,
     text: string;
+    onClickNavigateItem?: () => void,
 }
 
-const NavigateItem: FC<IUserNavigateItemProps> = ({icon, path, text}) => {
+const NavigateItem: FC<IUserNavigateItemProps> = ({icon, path, text,onClickNavigateItem}) => {
     const { loadingUser} = useAuth();
     return (
-        <div className={styles.root}>
+        <div
+            onClick={onClickNavigateItem}
+            className={styles.root}>
             {!loadingUser ?
             <Link href={path}>
                 <LinkMU underline="none"

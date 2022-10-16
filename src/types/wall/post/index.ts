@@ -6,7 +6,9 @@ export interface IWallPostBodyItem {
     pathImg?: string[],
     authorName: string,
     authorId: string,
-    idUserWhoseWall: string
+    idUserWhoseWall: string,
+    type?: string,
+    idAvatar?:string,
 
 }
 
@@ -14,7 +16,8 @@ export interface IWallPostBodyItem {
 export interface IWallPostItem extends IWallPostBodyItem{
     timestamp: ITimestamp,
     id: string,
-    totalCommments: number
+    totalCommments: number,
+    type?: string,
 
 }
 
@@ -22,6 +25,7 @@ export interface IWallPostItem extends IWallPostBodyItem{
 export interface IWallAddProps {
     id: string,
     body: IWallPostBodyItem,
+    idPost:string
 }
 
 

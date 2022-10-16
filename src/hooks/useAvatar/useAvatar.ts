@@ -15,7 +15,7 @@ import {
     IDeleteAvatarsCollection,
     IGetAvatarsCollection,
     IUpdateCurrentAvatarProps,
-    ICounterAvatarsProps, ISetAvatarsCommentsProps
+    ICounterAvatarsProps, ISetAvatarsCommentsProps, IAddAvatarsCollectionProps
 } from "../../types/avatar/avatar";
 
 
@@ -51,12 +51,17 @@ export function useAvatar() {
         }
     };
 
-    const addAvatarsCollection = async (props: IUpdateCurrentAvatarProps) =>{
+    const addAvatarsCollection = async (props: IAddAvatarsCollectionProps) =>{
         setAddAvatarsCollection(true);
-        const {id, pathImg} = props;
+        const {id, pathImg,idAvatar} = props;
         try {
-            const newaddAvatarsCollectiontRef = doc(collection(db, "users",id, "avatars"));
-            await setDoc(newaddAvatarsCollectiontRef, {
+
+            const ref = doc(db,
+                "users",
+                id, "avatars",
+                idAvatar);
+
+            await setDoc(ref, {
                 pathImg: pathImg,
                 totalLikes:0,
                 totalComments:0,

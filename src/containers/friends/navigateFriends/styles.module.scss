@@ -11,5 +11,6 @@
   margin-top: 10px;
   @media (max-width: 500px) {
 flex-wrap: wrap;
+    column-gap: 5px;
   }
 }

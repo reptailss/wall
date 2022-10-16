@@ -55,7 +55,7 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
             idUser={id}
             avatars={avatars}/>
         <Comments
-            idUser={currentUserId}
+            idUser={id}
             pathRoot={'avatars'}
             pathItemId={avatars[indexAvatar].id}
         />

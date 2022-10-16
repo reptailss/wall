@@ -9,12 +9,15 @@ import {AnimatePresence, motion} from "framer-motion";
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 import SpinnerBlock from "../../../components/spinner/Spinner";
-import {Col, Row} from "react-bootstrap";
 import {useAppSelector} from "../../../hooks/redux";
 import {useAvatar} from '../../../hooks/useAvatar/useAvatar'
 import {useUsers} from "../../../hooks/useUser/UseUser";
 import {useRouter} from "next/router";
 import AvatarEditors from "../../../components/avatarEditors/AvatarEditors";
+import {useWall} from "../../../hooks/useWall/useWall";
+import {useRibbon} from "../../../hooks/useRibbon/useRibbon";
+
+import {v4 as uuidv4} from 'uuid';
 
 
 const UpdateAvatar = () => {
@@ -23,16 +26,18 @@ const UpdateAvatar = () => {
     const [per, setPerc] = useState<null | number>(null);
     const {id} = useAppSelector(state => state.user);
     const router = useRouter();
-    const {updateCurrentAvatar,
-        loadingUpdateCurrentAvatar,
+    const {
+        updateCurrentAvatar,
         addAvatarsCollection,
-        getTotalAvatars,
-        setTotalAvatars,
-        loadingGetTotalAvatars,
-        loadingSetTotalAvatars,
     } = useAvatar();
+
+    const {name} = useAppSelector(state => state.user.profile);
+
     const {getUserProfile} = useUsers();
 
+    const {addWallPost, loadingAddWallPost} = useWall();
+
+    const {loadingAddFriendRibbon, addFriendsItemRibbon} = useRibbon();
 
 
     const uploadFile = () => {
@@ -50,10 +55,8 @@ const UpdateAvatar = () => {
                     setPerc(progress);
                     switch (snapshot.state) {
                         case "paused":
-                            console.log("Upload is paused");
                             break;
                         case "running":
-                            console.log("Upload is running");
                             break;
                         default:
                             break;
@@ -61,10 +64,8 @@ const UpdateAvatar = () => {
                 },
                 (error) => {
                     console.log(error);
-                    console.log('upload err')
                 },
                 () => {
-                    console.log('upload ok')
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setDataImg(downloadURL);
                     });
@@ -79,7 +80,7 @@ const UpdateAvatar = () => {
         if (hiddenFileInput.current) {
             hiddenFileInput.current.click();
         }
-        if(dataImg){
+        if (dataImg) {
             setDataImg('')
         }
 
@@ -98,38 +99,54 @@ const UpdateAvatar = () => {
         setDataImg('');
     };
 
-    // const onGetTotalAvatars = async () => {
-    //     return await getTotalAvatars({
-    //         idUser: id,
-    //         pathRoot:"avatars",
-    //         pathItemId,
-    //     });
-    //
-    // };
-    // const onSetCounter = async (num:number) => {
-    //     await setTotalAvatars({
-    //         idUser,
-    //         pathRoot,
-    //         pathItemId,
-    //         totalAvatars:num
-    //     });
-    //
-    // };
-    
 
     const onUpdateCurrentAvatar = async () => {
         if (dataImg && id) {
+            const idAvatar = uuidv4().replace(/-/g, '');
+            const idPost = uuidv4().replace(/-/g, '');
+
             file && await uploadFile()
             await updateCurrentAvatar({id, pathImg: dataImg});
-            await addAvatarsCollection({id, pathImg: dataImg});
+
+            await addAvatarsCollection({
+                id,
+                pathImg: dataImg,
+                idAvatar: idAvatar,
+            });
             await getUserProfile(id);
             router.push('/');
+
+            if (id) {
+                await addWallPost({
+                        id: id,
+                        idPost,
+                        body: {
+                            text: 'update Avatar',
+                            authorId: id,
+                            authorName: name,
+                            pathImg: [dataImg],
+                            idUserWhoseWall: id,
+                            type: 'updateAvatar',
+                            idAvatar: idAvatar
+                        },
+                    }
+                );
+
+                await addFriendsItemRibbon({
+                    currentUserId: id,
+                    body: {
+                        type: 'updateAvatar',
+                        userId: id,
+                        pathImg: [dataImg],
+                        idRibbonContent: idAvatar
+                    }
+                })
+            }
         }
     };
 
     const onChangeAvatar = async (img: string) => {
         setDataImg(img);
-        console.log('reset',dataImg)
     };
 
 

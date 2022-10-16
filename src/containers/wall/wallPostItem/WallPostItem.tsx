@@ -6,6 +6,8 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import LinkMU from '@mui/material/Link'
+
 
 
 import {convertSecondstoDate, OptionsDateTime} from '../../../helpers/date';
@@ -24,7 +26,9 @@ import Comments from "../../comments/Comments";
 import {useUsers} from "../../../hooks/useUser/UseUser";
 import {IUserProfile} from "../../../types/profile";
 
-const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall}) => {
+
+
+const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall,type,idAvatar}) => {
 
 
     const {id: idUser} = useAppSelector(state => state.user);
@@ -83,6 +87,34 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         idPost={id}/> : null;
 
 
+
+    const title = <div className={styles.title}>
+        <Link
+            href={`/users/${authorId}`}>
+            <LinkMU
+                component="div"
+            >
+                <Typography
+                    color="secondary"
+                    variant="body2"
+                >{authorId}
+                </Typography>
+            </LinkMU>
+        </Link>
+
+        {type && type === 'updateAvatar' && <Typography
+            className={styles.updateAvatar}
+            color="text.other"
+            variant="body2"
+        >
+            оновив свою аватарку
+        </Typography>}
+    </div>;
+
+    const idPostContentItem =  type  === 'updateAvatar' && idAvatar ? idAvatar : id;
+    const idPostContentRoot =  type  === 'updateAvatar' && idAvatar ? 'avatars' : 'posts';
+
+
     return (
         <Card>
             <CardHeader
@@ -94,16 +126,7 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
                 action={
                     sidebarPostItem
                 }
-                title={<Link
-                    href={`/users/${authorId}`}>
-                    <a>
-                        <Typography
-                            color="secondary"
-                            variant="body2"
-                        >{authorId}
-                        </Typography>
-                    </a>
-                </Link>}
+                title={title}
                 subheader={<Typography
                     variant="body2"
                     className={styles.date}>{UAdate}</Typography>}
@@ -111,7 +134,7 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
 
             <CardContent>
                 <Typography variant="body2" color="text.other">
-                    {text}
+                    {!type && text}
                 </Typography>
             </CardContent>
             <Row className={styles.rowImg}>
@@ -120,8 +143,8 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
             <div className={styles.likes}>
                 <Likes
                     idUser={idUserWhoseWall}
-                    pathItemId={id}
-                    pathRoot={'posts'}
+                    pathItemId={idPostContentItem}
+                    pathRoot={idPostContentRoot}
                     authorNameLike={authorName}
                 />
             </div>
@@ -129,8 +152,8 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
             <div className={styles.comments}>
                 <Comments
                     idUser={idUserWhoseWall}
-                    pathItemId={id}
-                    pathRoot={'posts'}
+                    pathItemId={idPostContentItem}
+                    pathRoot={idPostContentRoot}
                 />
             </div>
         </Card>

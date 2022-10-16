@@ -8,6 +8,7 @@
 .menu{
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .logo {
   display: flex;
@@ -21,4 +22,13 @@
     margin-right: 5px;
   }
 
+}
+.innerLogo{
+  display: flex;
+  align-items: center;
+
+}
+
+.mobileNavigate{
+  margin-right: 20px ;
 }
