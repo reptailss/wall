@@ -1,11 +1,11 @@
 
 .input {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, .2);
-  border-radius: 5px;
+  color: #ffffff!important;
+  background-color: rgba(255, 255, 255, .2)!important;
+  border-radius: 5px!important;
   & label{
-    color: inherit;
-    height: 100%;
+    color: inherit!important;
+    height: 100%!important;
   }
 }
 .innerinput{
@@ -17,75 +17,39 @@
 
 .button{
   position: absolute!important;
-  bottom: 0;
-  right: 0;
+  bottom: 0!important;
+  right: 0!important;
   padding: 5px 10px!important;;
   text-align: center!important;
-  font-size: 15px;
+  font-size: 15px!important;
   width: auto!important;
   background-color: transparent!important;
-  outline: none;
-  transition: all .3s;
-  min-width: auto;
+  outline: none!important;
+  transition: all .3s!important;
+  min-width: auto!important;
   border: none!important;
-  box-shadow: none;
+  box-shadow: none!important;
   &:hover:not([disabled]){
- opacity: .5;
+ opacity: .5!important;
   }
 
 
 }
 
 .root{
-  position: relative;
-  margin: 0  auto 10px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
+  position: relative!important;
+  margin: 0  auto 10px!important;
+  display: flex!important;
+  flex-direction: column!important;
+  width: 100%!important;
+  align-items: center!important;
+  justify-content: center!important;
+  border-radius: 10px!important;
   @media (max-width: 500px) {
-    padding: 0 10px;
+    padding: 0 10px!important;
   }
 }
 
 
-.inner{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.wrap{
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, .2);
-  padding: 15px 35px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  column-gap: 15px;
-  margin-top: 30px;
-  & div{
-    font-size: 15px;
-    color: #c06868;
-    margin-top: 3px;
-    &.test{
-      font-size: 20px;
-      color: #ffffff;
-    }
 
-    & span{
-      color: #9b9393;
-    }
-  }
-}
 
-.link{
-  color: #58607f;
-  font-size: 18px;
-  text-align: center;
-  margin: 0 4px;
-
-}

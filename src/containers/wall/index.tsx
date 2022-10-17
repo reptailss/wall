@@ -1,4 +1,5 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
+
 import WallPostList from "./wallPostList/WallPostList";
 import WallPostAdd from "./wallPostAdd/WallPostAdd";
 

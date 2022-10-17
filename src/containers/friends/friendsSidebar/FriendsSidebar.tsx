@@ -87,7 +87,6 @@ const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
                 <Link href={pathLink}>
                     <LinkMU underline="none"
                             component="div"
-                            className={styles.link}
                             color="secondary">
                         <Typography
                             className={styles.full}

@@ -5,16 +5,16 @@
   }
 }
 .row{
-  justify-content: center;
+  justify-content: center!important;
 }
 .title{
   display: flex;
 }
 .info{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex!important;
+  flex-direction: column!important;
+  align-items: center!important;
+  justify-content: center!important;
 }
 .login{
   display: flex;
@@ -30,5 +30,5 @@
   margin-top: 25px;
 }
 .btn{
-  text-transform: initial;
+  text-transform: initial!important;
 }

@@ -10,7 +10,7 @@ const NavigateFriends = () => {
 
     const {pathname} = useRouter();
 
-    const variantlConfirmed = pathname === '/friendsConfirmed' ? 'contained' : 'outlined';
+    const variantConfirmed = pathname === '/friendsConfirmed' ? 'contained' : 'outlined';
     const variantOtherRequest = pathname === '/friendsOtherRequest' ? 'contained' : 'outlined';
     const variantMytRequest = pathname === '/friendsMyRequest' ? 'contained' : 'outlined';
 
@@ -27,7 +27,7 @@ const NavigateFriends = () => {
                     <Button
                         component={'div'}
                         className={styles.btn}
-                        variant={variantlConfirmed}
+                        variant={variantConfirmed}
                         color="secondary">
                         друзі ({totalConfirm})
                     </Button>
@@ -37,9 +37,7 @@ const NavigateFriends = () => {
                 <LinkMU underline="none"
                         component="div"
                         color="secondary">
-
                     <Button
-
                         component={'div'}
                         className={styles.btn}
                         variant={variantOtherRequest}
@@ -52,9 +50,7 @@ const NavigateFriends = () => {
                 <LinkMU underline="none"
                         component="div"
                         color="secondary">
-
                     <Button
-
                         component={'div'}
                         className={styles.btn}
                         variant={variantMytRequest}

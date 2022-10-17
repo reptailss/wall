@@ -1,6 +1,6 @@
 .btn{
 text-transform: none!important;
- border-bottom: 1px solid var(--text-primary-dark);
+ border-bottom: 1px solid var(--text-primary-dark)!important;
 }
 
 .list{
@@ -24,9 +24,7 @@ text-transform: none!important;
  justify-content: flex-end;
  margin-bottom: 10px;
 }
-.btn{
- text-transform: initial!important;
-}
+
 .text{
- margin-right: 3px ;
+ margin-right: 3px!important ;
 }

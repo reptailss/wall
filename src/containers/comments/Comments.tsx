@@ -88,7 +88,6 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
                     pathRoot={pathRoot}
                     onAddCommentProps={onGetComments}
                     onSetTotalComments={onSetTotalComments}
-
                 />
             </div>
 

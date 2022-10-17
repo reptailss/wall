@@ -2,24 +2,24 @@
   display: flex;
 }
 .row{
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between!important;
+  align-items: center!important;
 }
 .menu{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  display: flex!important;
+  justify-content: flex-end!important;
+  align-items: center!important;
 }
 .logo {
-  display: flex;
-  align-items: center;
-  transition: all .3s;
-  cursor: pointer;
+  display: flex!important;
+  align-items: center!important;
+  transition: all .3s!important;
+  cursor: pointer!important;
   &:hover{
-    opacity: .5;
+    opacity: .5!important;
   }
   & span{
-    margin-right: 5px;
+    margin-right: 5px!important;
   }
 
 }

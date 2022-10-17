@@ -1,14 +1,14 @@
 
 .root{
- transition: all .3s;
-  margin-top: 10px;
-  display: flex;
+ transition: all .3s!important;
+  margin-top: 10px;!important;
+  display: flex!important;
   &:hover{
-    cursor: pointer;
-    opacity: .5;
+    cursor: pointer!important;
+    opacity: .5!important;
   }
 }
 .text{
-  margin-right: 10px;
+  margin-right: 10px!important;
   text-transform: initial!important;
 }

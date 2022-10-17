@@ -1,16 +1,18 @@
-.root{
+.root {
   padding: 10px 0;
 }
 
-.list{
+.list {
   display: flex;
   flex-direction: column;
   max-width: 300px;
   row-gap: 10px;
 }
-.item{
+
+.item {
   margin-top: 10px;
 }
-.itemInfo{
-color: var(--text-opacity-white)
+
+.itemInfo {
+  color: var(--text-opacity-white) !important;
 }

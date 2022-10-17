@@ -1,6 +1,6 @@
 .item{
-  transition: all .3s;
+  transition: all .3s!important;
   &:hover{
-    cursor: pointer;
+    cursor: pointer!important;
   }
 }

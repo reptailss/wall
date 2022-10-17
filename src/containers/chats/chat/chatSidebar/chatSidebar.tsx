@@ -8,8 +8,7 @@ import Link from "next/link";
 import LinkMU from '@mui/material/Link'
 
 import BackBtn from "../../../../components/backBtn/BackBtn";
-import Logo from "../../../../components/header/Header";
-import {Col} from "react-bootstrap";
+
 
 interface IChatSidebarProps {
     userId: string,
@@ -57,8 +56,6 @@ return (
         />
         <div className={styles.info}>
 
-
-
             <Link href={`/users/${userId}`}>
                 <LinkMU underline="none"
                         component="div"
@@ -72,8 +69,7 @@ return (
             <Link href={'/'}>
                 <LinkMU underline="none"
                         component="div"
-                        color="secondary"
-                        className={styles.logo}>
+                        color="secondary">
                     <Typography
                         className={styles.name}
                         color={'text.primary'}

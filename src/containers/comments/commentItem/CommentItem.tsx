@@ -32,8 +32,7 @@ const CommentItem:FC<ICommentItemProps> = ({authorNameComment,id,text,timestamp,
                 </Link>
                 <Typography
                     variant="caption"
-                    color="text.other"
-                    className={styles.text}>
+                    color="text.other">
                     {text}
                 </Typography>
             </div>

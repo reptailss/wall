@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {ICommentItem} from "../../../types/comments";
 
 import styles from './styles.module.scss'
-import FullComments from "../fullComments/FullComments";
 import CommentItem from "../commentItem/CommentItem";
 
 interface ICommentListProps {
@@ -24,7 +23,6 @@ const CommentList:FC<ICommentListProps> = ({comments}) => {
     return (
         <div className={styles.root}>
             {comments && list}
-
         </div>
     );
 };

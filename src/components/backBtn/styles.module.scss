@@ -3,12 +3,12 @@
 }
 
 .back{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all .3s;
+  display: flex!important;
+  justify-content: center!important;
+  align-items: center!important;
+  transition: all .3s!important;
   &:hover{
-    cursor: pointer;
-    opacity: .5;
+    cursor: pointer!important;
+    opacity: .5!important;
   }
 }

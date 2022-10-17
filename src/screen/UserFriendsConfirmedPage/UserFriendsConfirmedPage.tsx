@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import FriendsConfirmed from "../../containers/friends/friendsConfirmed/FriendsConfirmed";
 import {useRouter} from "next/router";
 import {Paper} from "@mui/material";
@@ -12,7 +12,7 @@ const UserFriendsConfirmedPage = () => {
 
 
     const router = useRouter();
-    const { id }: any = router.query;
+    const {id}: any = router.query;
 
 
     return (
@@ -24,15 +24,15 @@ const UserFriendsConfirmedPage = () => {
                             component="div"
                             color="secondary"
                     >
-                        <KeyboardBackspaceIcon
-
-                        />
-                  <span>      повернутись до  {id}</span>
+                        <KeyboardBackspaceIcon/>
+                        <span>
+                            повернутись до {id}
+                        </span>
                     </LinkMU>
                 </Link>
             </Paper>
-          <FriendsConfirmed
-              userId={id}/>
+            <FriendsConfirmed
+                userId={id}/>
         </div>
     );
 };

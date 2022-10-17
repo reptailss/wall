@@ -1,10 +1,9 @@
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from "./styles.module.scss";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {useFriends} from "../../../hooks/useFriends/useFriends";
 import {useAppSelector} from "../../../hooks/redux";
-import {Button, Typography} from "@mui/material";
-import React from "react";
+import {Typography} from "@mui/material";
 
 
 interface IAddFriendBtnProps {
@@ -13,48 +12,43 @@ interface IAddFriendBtnProps {
 
 const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
-        const {id} = useAppSelector(state => state.user);
+    const {id} = useAppSelector(state => state.user);
 
 
+    const {
 
-        const {
+        deleteFriend,
+        confirmFriend,
+        checkFriendStatus,
+        addFriend,
+        deleteMyRequest,
 
-            deleteFriend,
-            confirmFriend,
-            checkFriendStatus,
-            addFriend,
-            deleteMyRequest,
+        statusFriend,
 
-            statusFriend,
+        loadingCheckFriendStatus,
+        loadingDeleteFriendsRequest,
+        loadingConfirmFriend,
+        loadingAddFriend,
 
-            loadingCheckFriendStatus,
-            loadingDeleteFriendsRequest,
-            loadingConfirmFriend,
-            loadingAddFriend,
-
-
-
-
-        } = useFriends();
+    } = useFriends();
 
 
+    const onAddFriends = async () => {
 
-        const onAddFriends = async () => {
+        await addFriend({
+            userId,
+            currentUserId: id
+        });
 
-            await addFriend({
-                userId,
-                currentUserId: id
-            });
+        await checkFriend();
+    };
 
-            await checkFriend();
-        };
-
-        const onDeleteFriends = async () => {
-            await deleteFriend({
-                userId,
-                currentUserId: id
-            })
-        };
+    const onDeleteFriends = async () => {
+        await deleteFriend({
+            userId,
+            currentUserId: id
+        })
+    };
 
 
     const onDeleteMyRequest = async () => {
@@ -67,79 +61,72 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
     };
 
 
-        const onConfirmFriend = async () => {
-            await confirmFriend({
-                userId,
-                currentUserId: id
-            })
-        };
+    const onConfirmFriend = async () => {
+        await confirmFriend({
+            userId,
+            currentUserId: id
+        })
+    };
 
 
+    const checkFriend = async () => {
+        await checkFriendStatus({
+            userId,
+            currentUserId: id
+        })
+    };
 
-        const checkFriend = async () => {
-           await  checkFriendStatus({
-               userId,
-               currentUserId: id
-           })
-        };
-
-        useEffect(() => {
-            if (id) {
-                checkFriend();
-            }
-
-
-        }, [id]);
-
-    const loading = loadingDeleteFriendsRequest
-    || loadingConfirmFriend
-    || loadingAddFriend
-    || loadingCheckFriendStatus;
-
-        const text = statusFriend === 'otherRequest' ? 'прийняти заявку'
-            : statusFriend === 'myRequest' ? 'відмінити заявку'
-                : statusFriend === 'confirm' ? 'видалити друга'
-                    : 'добавити в друзі';
-
-        const onClickBtn = async () => {
-            if(statusFriend === 'initial'){
-              await  onAddFriends();
-            }
-            if(statusFriend === 'otherRequest'){
-                await  onConfirmFriend();
-            }
-            if(statusFriend === 'myRequest'){
-                await  onDeleteMyRequest();
-            }
-            if(statusFriend === 'confirm'){
-                await  onDeleteFriends();
-            }
-            await checkFriend();
+    useEffect(() => {
+        if (id) {
+            checkFriend();
         }
 
-        return(
-            <div className={styles.root}>
-                <LoadingButton
-                        loading={loading}
-                    onClick={onClickBtn}
-                    disabled={loading}
-                    component={'div'}
-                    className={styles.redAvatarBtn}
-                    variant="outlined" color="secondary">
 
-                    <Typography
-                        className={styles.text}
-                        variant={'caption'}
-                    >
-                        {text}
-                    </Typography>
-                </LoadingButton>
+    }, [id]);
 
+    const loading = loadingDeleteFriendsRequest
+        || loadingConfirmFriend
+        || loadingAddFriend
+        || loadingCheckFriendStatus;
 
-            </div>
-        )
+    const text = statusFriend === 'otherRequest' ? 'прийняти заявку'
+        : statusFriend === 'myRequest' ? 'відмінити заявку'
+            : statusFriend === 'confirm' ? 'видалити друга'
+                : 'добавити в друзі';
 
+    const onClickBtn = async () => {
+        if (statusFriend === 'initial') {
+            await onAddFriends();
+        }
+        if (statusFriend === 'otherRequest') {
+            await onConfirmFriend();
+        }
+        if (statusFriend === 'myRequest') {
+            await onDeleteMyRequest();
+        }
+        if (statusFriend === 'confirm') {
+            await onDeleteFriends();
+        }
+        await checkFriend();
+    };
 
+    return (
+        <div className={styles.root}>
+            <LoadingButton
+                loading={loading}
+                onClick={onClickBtn}
+                disabled={loading}
+                component={'div'}
+                className={styles.redAvatarBtn}
+                variant="outlined" color="secondary">
+                <Typography
+                    variant={'caption'}
+                >
+                    {text}
+                </Typography>
+            </LoadingButton>
+        </div>
+    )
 
 
 };

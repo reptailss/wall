@@ -25,8 +25,7 @@ const SpinnerBlock = () => {
         </AnimatePresence>
 
 
-    )
-        ;
+    );
 };
 
 export default SpinnerBlock;

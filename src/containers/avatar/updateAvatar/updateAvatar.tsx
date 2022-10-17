@@ -179,7 +179,7 @@ const UpdateAvatar = () => {
                     {!(per !== null && per < 100) ? content : <SpinnerBlock/>}
                 </div>
                 <div>
-                    <div className={styles.test}>
+                    <div>
                         <AvatarEditors
                             file={file}
                             onSaveAvatar={onChangeAvatar}/>

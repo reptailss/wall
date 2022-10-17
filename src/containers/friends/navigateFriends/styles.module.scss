@@ -1,16 +1,17 @@
 
-.btn{
-  margin-top: 10px;
-  text-transform: initial!important;
+.btn {
+  margin-top: 10px !important;
+  text-transform: initial !important;
 }
-.root{
-  display: flex;
-  align-items: center;
-  column-gap: 5px;
-  padding: 10px 10px;
-  margin-top: 10px;
+
+.root {
+  display: flex !important;
+  align-items: center !important;
+  column-gap: 5px !important;
+  padding: 10px 10px !important;
+  margin-top: 10px !important;
   @media (max-width: 500px) {
-flex-wrap: wrap;
-    column-gap: 5px;
+    flex-wrap: wrap !important;
+    column-gap: 5px !important;
   }
 }

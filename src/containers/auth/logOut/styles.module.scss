@@ -1,6 +1,6 @@
 .root{
-  display: flex;
-  text-transform: initial;
+  display: flex!important;
+  text-transform: initial!important;
   & span{
     margin-left: 5px;
   }

@@ -1,5 +1,4 @@
-import Avatar from '@mui/material/Avatar';
-import avatarsrc from '../../../resources/svg/avatar/avatar.svg'
+
 import styles from './styles.module.scss'
 
 import {useAuth} from "../../../hooks/useAuth/useAuth";

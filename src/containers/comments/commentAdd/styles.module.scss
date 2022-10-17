@@ -1,15 +1,16 @@
 
 .input {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, .2);
-  //border-radius: 5px;
-  font-size: 14px!important;
-  & label{
-    color: inherit;
-    height: 100%;
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, .2) !important;
+  font-size: 14px !important;
+
+  & label {
+    color: inherit !important;
+    height: 100% !important;
   }
 }
-.innerinput{
+
+.innerinput {
   position: relative;
   width: 100%;
   display: block;
@@ -17,30 +18,30 @@
 }
 
 
-.button{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 5px 10px!important;;
-  text-align: center!important;
-  font-size: 15px;
-  width: auto!important;
-  background-color: transparent!important;
-  outline: none;
-  transition: all .3s;
-  min-width: auto;
-  border: none!important;
-  box-shadow: none;
-  &:hover:not([disabled]){
- opacity: .5;
+.button {
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  padding: 5px 10px !important;;
+  text-align: center !important;
+  font-size: 15px !important;
+  width: auto !important;
+  background-color: transparent !important;
+  outline: none !important;
+  transition: all .3s !important;
+  min-width: auto !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  &:hover:not([disabled]) {
+    opacity: .5 !important;
   }
 
 
 }
 
-.root{
+.root {
   position: relative;
-
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -22,7 +22,6 @@ const UserInfoProfile:FC<IUserInfoProfileProps> = ({name,status}) => {
             </Typography>
             <Typography
                 color="text.secondary"
-                className={styles.status}
                 variant="body1">
                 {status ? status : <SkeletonText/>}
             </Typography>

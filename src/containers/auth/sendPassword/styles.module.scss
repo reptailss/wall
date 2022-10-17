@@ -1,8 +1,8 @@
 
 .input {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, .2);
-  border-radius: 5px;
+  color: #ffffff!important;
+  background-color: rgba(255, 255, 255, .2)!important;
+  border-radius: 5px!important;
 
   @media (max-width: 500px) {
     .searchMedia & input{
@@ -15,8 +15,8 @@
     }
   }
   & div{
-    color: inherit;
-    gap: 0;
+    color: inherit!important;
+    gap: 0!important;
     @media (max-width: 500px) {
       .searchMedia &{
         display: none!important;
@@ -41,13 +41,13 @@
 .button{
   padding: 5px 40px!important;;
   text-align: center!important;
-  font-size: 15px;
+  font-size: 15px!important;
   width: auto!important;
   background-color: rgba(255, 255, 255, 0.2)!important;
-  transition: all .3s;
+  transition: all .3s!important;
   &:hover{
-    transform: scale(1.1);
-    opacity: .5;
+    transform: scale(1.1)!important;
+    opacity: .5!important;
   }
 
 

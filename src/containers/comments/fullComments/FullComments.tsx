@@ -186,7 +186,6 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
                 спочатку
                 </Typography>;
                 <ButtonGroup
-                    className={styles.btns}
                     disableElevation
                     aria-label="Disabled elevation buttons"
                 >

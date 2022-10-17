@@ -18,7 +18,7 @@
 }
 
 .messages{
-  margin-top: 10px;
+  margin-top: 10px!important;
   font-weight: 200!important;
 }
 
@@ -32,13 +32,13 @@
 }
 
 .unread{
-  display: inline-flex;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  background-color: #434343;
+  display: inline-flex!important;
+  width: 25px!important;
+  height: 25px!important;
+  border-radius: 50%!important;
+  align-items: center!important;
+  justify-content: center!important;
+  background-color: #434343!important;
 }
 .wrap{
   display: flex;

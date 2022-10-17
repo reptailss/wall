@@ -63,7 +63,7 @@ const FriendItemConfirmed: FC<IFriendItemRequestProps> = ({id,myPage}) => {
         });
 
     };
-    const {name, currentAvatar} = profileFriend;
+    const {currentAvatar} = profileFriend;
 
     return (
         <Paper className={styles.root}>

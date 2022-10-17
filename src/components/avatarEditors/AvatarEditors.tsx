@@ -1,7 +1,6 @@
-import {Box, Button, Slider, Typography} from "@mui/material";
+import { Button, Slider, Typography} from "@mui/material";
 import React, {FC, useEffect, useState} from "react";
 import AvatarEditor from "react-avatar-editor";
-import useMediaQuery from '@mui/material/useMediaQuery';
 import useMedia from "../../hooks/useMedia/useMedia";
 import styles from './styles.module.scss'
 import {Col,Row} from "react-bootstrap";
@@ -33,7 +32,6 @@ const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
 
     const[save,setSave] = useState<boolean>(false);
 
-    const matches = useMediaQuery('(min-width:600px)');
 
     const {
         isMobile,
@@ -86,14 +84,6 @@ const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
         });
     };
 
-    const handleFileChange = (e: any) => {
-        let url = URL.createObjectURL(e.target.files[0]);
-        setPicture({
-            ...picture,
-            img: url,
-            cropperOpen: true
-        });
-    };
 
     useEffect(() => {
         if (file) {
@@ -150,8 +140,7 @@ const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
                     <div className={styles.params}>
                         <div className={styles.item}>
                             <Typography
-                                component={'caption'}
-                                className={styles.info}>
+                                component={'caption'}>
                                 Zoom
                             </Typography>
                             <Slider
@@ -165,8 +154,7 @@ const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
                         </div>
                         <div className={styles.item}>
                             <Typography
-                                component={'caption'}
-                                className={styles.info}>
+                                component={'caption'}>
                                 Поворот
                             </Typography>
                             <Slider
@@ -180,8 +168,7 @@ const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
                         </div>
                         <div className={styles.item}>
                             <Typography
-                                component={'caption'}
-                                className={styles.info}>
+                                component={'caption'}>
                                округленість
                             </Typography>
                             <Slider

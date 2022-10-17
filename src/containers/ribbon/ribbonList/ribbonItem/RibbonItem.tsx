@@ -15,7 +15,6 @@ import RibbonPhotoCarousel from "./ribbonPhotoCarousel/RibbonPhotoCarousel";
 
 const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonContent}) => {
 
-    const [index, setIndex] = useState(0);
 
     const [avatar, setAvatar] = useState<string>('');
 
@@ -96,23 +95,18 @@ const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonConte
                 </Typography>
             </CardContent>}
 
+            <Likes
+                idUser={userId}
+                pathItemId={idPostContentItem}
+                pathRoot={idPostContentRoot}
+                authorNameLike={userId}
+            />
 
-            <div className={styles.likes}>
-                <Likes
-                    idUser={userId}
-                    pathItemId={idPostContentItem}
-                    pathRoot={idPostContentRoot}
-                    authorNameLike={userId}
-                />
-            </div>
-
-            <div className={styles.comments}>
-                <Comments
-                    idUser={userId}
-                    pathItemId={idPostContentItem}
-                    pathRoot={idPostContentRoot}
-                />
-            </div>
+            <Comments
+                idUser={userId}
+                pathItemId={idPostContentItem}
+                pathRoot={idPostContentRoot}
+            />
 
         </Paper>
     );

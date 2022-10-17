@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import LinkMU from '@mui/material/Link'
 
 
-
 import {convertSecondstoDate, OptionsDateTime} from '../../../helpers/date';
 
 import styles from './styles.module.scss'
@@ -27,8 +26,7 @@ import {useUsers} from "../../../hooks/useUser/UseUser";
 import {IUserProfile} from "../../../types/profile";
 
 
-
-const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall,type,idAvatar}) => {
+const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall, type, idAvatar}) => {
 
 
     const {id: idUser} = useAppSelector(state => state.user);
@@ -37,29 +35,31 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
     const UAdate = new Intl.DateTimeFormat('uk', OptionsDateTime).format(date);
     const {pathname} = useRouter();
 
-    const {getUserProfileOther,loadingGetUserProfileOther} = useUsers();
+    const {getUserProfileOther, loadingGetUserProfileOther} = useUsers();
 
-    const [profileUserOther,setrofileUserOther] = useState<IUserProfile>({name: '',
+    const [profileUserOther, setrofileUserOther] = useState<IUserProfile>({
+        name: '',
         dateBirth: 0,
         city: '',
         jop: '',
         maritalStatus: '',
-        timestamp:{seconds:0,nanoseconds:0},
-        currentAvatar: ''});
+        timestamp: {seconds: 0, nanoseconds: 0},
+        currentAvatar: ''
+    });
 
 
-    const onGetUser = async () =>{
+    const onGetUser = async () => {
         const res = await getUserProfileOther(authorId);
         //@ts-ignore
         setrofileUserOther(res);
     };
 
-    useEffect(  () => {
-        if(authorId){
+    useEffect(() => {
+        if (authorId) {
             onGetUser();
         }
 
-    },[authorId]);
+    }, [authorId]);
 
     const imgList = pathImg?.map((item, i, array) => {
         const arrlength = array.length;
@@ -87,7 +87,6 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         idPost={id}/> : null;
 
 
-
     const title = <div className={styles.title}>
         <Link
             href={`/users/${authorId}`}>
@@ -111,8 +110,8 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         </Typography>}
     </div>;
 
-    const idPostContentItem =  type  === 'updateAvatar' && idAvatar ? idAvatar : id;
-    const idPostContentRoot =  type  === 'updateAvatar' && idAvatar ? 'avatars' : 'posts';
+    const idPostContentItem = type === 'updateAvatar' && idAvatar ? idAvatar : id;
+    const idPostContentRoot = type === 'updateAvatar' && idAvatar ? 'avatars' : 'posts';
 
 
     return (
@@ -128,8 +127,9 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
                 }
                 title={title}
                 subheader={<Typography
-                    variant="body2"
-                    className={styles.date}>{UAdate}</Typography>}
+                    variant="body2">
+                    {UAdate}
+                </Typography>}
             />
 
             <CardContent>
@@ -140,22 +140,17 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
             <Row className={styles.rowImg}>
                 {imgList}
             </Row>
-            <div className={styles.likes}>
-                <Likes
-                    idUser={idUserWhoseWall}
-                    pathItemId={idPostContentItem}
-                    pathRoot={idPostContentRoot}
-                    authorNameLike={authorName}
-                />
-            </div>
-
-            <div className={styles.comments}>
-                <Comments
-                    idUser={idUserWhoseWall}
-                    pathItemId={idPostContentItem}
-                    pathRoot={idPostContentRoot}
-                />
-            </div>
+            <Likes
+                idUser={idUserWhoseWall}
+                pathItemId={idPostContentItem}
+                pathRoot={idPostContentRoot}
+                authorNameLike={authorName}
+            />
+            <Comments
+                idUser={idUserWhoseWall}
+                pathItemId={idPostContentItem}
+                pathRoot={idPostContentRoot}
+            />
         </Card>
     );
 };

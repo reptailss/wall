@@ -93,8 +93,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
                         <Header/>
                         <Toolbar/>
                     </Col>
-                    <Container
-                        className={styles.container}>
+                    <Container>
                         <Row>
                             <Col sx={12} xl={2}>
                                 {isAuth && isDesktop && <Navigate/>}

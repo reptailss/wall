@@ -40,7 +40,8 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
             className={styles.root}>
             <Row >
                 <Col xs={6} className={styles.item}>
-                    <Typography className={styles.itemInfo}
+                    <Typography
+                        className={styles.itemInfo}
                                 variant="body1"
                     >
                         {loadingProfile ? <SkeletonText/> : 'Дата народження'}
@@ -48,8 +49,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 </Col>
                 <Col xs={6} className={styles.item}>
                     <Typography
-                        variant="body1"
-                        className={styles.itemContent}>
+                        variant="body1">
                         {loadingProfile  ? <SkeletonText/> : uadate}
                     </Typography>
                 </Col>
@@ -64,8 +64,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 </Col>
                 <Col xs={6} className={styles.item}>
                     <Typography
-                        variant="body1"
-                        className={styles.itemContent}>
+                        variant="body1">
                         {loadingProfile || !city ? <SkeletonText/> : city}
                     </Typography>
                 </Col>
@@ -80,8 +79,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 </Col>
                 <Col xs={6} className={styles.item}>
                     <Typography
-                        variant="body1"
-                        className={styles.itemContent}>
+                        variant="body1">
                         {loadingProfile ? <SkeletonText/> : jop}
                     </Typography>
                 </Col>
@@ -97,8 +95,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
 
                 <Col xs={6} className={styles.item}>
                     <Typography
-                        variant="body1"
-                        className={styles.itemContent}>
+                        variant="body1">
                         {loadingProfile ? <SkeletonText/> : maritalStatus}
                     </Typography>
                 </Col>

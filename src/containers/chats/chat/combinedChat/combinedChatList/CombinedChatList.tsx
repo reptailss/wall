@@ -194,9 +194,7 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
             </LoadingButton> : null }
 
             <div className={styles.list}>
-
                 {list}
-
                 <div ref={messagesEndRef}/>
             </div>
 

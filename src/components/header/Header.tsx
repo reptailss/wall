@@ -65,10 +65,8 @@ const Header = () => {
     return (
         <>
           <HideOnScroll>
-
               {!visibleHeader ? <AppBar >
                   <Toolbar>
-
                       <Container>
                           <Row className={styles.row}>
                               <Col className={styles.innerLogo} sx={3}>
@@ -86,18 +84,14 @@ const Header = () => {
                                       </LinkMU>
                                   </Link>
 
-
                               </Col>
                               <Col className={styles.menu} sx={9}>
                                   {!isAuth && <SignInButton/>}
-
 
                                   <UserSideBar/>
                               </Col>
                           </Row>
                       </Container>
-
-
                   </Toolbar>
               </AppBar> : <div>
 

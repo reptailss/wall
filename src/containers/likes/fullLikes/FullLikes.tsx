@@ -17,7 +17,6 @@ interface ILikeListProps {
 
 const FullLikes:FC<ILikeListProps> = ({likes}) => {
 
-
     const list = likes?.map((item,i,array)=>{
 
         return(
@@ -28,7 +27,6 @@ const FullLikes:FC<ILikeListProps> = ({likes}) => {
                 />
         )
     }) ;
-
 
     return (
         <>
