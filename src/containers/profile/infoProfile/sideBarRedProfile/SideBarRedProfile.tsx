@@ -115,7 +115,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                         <Typography
                             variant="body1">
                             {dateBirth && <DateInput
-                                dateProp={'1999-01-01'}
+                                dateProp="1999-01-01"
                                 onChangeDateValue={setDate}/>}
                         </Typography>
                     </Col>
