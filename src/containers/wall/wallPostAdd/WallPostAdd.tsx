@@ -24,6 +24,7 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
 
 
     const [dataImg, setDataImg] = useState<string[]>([]);
+    const [resetImg, setResetImg] = useState<boolean>(false);
 
     const onChangeDownload = (img: string[]) => {
         setDataImg(img)
@@ -70,9 +71,14 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
         },
         validationSchema: validationSchemaAddPostWall,
         onSubmit: async (values) => {
+
             onAddPost(values.text);
             formik.resetForm({});
             setDataImg([]);
+            setResetImg(true);
+            setTimeout(()=>{
+                setResetImg(false)
+            },1000)
         },
     });
 
@@ -115,6 +121,7 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
             className={styles.root}>
             {content}
             <AddImagePost
+                resetImg={resetImg}
                 onChangeDownload={onChangeDownload}
                 path={`users/${id}/wall`}/>
         </Paper>

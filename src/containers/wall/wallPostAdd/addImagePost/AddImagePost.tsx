@@ -16,10 +16,11 @@ import styles from './styles.module.scss'
 interface IAddImagePostProps {
     path: string,
     onChangeDownload: (img: string[]) => void,
+    resetImg: boolean,
 }
 
 
-const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
+const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload,resetImg}) => {
     const [file, setFile] = useState<any>();
     const [dataImg, setDataImg] = useState<string[]>([]);
     const [per, setPerc] = useState<null | number>(null);
@@ -28,6 +29,12 @@ const AddImagePost: FC<IAddImagePostProps> = ({path, onChangeDownload}) => {
     useEffect(() => {
         onChangeDownload(dataImg);
     }, [dataImg]);
+
+    useEffect(()=>{
+        if(resetImg){
+            setDataImg([]);
+        }
+    },[resetImg]);
 
     useEffect(() => {
         const uploadFile = () => {

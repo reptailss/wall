@@ -41,8 +41,10 @@ const Chat = () => {
     return (
 
         <div className={styles.root}>
-            {chatData && <ChatSidebar
-                userId={chatData.interlocutorId}/>}
+            {chatData && <div className={styles.sidebar}>
+                <ChatSidebar
+                userId={chatData.interlocutorId}/>
+            </div>}
 
             <div className={styles.chatlist}>
                 <CombinedChatList
