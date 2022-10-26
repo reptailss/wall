@@ -16,7 +16,6 @@ import AddFriendBtn from "../../containers/friends/addFriendBtn/AddFriendBtn";
 import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
 import AddMessageBtn from "../../containers/chats/addMessageBtn/AddMessageBtn";
 
-;
 
 
 const UserPage = () => {
@@ -83,6 +82,6 @@ const UserPage = () => {
     )
 
 
-}
+};
 
 export default UserPage

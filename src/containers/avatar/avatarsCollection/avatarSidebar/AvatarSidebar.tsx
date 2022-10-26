@@ -50,7 +50,7 @@ const onDeleteAvatarsCollection = async () =>{
                 className={styles.btn}
                 size="small"
             >
-                <span> встановити на аватарку</span>
+            встановити на аватарку
             </Button>
             <Button
                 disabled={loadingDeleteAvatarCollection}
@@ -59,7 +59,7 @@ const onDeleteAvatarsCollection = async () =>{
                 className={styles.btn}
                 size="small"
             >
-                <span>видалити</span>
+                видалити
             </Button>
         </Paper>
     );

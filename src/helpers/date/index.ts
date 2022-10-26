@@ -16,9 +16,16 @@ export     const OptionsDateTimeComment:Intl.DateTimeFormatOptions = {
 };
 
 
-export     const OptionsDate:Intl.DateTimeFormatOptions = {
+export  const OptionsDate:Intl.DateTimeFormatOptions = {
    day:'numeric',
    month: 'short',
+   year: 'numeric',
+};
+
+
+export  const OptionsDateNumber:Intl.DateTimeFormatOptions = {
+   day:'numeric',
+   month: 'numeric',
    year: 'numeric',
 };
 

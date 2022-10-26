@@ -7,6 +7,7 @@ import {IFriendItem} from "../../../../types/friends";
 import SkeletonText from "../../../../components/skeletons/SkeletonText";
 import Link from "next/link";
 import LinkMU from '@mui/material/Link'
+import {useRouter} from "next/router";
 
 
 interface IFriendItemRequestProps extends IFriendItem {
@@ -47,9 +48,13 @@ const FriendSidebarItem: FC<IFriendItemRequestProps> = ({id, myPage}) => {
     };
 
 
+    const {pathname} = useRouter();
+
+    const linkFriend = pathname.includes('/users') ? `../users/${id}` :`users/${id}`;
+
 
     return (
-                <Link href={`users/${id}`}>
+                <Link href={linkFriend}>
                     <LinkMU underline="none"
                             component="div"
                             className={styles.link}

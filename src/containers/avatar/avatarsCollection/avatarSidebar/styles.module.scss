@@ -1,16 +1,17 @@
 .root {
-  padding: 15px 20px;
-  width: 100%;
+  padding: 15px 20px!important;
+  width: 100%!important;
   @media (max-width: 1200px) {
-    display: flex;
-    column-gap: 20px;
+    display: flex!important;
+    column-gap: 20px!important;
 
   }
   @media (max-width: 1200px) {
-    flex-direction: column;
+    flex-direction: column!important;
   }
 }
 
 .btn {
-  margin-top: 10px;
+  margin-top: 10px!important;
+  text-transform: initial!important;
 }

@@ -25,3 +25,17 @@ export interface IUpdateUserProfileProps {
     },
     snack?: boolean
 }
+
+
+export interface IUpUserProfileProps {
+    id: string,
+    body: {
+        dateBirth: number,
+        city: string,
+        jop: string,
+        maritalStatus: string,
+        name: string,
+
+    },
+    snack?: boolean
+}

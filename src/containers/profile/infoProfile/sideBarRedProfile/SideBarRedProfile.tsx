@@ -1,25 +1,67 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import styles from './styles.module.scss'
-import {convertSecondstoDate, OptionsDate} from "../../../../helpers/date";
 import {ITimestamp} from "../../../../types/timestamp";
-import { motion} from "framer-motion";
+import {motion} from "framer-motion";
+import {useFormik} from "formik";
+import {useUsers} from "../../../../hooks/useUser/UseUser";
+import {useAppSelector} from "../../../../hooks/redux";
+import {Col, Row} from "react-bootstrap";
+import {Button, TextField, Typography} from "@mui/material";
+
+import DateInput from "../../../../components/dateInput/DateInput";
+import {convertSecondstoDate, OptionsDateNumber} from "../../../../helpers/date";
+import {validationSchemaUpdateProfile} from "../../../../constans/validate/profile";
+
 
 interface ISideBarInfoProfileProps {
     dateBirth: number | null,
     city: string,
     jop: string,
     maritalStatus: string,
-    timestamp? :ITimestamp,
+    timestamp?: ITimestamp,
+    name: string,
+    onUpdateProfile: () => void
 }
 
 
-const SideBarRedProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,maritalStatus,timestamp}) => {
+const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, maritalStatus, name, onUpdateProfile}) => {
 
-    const date = dateBirth ?  convertSecondstoDate(dateBirth) : 0;
-    const uadate = new Intl.DateTimeFormat('uk',OptionsDate).format(date);
+    const {id} = useAppSelector(state => state.user);
 
-    const dateRegister = timestamp?.seconds ?  convertSecondstoDate(timestamp.seconds) : 0;
-    const uadateRegister = new Intl.DateTimeFormat('uk',OptionsDate).format(dateRegister);
+
+    const [dateB, setDate] = useState<number>(234234234);
+
+    const {updateUserProfile, loadingUpdateUserProfile, getUserProfile} = useUsers();
+
+
+    const formik = useFormik({
+        initialValues: {
+            city: city,
+            jop: jop,
+            maritalStatus: maritalStatus,
+            name: name
+        },
+        validationSchema: validationSchemaUpdateProfile,
+        onSubmit: async (values) => {
+            const {city, jop, maritalStatus, name} = values;
+            await updateUserProfile({
+                id: id,
+                body: {
+                    dateBirth: dateB,
+                    city,
+                    jop,
+                    maritalStatus,
+                    name: name,
+                },
+                snack:true
+            });
+
+            await getUserProfile(id);
+            onUpdateProfile();
+
+        },
+    });
+
     return (
         <motion.div
             key={'redprofile'}
@@ -31,53 +73,146 @@ const SideBarRedProfile:FC<ISideBarInfoProfileProps> = ({dateBirth,city,jop,mari
                 opacity: {duration: 1.2},
             }}
             className={styles.root}>
-            <div className={styles.list}>
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                       Дата народження red red
-                    </div>
-                    <div className={styles.itemContent}>
-                        {dateBirth ? uadate : null}
-                    </div>
-                </div>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Місце народження
-                    </div>
-                    <div className={styles.itemContent}>
-                        {city}
-                    </div>
-                </div>
+            <form
+                onSubmit={formik.handleSubmit}
+            >
+                <Row>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Робота
-                    </div>
-                    <div className={styles.itemContent}>
-                        {jop}
-                    </div>
-                </div>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Сімейний статус
-                    </div>
-                    <div className={styles.itemContent}>
-                        {maritalStatus}
-                    </div>
-                </div>
+                    <Col xs={6} className={styles.item}>
+                        <Typography className={styles.itemInfo}
+                                    variant="body1"
+                        >
+                            ваше ім'я
+                        </Typography>
+                    </Col>
+                    <Col xs={6} className={styles.item}>
+                        <Typography
+                            variant="body1">
+                            <TextField
+                                className={styles.input}
+                                fullWidth
+                                id="name"
+                                name="name"
+                                label="ім'я"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                helperText={formik.touched.name && formik.errors.name}
+                            />
+                        </Typography>
+                    </Col>
 
-                <div className={styles.item}>
-                    <div className={styles.itemInfo}>
-                        Дата реєстрації
-                    </div>
-                    <div className={styles.itemContent}>
-                        {timestamp ? uadateRegister : null}
-                    </div>
-                </div>
 
-            </div>
+                    <Col xs={6} className={styles.item}>
+                        <Typography className={styles.itemInfo}
+                                    variant="body1"
+                        >
+                            Дата народження
+                        </Typography>
+                    </Col>
+                    <Col xs={6} className={styles.item}>
+                        <Typography
+                            variant="body1">
+                            {dateBirth && <DateInput
+                                dateProp={'1999-01-01'}
+                                onChangeDateValue={setDate}/>}
+                        </Typography>
+                    </Col>
+
+
+                    <Col xs={6} className={styles.item}>
+                        <Typography className={styles.itemInfo}
+                                    variant="body1"
+                        >
+                            Місце народження
+                        </Typography>
+                    </Col>
+                    <Col xs={6} className={styles.item}>
+                        <Typography
+                            variant="body1">
+                            <TextField
+                                className={styles.input}
+                                fullWidth
+                                id="city"
+                                name="city"
+                                label="місто або селище"
+                                value={formik.values.city}
+                                onChange={formik.handleChange}
+                                error={formik.touched.city && Boolean(formik.errors.city)}
+                                helperText={formik.touched.city && formik.errors.city}
+                            />
+                        </Typography>
+                    </Col>
+
+
+                    <Col xs={6} className={styles.item}>
+                        <Typography className={styles.itemInfo}
+                                    variant="body1"
+                        >
+                            Робота
+                        </Typography>
+                    </Col>
+                    <Col xs={6} className={styles.item}>
+                        <Typography
+                            variant="body1">
+                            <TextField
+                                className={styles.input}
+                                fullWidth
+                                id="jop"
+                                name="jop"
+                                label="робота"
+                                value={formik.values.jop}
+                                onChange={formik.handleChange}
+                                error={formik.touched.jop && Boolean(formik.errors.jop)}
+                                helperText={formik.touched.jop && formik.errors.jop}
+                            />
+                        </Typography>
+                    </Col>
+
+
+                    <Col xs={6} className={styles.item}>
+                        <Typography className={styles.itemInfo}
+                                    variant="body1"
+                        >
+                            Сімейний статус
+                        </Typography>
+                    </Col>
+
+                    <Col xs={6} className={styles.item}>
+                        <Typography
+                            variant="body1">
+                            <TextField
+                                className={styles.input}
+                                fullWidth
+                                id="maritalStatus"
+                                name="maritalStatus"
+                                label="статус"
+                                value={formik.values.maritalStatus}
+                                onChange={formik.handleChange}
+                                error={formik.touched.maritalStatus && Boolean(formik.errors.maritalStatus)}
+                                helperText={formik.touched.maritalStatus && formik.errors.maritalStatus}
+                            />
+                        </Typography>
+                    </Col>
+
+                    <Col xs={12} className={styles.item}>
+                        <Button
+                            disabled={loadingUpdateUserProfile}
+                            className={styles.button}
+                            color="primary"
+                            variant="contained"
+                            fullWidth
+                            type="submit">
+                            зберегти
+                        </Button>
+                    </Col>
+
+
+                </Row>
+            </form>
+
         </motion.div>
     );
 };

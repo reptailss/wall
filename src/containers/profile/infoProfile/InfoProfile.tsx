@@ -32,6 +32,8 @@ const InfoProfile: FC<IInfoProfileProps> = ({profile, idUser, loadingProfile}) =
             jop={jop}
             maritalStatus={maritalStatus}
             timestamp={timestamp}
+            name={name}
+            onUpdateProfile={() => setRedProfile(!redProfile)}
         /> :
         <SideBarInfoProfile
             loadingProfile={loadingProfile}

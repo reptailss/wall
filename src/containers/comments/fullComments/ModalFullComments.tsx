@@ -16,7 +16,7 @@ interface ICommentListProps {
 const ModalFullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId, totalComments}) => {
 
     const {isDesktop} = useMedia();
-    const fullScreenModal = isDesktop ? false : true;
+    const fullScreenModal = !isDesktop;
 
     return (
         <>

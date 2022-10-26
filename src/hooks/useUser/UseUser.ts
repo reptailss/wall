@@ -1,6 +1,10 @@
-import {doc, getDoc, serverTimestamp, setDoc} from "firebase/firestore";
+import {doc,
+    getDoc,
+    serverTimestamp,
+    setDoc,
+    updateDoc } from "firebase/firestore";
 import {db} from "../../firebase/firebase";
-import {IUpdateUserProfileProps} from "../../types/profile";
+import {IUpdateUserProfileProps, IUpUserProfileProps} from "../../types/profile";
 import {useState} from "react";
 
 import {useSnackBar} from "../useSneckBar/useSnackBars";
@@ -14,6 +18,10 @@ export function useUsers() {
 
     const [loadingGetUserProfile, setloadingGetUserProfile] = useState<boolean>(true);
     const [loadingGetUserProfileOther, setLoadingGetUserProfileOther] = useState<boolean>(true);
+
+    const [loadingUpdateUserProfile,
+        setLoadingUpdateUserProfile] = useState<boolean>(false);
+
     const dispatch = useAppDispatch();
 
 
@@ -34,6 +42,28 @@ export function useUsers() {
             setloadingGetUserProfile(false);
         } catch (error: any) {
             setloadingGetUserProfile(false);
+            setSnackBar(error.code, 'error');
+            console.log(error)
+            throw  error;
+        }
+    };
+
+    const updateUserProfile = async (props: IUpUserProfileProps) => {
+
+        setLoadingUpdateUserProfile(true);
+        const {id, body, snack} = props;
+        try {
+            await updateDoc (doc(db, 'users', id), {
+                ...body,
+            });
+
+            if (snack) {
+                setSnackBar('Ви успішно Оновили профіль!', 'success');
+            }
+
+            setLoadingUpdateUserProfile(false);
+        } catch (error: any) {
+            setLoadingUpdateUserProfile(false);
             setSnackBar(error.code, 'error');
             console.log(error)
             throw  error;
@@ -86,8 +116,11 @@ export function useUsers() {
     return {
         loadingGetUserProfile,
         loadingGetUserProfileOther,
+        loadingUpdateUserProfile,
+
         setUserProfile,
         getUserProfile,
         getUserProfileOther,
+        updateUserProfile,
     };
 }
