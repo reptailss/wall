@@ -83,7 +83,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                         <Typography className={styles.itemInfo}
                                     variant="body1"
                         >
-                            ваше ім'я
+                            ПІБ
                         </Typography>
                     </Col>
                     <Col xs={6} className={styles.item}>
@@ -94,7 +94,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                                 fullWidth
                                 id="name"
                                 name="name"
-                                label={`імя`}
+                                label="ПІБ"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 error={formik.touched.name && Boolean(formik.errors.name)}
