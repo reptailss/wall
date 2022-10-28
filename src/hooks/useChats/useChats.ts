@@ -24,6 +24,7 @@ import {
     ICreateChatProps,
     ICreateUserChatProps,
     IDeleteUnreadMessagesProps,
+    IDelteMessageCombinedChatProps,
     IGetMessagesCombinedChatProps,
     IGetTotalMessagesCombinedChatProps,
     IGetUnreadMessages,
@@ -58,6 +59,10 @@ export function useChats() {
     const [loadingAddMessageCombinedChat,
         setLoadingAddMessageCombinedChat] = useState<boolean>(false);
 
+    const [loadingDeleteMessageCombinedChat,
+        setLoadingDeleteMessageCombinedChat] = useState<boolean>(false);
+
+
     const [loadingGetMessagesCombinedChat,
         setLoadingGetMessagesCombinedChat] = useState<boolean>(false);
 
@@ -82,8 +87,6 @@ export function useChats() {
 
     const [loadingGetUnreadMessages,
         setLoadingGetUnreadMessages] = useState<boolean>(true);
-
-
 
 
     const createCombinedId = (props: ICreateChatProps) => {
@@ -361,6 +364,91 @@ export function useChats() {
         }
     };
 
+    const deleteMessageCombinedChat = async (props: IDelteMessageCombinedChatProps) => {
+
+        setLoadingDeleteMessageCombinedChat(true);
+
+        const {combinedId, userId, currentUserId, idMessages} = props;
+
+        try {
+            const ref = doc(db,
+                "chats",
+                combinedId, "messages",
+                idMessages);
+
+            await deleteDoc(ref);
+
+            const lastMessages = await getMessages({
+                combinedId, limitComment: 1, orderByComment: 'desc'
+            });
+            if (lastMessages && lastMessages.length) {
+                const message = lastMessages[0];
+                await setLastMessage({
+                    userId: currentUserId,
+                    combinedId,
+                    //@ts-ignore
+                    lastMessage: message.text,
+                    //@ts-ignore
+                    userIdLastMessage: message.userId
+
+                });
+
+                await setLastMessage({
+                    userId: userId,
+                    combinedId,
+                    //@ts-ignore
+                    lastMessage: message.text,
+                    //@ts-ignore
+                    userIdLastMessage: message.userId
+
+                });
+
+                const oldTotalMessages = await getTotalMessagesCombinedChat({combinedId});
+                await setTotalMessagesCombinedChat({
+                    combinedId,
+                    totalMessages: oldTotalMessages - 1
+                });
+
+            } else{
+
+                await setLastMessage({
+                    userId: currentUserId,
+                    combinedId,
+                    //@ts-ignore
+                    lastMessage: '',
+                    //@ts-ignore
+                    userIdLastMessage: ''
+                });
+
+                await setLastMessage({
+                    userId: userId,
+                    combinedId,
+                    //@ts-ignore
+                    lastMessage: '',
+                    //@ts-ignore
+                    userIdLastMessage: ''
+                });
+
+                const oldTotalMessages = await getTotalMessagesCombinedChat({combinedId});
+                await setTotalMessagesCombinedChat({
+                    combinedId,
+                    totalMessages: oldTotalMessages - 1
+                });
+            }
+
+            setLoadingDeleteMessageCombinedChat(false);
+
+            return lastMessages;
+
+
+        } catch (error: any) {
+            setLoadingDeleteMessageCombinedChat(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+    };
+
+
     const addUnreadMessages = async (props: IAddUnreadMessagesProps) => {
         const {userId, userChatId, idMessages, text, currentUserId} = props;
         try {
@@ -372,7 +460,7 @@ export function useChats() {
             await setDoc(ref, {
                 text, userId: currentUserId,
                 unread: true,
-                whoId:userId
+                whoId: userId
             });
 
         } catch (error: any) {
@@ -401,8 +489,6 @@ export function useChats() {
             throw  error;
         }
     };
-
-
 
 
     const getUnreadMessages = async (props: IGetUnreadMessages) => {
@@ -563,5 +649,6 @@ export function useChats() {
         createCombinedId,
         loadMessagesPage,
         getMessages,
+        deleteMessageCombinedChat
     };
 }

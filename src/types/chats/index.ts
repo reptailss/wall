@@ -50,6 +50,13 @@ export interface IAddMessageCombinedChatProps {
     }
 }
 
+export interface IDelteMessageCombinedChatProps {
+    combinedId: string,
+    userId:string,
+    currentUserId:string,
+    idMessages:string,
+}
+
 
 export interface IGetMessagesCombinedChatProps {
     combinedId: string,

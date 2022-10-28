@@ -12,7 +12,10 @@ import {useAppSelector} from "../../../hooks/redux";
 
 const UserSideBar = () => {
     const {loadingUser} = useAuth();
-    const {email,isAuth,id} = useAppSelector(state => state.user);
+    const {email,isAuth,id,profile} = useAppSelector(state => state.user);
+
+
+    const{currentAvatar,name} = profile;
 
 
 
@@ -22,16 +25,14 @@ const UserSideBar = () => {
         <Menu
             name={'userSidebar'}
             button={<AvatarUserSmall
-            name={'vova krupin'}
+            name={name}
+            pathImg={currentAvatar}
             />
 
         }>
             <div>
                 {email}
             </div>
-            <MenuItem>
-                {id}
-            </MenuItem>
             <MenuItem>
                 <LogOut/>
             </MenuItem>

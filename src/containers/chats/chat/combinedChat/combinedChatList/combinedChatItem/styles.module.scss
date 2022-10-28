@@ -15,6 +15,7 @@
   flex-direction: row-reverse;
   //justify-content: center;
   //align-items: start;
+  position: relative;
 }
 
 .content {
@@ -23,10 +24,17 @@
   max-width: 85%;
   border-radius: 10px;
 
+
 }
 
 .date {
   display: block;
   text-align: right;
   font-size: 10px!important;
+}
+
+.delete{
+  position: absolute;
+  left: 3px;
+  bottom:5px
 }

@@ -12,6 +12,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {db} from "../../../../../firebase/firebase";
 
 import {doc, onSnapshot,collection} from "firebase/firestore";
+import ChatDeleteSidebar from "../chatDeleteSidebar/ChatDeleteSidebar";
 
 
 interface ICombinedChatListProps {
@@ -29,6 +30,7 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
     const [firstRender, setFirstRender] = useState<boolean>(false);
     const [scroll, setScroll] = useState<boolean>(false);
     const [totalMessages, setTotalMessages] = useState<number>(0);
+    const[deleteMessages,setDeleteMessages] = useState<string[]>([]);
 
 
     const {
@@ -137,6 +139,9 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
 
 
 
+
+
+
     let unsubUnreadMessages  = () => {};
 
     useEffect(() => {
@@ -170,18 +175,36 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
 
     },[totalMessages]);
 
+    const onChangeDeleteMessages = (messageId:string) => {
+        setDeleteMessages([...deleteMessages,messageId])
+        console.log(deleteMessages)
+    };
+
 
     const list = messages && messages?.map((item) => {
         return <CombinedChatItem
             unreadMessages={unreadMessages}
             userChatId={combinedId}
             key={item.id}
+            onChangeDeleteMessages={onChangeDeleteMessages}
+            setDeleteMessages={setDeleteMessages}
+            deleteMessages={deleteMessages}
+
             {...item}
         />
     });
 
+    const activeDeleteMessageMode = deleteMessages.length > 0;
+
+    const style = {
+        paddingLeft: activeDeleteMessageMode ? '30px' : '0px'
+    };
+
     return (
         <div className={styles.root}>
+            {deleteMessages && deleteMessages.length && <ChatDeleteSidebar
+                deleteMessages={deleteMessages}
+            />}
             {messages &&  totalMessages > messages.length ?   <LoadingButton
                 loading={loadingLoadPageMessages}
                 disabled={loadingLoadPageMessages}
@@ -193,7 +216,9 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
                 />
             </LoadingButton> : null }
 
-            <div className={styles.list}>
+            <div
+
+                className={styles.list}>
                 {list}
                 <div ref={messagesEndRef}/>
             </div>
