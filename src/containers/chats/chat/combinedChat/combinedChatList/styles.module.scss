@@ -22,11 +22,11 @@
 }
 
 .sidebarForward{
-  position: sticky;
+  position: absolute;
   top: 10px;
-  left: 45%;
+ right: 0;
   z-index: 10;
-  display: inline-block;
+;
 }
 
 .root{

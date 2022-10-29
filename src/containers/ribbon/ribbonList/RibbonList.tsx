@@ -53,7 +53,7 @@ const{id} = useAppSelector(state => state.user);
     return (
         <Row className={styles.row}>
             <Col sx={12} xl={8}>
-                {list}
+                {data.length ? list : 'у вас немає поки що ніяких новин..'}
             </Col>
             <Col sx={12} xl={4}>
 
