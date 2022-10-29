@@ -12,14 +12,18 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {db} from "../../../../../firebase/firebase";
 
 import {doc, onSnapshot,collection} from "firebase/firestore";
-import ChatDeleteSidebar from "../chatDeleteSidebar/ChatDeleteSidebar";
+import ChatForwardSidebar from "../chatForwardSidebar/ChatForwardSidebar";
+import {AnimatePresence, motion} from "framer-motion";
+import {Paper} from "@mui/material";
+import {setTotalFriends} from "../../../../../redux/slice/userSlice";
 
 
 interface ICombinedChatListProps {
-    combinedId: string
+    combinedId: string,
+    userId:string
 }
 
-const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
+const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId,userId}) => {
 
 
     const {id: currentUserId} = useAppSelector(state => state.user);
@@ -27,10 +31,11 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
 
     const [messages, setMessages] = useState<IMessage[]>();
     const[unreadMessages,setUnreadMessages] = useState<IUnreadMessages[]>();
+    const[unreadMessagesInterlocutor,setUnreadMessagesInterlocutor] = useState<IUnreadMessages[]>();
     const [firstRender, setFirstRender] = useState<boolean>(false);
     const [scroll, setScroll] = useState<boolean>(false);
     const [totalMessages, setTotalMessages] = useState<number>(0);
-    const[deleteMessages,setDeleteMessages] = useState<string[]>([]);
+    const[selectMessages,setSelectMessages] = useState<string[]>([]);
 
 
     const {
@@ -138,6 +143,33 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
 
 
 
+    let unsubUnreadMessageInterlocutor = () => {};
+
+    useEffect(() => {
+        if (db && combinedId) {
+            unsubUnreadMessageInterlocutor = onSnapshot(
+                collection(db, "users", userId, 'userChats' , combinedId,"unreadMessages"),
+                (snapShot) => {
+                    let list: any = [];
+                    snapShot.docs.forEach((doc) => {
+                        list.push({id: doc.id, ...doc.data()});
+                    });
+                    setUnreadMessagesInterlocutor(list);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+
+        }
+
+        return () => {
+            unsubUnreadMessageInterlocutor();
+        };
+    }, [db, combinedId]);
+
+
+
 
 
 
@@ -175,9 +207,8 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
 
     },[totalMessages]);
 
-    const onChangeDeleteMessages = (messageId:string) => {
-        setDeleteMessages([...deleteMessages,messageId])
-        console.log(deleteMessages)
+    const onChangeSelectMessages = (messageId:string) => {
+        setSelectMessages([...selectMessages,messageId])
     };
 
 
@@ -186,25 +217,42 @@ const CombinedChatList: FC<ICombinedChatListProps> = ({combinedId}) => {
             unreadMessages={unreadMessages}
             userChatId={combinedId}
             key={item.id}
-            onChangeDeleteMessages={onChangeDeleteMessages}
-            setDeleteMessages={setDeleteMessages}
-            deleteMessages={deleteMessages}
-
+            onChangeSelectMessages={onChangeSelectMessages}
+            setSelectMessages={setSelectMessages}
+            selectMessages={selectMessages}
+            unreadMessagesInterlocutor={unreadMessagesInterlocutor}
             {...item}
         />
     });
 
-    const activeDeleteMessageMode = deleteMessages.length > 0;
 
-    const style = {
-        paddingLeft: activeDeleteMessageMode ? '30px' : '0px'
-    };
+
 
     return (
         <div className={styles.root}>
-            {deleteMessages && deleteMessages.length && <ChatDeleteSidebar
-                deleteMessages={deleteMessages}
-            />}
+            <AnimatePresence>
+                {selectMessages && messages && selectMessages.length?  <motion.div
+                    className={styles.sidebarForward}
+                    key={'sidebarForward'}
+                    initial={{
+                        y:-40}}
+                    animate={{
+                        y:0
+                    }}
+                    exit={{
+                        y:-40
+                    }}>
+                  <ChatForwardSidebar
+                      messages={messages}
+                      setSelectMessages={setSelectMessages}
+                      setMessages={setMessages}
+                        selectMessages={selectMessages}
+                      combinedId={combinedId}
+                      userId={userId}
+                    />
+
+                </motion.div> : null}
+            </AnimatePresence>
             {messages &&  totalMessages > messages.length ?   <LoadingButton
                 loading={loadingLoadPageMessages}
                 disabled={loadingLoadPageMessages}

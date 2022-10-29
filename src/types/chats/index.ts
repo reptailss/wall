@@ -31,6 +31,7 @@ export interface IChatUser {
         text:string,
         userIdLastMessage:string
     },
+    lastMessageTimeStamp:ITimestamp
 
 }
 
@@ -44,17 +45,18 @@ export interface IAddMessageCombinedChatProps {
     userId:string,
     currentUserId:string,
     idMessages:string,
+
     body:{
         text:string,
         userId:string
     }
 }
 
-export interface IDelteMessageCombinedChatProps {
+export interface IDeleteMessageCombinedChatProps {
     combinedId: string,
     userId:string,
     currentUserId:string,
-    idMessages:string,
+    messages: string[]
 }
 
 

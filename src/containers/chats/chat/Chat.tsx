@@ -47,9 +47,11 @@ const Chat = () => {
             </div>}
 
             <div className={styles.chatlist}>
-                <CombinedChatList
+
+                {chatData &&     <CombinedChatList
+                    userId={chatData.interlocutorId}
                     combinedId={id}
-                />
+                />}
             </div>
             {chatData &&   <AddCombinedMessage
                 combinedId={id}

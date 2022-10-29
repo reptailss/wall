@@ -35,3 +35,9 @@ export  const OptionsDateNumber:Intl.DateTimeFormatOptions = {
 export const convertSecondstoDate = (seconds:number) =>{
    return  new Date(seconds * 1000)
 };
+
+
+export     const OptionsTimeMessage:Intl.DateTimeFormatOptions = {
+   hour: 'numeric',
+   minute: "numeric"
+};

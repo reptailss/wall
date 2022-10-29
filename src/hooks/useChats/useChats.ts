@@ -22,9 +22,8 @@ import {
     IAddUnreadMessagesProps,
     ICheckChatProps,
     ICreateChatProps,
-    ICreateUserChatProps,
+    ICreateUserChatProps, IDeleteMessageCombinedChatProps,
     IDeleteUnreadMessagesProps,
-    IDelteMessageCombinedChatProps,
     IGetMessagesCombinedChatProps,
     IGetTotalMessagesCombinedChatProps,
     IGetUnreadMessages,
@@ -304,7 +303,8 @@ export function useChats() {
                 lastMessage: {
                     text: lastMessage,
                     userIdLastMessage
-                }
+                },
+                lastMessageTimeStamp: serverTimestamp()
             });
 
         } catch (error: any) {
@@ -346,7 +346,8 @@ export function useChats() {
             await setLastMessage({
                 userId, lastMessage: body.text,
                 combinedId,
-                userIdLastMessage: currentUserId
+                userIdLastMessage: currentUserId,
+
             });
 
             await setLastMessage({
@@ -364,19 +365,27 @@ export function useChats() {
         }
     };
 
-    const deleteMessageCombinedChat = async (props: IDelteMessageCombinedChatProps) => {
+    const deleteMessageCombinedChat = async (props: IDeleteMessageCombinedChatProps) => {
 
         setLoadingDeleteMessageCombinedChat(true);
 
-        const {combinedId, userId, currentUserId, idMessages} = props;
+        const {combinedId, userId, currentUserId, messages} = props;
 
         try {
-            const ref = doc(db,
-                "chats",
-                combinedId, "messages",
-                idMessages);
 
-            await deleteDoc(ref);
+           await messages.forEach( async (id:string)=>{
+                const ref = doc(db,
+                    "chats",
+                    combinedId, "messages",
+                    id);
+
+                await deleteDoc(ref);
+                await deleteUnreadMessages({
+                    currentUserId:userId,
+                    userChatId:combinedId,
+                    idMessages:id
+                })
+            });
 
             const lastMessages = await getMessages({
                 combinedId, limitComment: 1, orderByComment: 'desc'
@@ -628,7 +637,7 @@ export function useChats() {
         loadingGetMessagesCombinedChat,
         loadingGetTotalMessagesCombinedChat,
         loadingSetTotalMessagesCombinedChat,
-
+        loadingDeleteMessageCombinedChat,
         loadingGetMessages,
         loadingLoadPageMessages,
         loadingDeleteUnreadMessage,

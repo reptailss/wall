@@ -38,3 +38,19 @@
   left: 3px;
   bottom:5px
 }
+
+.unreadState{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 3px;
+}
+
+.inner{
+  display: flex;
+  align-items: center;justify-content: center;
+}
+
+.iconUnread{
+  width: 0.7em!important;
+  height: 0.7em!important;
+}

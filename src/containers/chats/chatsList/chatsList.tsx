@@ -11,7 +11,10 @@ import {db} from "../../../firebase/firebase";
 
 
 
-import {doc, onSnapshot,collection} from "firebase/firestore";
+import {doc,
+    onSnapshot
+    ,collection,
+    query,orderBy} from "firebase/firestore";
 
 
 const ChatsList = () => {
@@ -41,7 +44,7 @@ const ChatsList = () => {
     useEffect(() => {
         if(db && id){
             unsub = onSnapshot(
-               collection(db, "users", id, 'userChats'),
+                query(collection(db, "users", id, 'userChats'), orderBy('lastMessageTimeStamp', 'desc'),),
                 (snapShot) => {
                     let list: any = [];
                     snapShot.docs.forEach((doc) => {
@@ -53,6 +56,8 @@ const ChatsList = () => {
                     console.log(error);
                 }
             );
+
+
         }
 
         return () => {
