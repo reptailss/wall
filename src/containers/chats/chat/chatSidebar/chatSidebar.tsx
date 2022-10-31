@@ -23,7 +23,8 @@ const ChatSidebar: FC<IChatSidebarProps> = ({userId }) => {
         jop: '',
         maritalStatus: '',
         timestamp: {seconds: 0, nanoseconds: 0},
-        currentAvatar: ''
+        currentAvatar: '',
+        status:'',
     });
 
 

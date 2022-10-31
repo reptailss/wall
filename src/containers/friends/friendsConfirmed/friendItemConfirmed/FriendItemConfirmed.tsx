@@ -26,7 +26,8 @@ const FriendItemConfirmed: FC<IFriendItemRequestProps> = ({id,myPage}) => {
         jop: '',
         maritalStatus: '',
         timestamp: {seconds: 0, nanoseconds: 0},
-        currentAvatar: ''
+        currentAvatar: '',
+        status: '',
     });
 
     const {
