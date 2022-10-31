@@ -12,6 +12,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import {useRibbon} from "../../../hooks/useRibbon/useRibbon";
 
 import {v4 as uuidv4} from 'uuid';
+import {useRouter} from "next/router";
 
 
 interface IWallPostAddProps {
@@ -21,10 +22,12 @@ interface IWallPostAddProps {
 const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
     const {id: idUser} = useAppSelector(state => state.user);
     const {name} = useAppSelector(state => state.user.profile);
-
-
+    const {pathname} = useRouter();
     const [dataImg, setDataImg] = useState<string[]>([]);
     const [resetImg, setResetImg] = useState<boolean>(false);
+
+
+    const myPage = id === idUser || pathname === '/';
 
     const onChangeDownload = (img: string[]) => {
         setDataImg(img)
@@ -52,16 +55,18 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
                 }
             );
 
-            await addFriendsItemRibbon({
-                body: {
-                    text: text,
-                    userId: idUser,
-                    pathImg: dataImg,
-                    type: 'post',
-                    idRibbonContent: idPost,
-                },
-                currentUserId: idUser
-            })
+            if (myPage) {
+                await addFriendsItemRibbon({
+                    body: {
+                        text: text,
+                        userId: idUser,
+                        pathImg: dataImg,
+                        type: 'post',
+                        idRibbonContent: idPost,
+                    },
+                    currentUserId: idUser
+                })
+            }
         }
     };
 
@@ -76,50 +81,50 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
             formik.resetForm({});
             setDataImg([]);
             setResetImg(true);
-            setTimeout(()=>{
+            setTimeout(() => {
                 setResetImg(false)
-            },1000)
+            }, 1000)
         },
     });
 
-    const content = !loadingAddWallPost ? <form
-            className={styles.root}
-            onSubmit={formik.handleSubmit}
-        >
 
-            <div className={styles.innerinput}>
-                <TextField
-                    key={'text'}
-                    className={styles.input}
-                    fullWidth
-                    id={'text'}
-                    name={'text'}
-                    label={'Ваше повідомелння..'}
-                    value={formik.values.text}
-                    onChange={formik.handleChange}
-                    error={formik.touched.text && Boolean(formik.errors.text)}
-                    helperText={formik.touched.text && formik.errors.text}
-                    multiline
-                />
-                <Button
-                    disabled={loadingAddWallPost}
-                    className={styles.button}
-                    color="primary"
-                    variant="contained"
-                    fullWidth type="submit">
-                    <SendIcon/>
-                </Button>
-            </div>
-
-            <div>
-            </div>
-        </form> :
-        <SpinnerBlock/>;
 
     return (
         <Paper
             className={styles.root}>
-            {content}
+            <form
+                className={styles.root}
+                onSubmit={formik.handleSubmit}
+            >
+
+                <div className={styles.innerinput}>
+                    <TextField
+                        key={'text'}
+                        className={styles.input}
+                        fullWidth
+                        id={'text'}
+                        name={'text'}
+                        label={'Ваше повідомелння..'}
+                        value={formik.values.text}
+                        onChange={formik.handleChange}
+                        error={formik.touched.text && Boolean(formik.errors.text)}
+                        helperText={formik.touched.text && formik.errors.text}
+                        multiline
+                        size={'small'}
+                    />
+                    <Button
+                        disabled={loadingAddWallPost}
+                        className={styles.button}
+                        color="primary"
+                        variant="contained"
+                        fullWidth type="submit">
+                        <SendIcon/>
+                    </Button>
+                </div>
+
+                <div>
+                </div>
+            </form>
             <AddImagePost
                 resetImg={resetImg}
                 onChangeDownload={onChangeDownload}

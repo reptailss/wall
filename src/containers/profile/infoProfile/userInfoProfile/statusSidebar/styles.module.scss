@@ -1,0 +1,50 @@
+
+.input {
+  color: #ffffff!important;
+  background-color: rgba(255, 255, 255, .2)!important;
+  border-radius: 5px!important;
+  width: 100% !important;
+  & input{
+    padding: 11px 5px;
+  }
+
+  & div{
+    color: inherit!important;
+    gap: 0!important;
+    @media (max-width: 500px) {
+      .searchMedia &{
+        display: none!important;
+      }
+    }
+
+
+  }
+
+  & label{
+    color: inherit!important;
+    height: 100%!important;
+    @media (max-width: 500px) {
+      .searchMedia &{
+        display: none!important;
+      }
+    }
+  }
+}
+
+.button{
+  margin-top: 20px;
+  width: 100%;
+}
+
+.redStatus{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.root{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

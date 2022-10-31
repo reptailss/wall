@@ -11,9 +11,12 @@ import Likes from "../../../likes/Likes";
 import {useUsers} from "../../../../hooks/useUser/UseUser";
 import AvatarUserSmall from "../../../../components/avatarUserSmall/AvatarUserSmall";
 import RibbonPhotoCarousel from "./ribbonPhotoCarousel/RibbonPhotoCarousel";
+import useMedia from "../../../../hooks/useMedia/useMedia";
 
 
 const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonContent}) => {
+
+    const{isDesktop} = useMedia();
 
 
     const [avatar, setAvatar] = useState<string>('');
@@ -45,6 +48,8 @@ const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonConte
 
 
     const textInfo = type === 'updateAvatar' ? 'оновив аватарку' : '';
+
+
 
 
     return (
@@ -89,24 +94,27 @@ const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonConte
 
             </div>
 
-            {type === 'post' && <CardContent>
+            {type === 'post' && <CardContent
+            className={styles.cardContent}
+            >
                 <Typography variant="body2" color="text.other">
                     {text}
                 </Typography>
             </CardContent>}
 
-            <Likes
-                idUser={userId}
-                pathItemId={idPostContentItem}
-                pathRoot={idPostContentRoot}
-                authorNameLike={userId}
-            />
 
-            <Comments
-                idUser={userId}
-                pathItemId={idPostContentItem}
-                pathRoot={idPostContentRoot}
-            />
+              <Likes
+                  idUser={userId}
+                  pathItemId={idPostContentItem}
+                  pathRoot={idPostContentRoot}
+                  authorNameLike={userId}
+              />
+
+              <Comments
+                  idUser={userId}
+                  pathItemId={idPostContentItem}
+                  pathRoot={idPostContentRoot}
+              />
 
         </Paper>
     );

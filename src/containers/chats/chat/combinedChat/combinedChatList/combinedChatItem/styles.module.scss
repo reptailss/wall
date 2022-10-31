@@ -20,7 +20,7 @@
 
 .content {
   padding: 5px 10px;
-  display: inline-block;
+  display: inline-flex;
   max-width: 85%;
   border-radius: 10px;
 
@@ -30,7 +30,8 @@
 .date {
   display: block;
   text-align: right;
-  font-size: 10px!important;
+  font-size: 8px!important;
+  margin-left: 8px;
 }
 
 .delete{
@@ -46,8 +47,9 @@
 }
 
 .inner{
-  display: flex;
-  align-items: center;justify-content: center;
+  display: inline-flex;
+  align-items: flex-end;
+ ;justify-content: space-between;
 }
 
 .iconUnread{

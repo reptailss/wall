@@ -8,13 +8,14 @@ import AddCombinedMessage from "./combinedChat/addCombinedMessage/AddCombinedMes
 
 import styles from './styles.module.scss'
 import CombinedChatList from './combinedChat/combinedChatList/CombinedChatList'
+import NotItems from "../../../components/notItems/NotItems";
 
 
 const Chat = () => {
 
     const {id: currentUserId} = useAppSelector(state => state.user);
 
-    const {getUserChat,createCombinedId} = useChats();
+    const {getUserChat,loadingGetUserChats} = useChats();
 
     const [chatData, setChatData] = useState<IChatUser>();
 
@@ -38,25 +39,29 @@ const Chat = () => {
     const router = useRouter();
     const {id}: any = router.query;
 
+
+
     return (
 
         <div className={styles.root}>
-            {chatData && <div className={styles.sidebar}>
-                <ChatSidebar
-                userId={chatData.interlocutorId}/>
-            </div>}
+            {chatData && chatData.ownerChat === currentUserId ? <>
+                {chatData && <div className={styles.sidebar}>
+                    <ChatSidebar
+                        userId={chatData.interlocutorId}/>
+                </div>}
 
-            <div className={styles.chatlist}>
+                <div className={styles.chatlist}>
 
-                {chatData &&     <CombinedChatList
-                    userId={chatData.interlocutorId}
+                    {chatData &&     <CombinedChatList
+                        userId={chatData.interlocutorId}
+                        combinedId={id}
+                    />}
+                </div>
+                {chatData &&   <AddCombinedMessage
                     combinedId={id}
+                    userId={chatData.interlocutorId}
                 />}
-            </div>
-            {chatData &&   <AddCombinedMessage
-                combinedId={id}
-                userId={chatData.interlocutorId}
-            />}
+            </>: !loadingGetUserChats ? <NotItems text={'у вас немає доступу до цього чату...'}/> : null}
         </div>
     );
 };

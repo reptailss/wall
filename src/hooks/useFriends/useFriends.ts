@@ -59,7 +59,7 @@ export function useFriends() {
         setLoadingGetFriendsRequestUsers] = useState<boolean>(true);
 
     const [loadingGetFriendsConfirmedUsers,
-        setLoadingGetFriendsConfirmedUsers] = useState<boolean>(true);
+        setLoadingGetFriendsConfirmedUsers] = useState<boolean>(false);
 
     const [loadingDeleteFriend,
         setLoadingDeleteFriend] = useState<boolean>(false);

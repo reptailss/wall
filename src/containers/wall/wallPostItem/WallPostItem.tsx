@@ -24,6 +24,8 @@ import Likes from "../../likes/Likes";
 import Comments from "../../comments/Comments";
 import {useUsers} from "../../../hooks/useUser/UseUser";
 import {IUserProfile} from "../../../types/profile";
+import useMedia from "../../../hooks/useMedia/useMedia";
+import RibbonPhotoCarousel from "../../ribbon/ribbonList/ribbonItem/ribbonPhotoCarousel/RibbonPhotoCarousel";
 
 
 const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, authorId, id, idUserWhoseWall, type, idAvatar}) => {
@@ -35,6 +37,8 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
     const UAdate = new Intl.DateTimeFormat('uk', OptionsDateTime).format(date);
     const {pathname} = useRouter();
 
+    const {isDesktop, isMobile} = useMedia();
+
     const {getUserProfileOther, loadingGetUserProfileOther} = useUsers();
 
     const [profileUserOther, setrofileUserOther] = useState<IUserProfile>({
@@ -44,7 +48,8 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         jop: '',
         maritalStatus: '',
         timestamp: {seconds: 0, nanoseconds: 0},
-        currentAvatar: ''
+        currentAvatar: '',
+        status: '',
     });
 
 
@@ -127,19 +132,23 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
                 }
                 title={title}
                 subheader={<Typography
-                    variant="body2">
+                    variant="caption">
                     {UAdate}
                 </Typography>}
             />
 
-            <CardContent>
+            <CardContent
+            className={styles.cardContent}
+            >
                 <Typography variant="body2" color="text.other">
                     {!type && text}
                 </Typography>
             </CardContent>
-            <Row className={styles.rowImg}>
+
+            {isDesktop && pathImg && pathImg.length ? <Row className={styles.rowImg}>
                 {imgList}
-            </Row>
+            </Row> : pathImg && pathImg.length ? <RibbonPhotoCarousel data={pathImg}/> : null}
+
             <Likes
                 idUser={idUserWhoseWall}
                 pathItemId={idPostContentItem}

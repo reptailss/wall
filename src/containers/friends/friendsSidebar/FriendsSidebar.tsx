@@ -3,7 +3,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import {useFriends} from "../../../hooks/useFriends/useFriends";
 import {IFriendItem} from "../../../types/friends";
 import SpinnerBlock from "../../../components/spinner/Spinner";
-import NotFriends from "../notFriends/NotFriends";
+
 import FriendSidebarItem from "./friendSidebarItem/FriendSidebarItem";
 import {Col, Row} from "react-bootstrap";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import LinkMU from '@mui/material/Link'
 
 import styles from './styles.module.scss'
 import {Paper, Typography} from "@mui/material";
+import NotItems from "../../../components/notItems/NotItems";
 
 interface IFriendsSidebarProps {
     userId: string,
@@ -36,7 +37,6 @@ const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
             userId
         });
         setTotalConfirm(res.totalConfirm);
-        console.log(res)
     };
 
     useEffect(() => {
@@ -100,9 +100,7 @@ const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
             </Paper>
             <Row className={styles.root}>
                 {loadingGetFriendsConfirmedUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
-                    <NotFriends
-                        text={'немає друзів'}
-                    />}
+                    null}
             </Row>
 
         </div>

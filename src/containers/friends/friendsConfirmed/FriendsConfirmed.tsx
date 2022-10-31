@@ -4,7 +4,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import {IFriendItem} from "../../../types/friends";
 import FriendItemConfirmed from "./friendItemConfirmed/FriendItemConfirmed";
 import SpinnerBlock from "../../../components/spinner/Spinner";
-import NotFriends from "../notFriends/NotFriends";
+import NotItems from "../../../components/notItems/NotItems";
 
 interface IFriendsConfirmedProps {
     userId:string,
@@ -49,7 +49,8 @@ const FriendsConfirmed:FC<IFriendsConfirmedProps> = ({userId,myPage}) => {
 
 
            {loadingGetFriendsConfirmedUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
-               <NotFriends
+               <NotItems
+                   mt
                    text={'у вас немає друзів'}
                />}
        </div>

@@ -1,6 +1,9 @@
 .btn{
 text-transform: none!important;
- border-bottom: 1px solid var(--text-primary-dark)!important;
+ display: flex!important;
+ align-items: center!important;
+ justify-content: center!important;
+
 }
 
 .list{
@@ -27,4 +30,8 @@ text-transform: none!important;
 
 .text{
  margin-right: 3px!important ;
+}
+.icon{
+ margin-right: 4px;
+ margin-top: 4px;
 }

@@ -8,8 +8,7 @@ import CommentAdd from "./commentAdd/commentAdd";
 import ModalFullComments from "./fullComments/ModalFullComments"
 
 import styles from './styles.module.scss'
-
-
+import useMedia from "../../hooks/useMedia/useMedia";
 
 
 interface CommentsProps {
@@ -24,8 +23,9 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
     const {id: idCurrentUser} = useAppSelector(state => state.user);
 
     const [comments, setComments] = useState<ICommentItem[]>();
-    const[totalComments,setTotalComments] = useState<number>(0);
+    const [totalComments, setTotalComments] = useState<number>(0);
 
+    const {isDesktop,isMobile,isTablet} = useMedia();
 
     const {
         getComments,
@@ -35,8 +35,8 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
 
     const onGetComments = async () => {
         const res = await getComments({
-            pathRoot, idUser, pathItemId,limitComment: 3,
-            orderByComment:'desc'
+            pathRoot, idUser, pathItemId, limitComment: 3,
+            orderByComment: 'desc'
         });
         //@ts-ignore
         setComments(res.reverse())
@@ -60,26 +60,28 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
     }, [pathItemId]);
 
 
-    const onSetTotalComments = (num:number) =>{
+    const onSetTotalComments = (num: number) => {
         setTotalComments(num)
     };
 
-
-
+    const modalFull =  <div>
+        <ModalFullComments
+            idUser={idUser}
+            pathRoot={pathRoot}
+            pathItemId={pathItemId}
+            totalComments={totalComments}
+        />
+    </div>;
 
 
     return (
         <>
-            {comments && totalComments  > 3 && <div>
-                <ModalFullComments
-                    idUser={idUser}
-                    pathRoot={pathRoot}
-                    pathItemId={pathItemId}
-                    totalComments={totalComments}
-                   />
-            </div>}
+
             {comments && <CommentList comments={comments}/>}
-            <div className={styles.commentAdd}>
+
+            {isDesktop ? comments && totalComments > 3 &&  modalFull  : modalFull}
+
+            {isDesktop ? <div className={styles.commentAdd}>
                 <CommentAdd
                     authorNameComment={idCurrentUser}
                     idUser={idUser}
@@ -89,7 +91,7 @@ const Comments: FC<CommentsProps> = ({idUser, pathRoot, pathItemId}) => {
                     onAddCommentProps={onGetComments}
                     onSetTotalComments={onSetTotalComments}
                 />
-            </div>
+            </div> : null}
 
         </>
 

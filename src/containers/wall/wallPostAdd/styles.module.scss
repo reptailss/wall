@@ -46,7 +46,8 @@
   justify-content: center!important;
   border-radius: 10px!important;
   @media (max-width: 500px) {
-    padding: 0 10px!important;
+    padding: 0!important;
+    margin-bottom: 10px!important;
   }
 }
 

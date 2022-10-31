@@ -29,9 +29,11 @@ export interface IChatUser {
     interlocutorId:string,
     lastMessage:{
         text:string,
-        userIdLastMessage:string
+        userIdLastMessage:string,
+        lastMessageId:string,
     },
-    lastMessageTimeStamp:ITimestamp
+    lastMessageTimeStamp:ITimestamp,
+    ownerChat:string
 
 }
 
@@ -93,7 +95,8 @@ export interface ISetLastMessageProps {
     userId:string,
     combinedId: string,
     lastMessage: string,
-    userIdLastMessage:string
+    userIdLastMessage:string,
+    lastMessageId?:string
 
 }
 
@@ -120,5 +123,6 @@ export interface IUnreadMessages {
 export interface IGetUnreadMessages {
     currentUserId:string,
     userChatId:string,
+    limitUnread?: number
 }
 

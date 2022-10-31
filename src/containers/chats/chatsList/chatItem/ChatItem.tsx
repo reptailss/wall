@@ -13,15 +13,19 @@ import SkeletonText from "../../../../components/skeletons/SkeletonText";
 import {IChatUser, IUnreadMessages} from "../../../../types/chats";
 import {useAppSelector} from "../../../../hooks/redux";
 import {useChats} from "../../../../hooks/useChats/useChats";
+import {convertSecondstoDate, OptionsDateTimeComment} from "../../../../helpers/date";
+import UnreadStateIcon from "../../chat/unreadStateIcon/UnreadStateIcon";
 
 
-const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, id}) => {
+const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, id,lastMessageTimeStamp,}) => {
 
     const {id: currentUserId} = useAppSelector(state => state.user);
 
-    const [unreadMessages, setUnreadMessages] = useState<IUnreadMessages[]>();
+    const [unreadMessages, setUnreadMessages] = useState<IUnreadMessages[] >();
 
     const [avatar, setAvatar] = useState<string>('');
+
+    const[lastMessageUnread,setLastMessageUnread] = useState<string>();
 
     const {
         getUserProfileOther,
@@ -30,10 +34,10 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
 
     const {
         getUnreadMessages,
-        loadingGetUnreadMessages
+        loadingGetUnreadMessages,
     } = useChats();
 
-    const {text, userIdLastMessage} = lastMessage;
+    const {text, userIdLastMessage,lastMessageId} = lastMessage;
 
     const onGetUserProfile = async () => {
         const res = await getUserProfileOther(interlocutorId);
@@ -49,6 +53,18 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
         setUnreadMessages(res);
     };
 
+    const onGetUnreadLastMessageInterlocutor = async () =>{
+       const res = await getUnreadMessages({
+           currentUserId:interlocutorId, userChatId: id,
+           limitUnread:1
+        });
+
+        if(res && res.length){
+            setLastMessageUnread(res[0].id);
+        }
+
+    };
+
     useEffect(() => {
         if (interlocutorId) {
             onGetUserProfile();
@@ -61,6 +77,18 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
             onGetUnreadMessages();
         }
     }, [lastMessage]);
+
+    useEffect(()=>{
+        onGetUnreadLastMessageInterlocutor();
+    },[interlocutorId]);
+
+
+    const date = lastMessageTimeStamp ? convertSecondstoDate(lastMessageTimeStamp.seconds) : 0;
+    const uadate = new Intl.DateTimeFormat('uk', OptionsDateTimeComment).format(date);
+
+
+    const unread = lastMessageUnread === lastMessageId;
+
 
     return (
 
@@ -80,9 +108,7 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
                             />
                         </LinkMU>
                     </Link>
-                    <div
-                        className={styles.inner}
-                    >
+                    <div className={styles.inner}>
                         <Typography
                             component={'div'}
                             variant={'body2'}
@@ -90,7 +116,6 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
                             {loadingGetUserProfileOther ?
                                 <div className={styles.skeletonName}><SkeletonText/></div> : interlocutorId}
                         </Typography>
-
                       <div className={styles.wrap}>
                           <Typography
                               component={'div'}
@@ -104,15 +129,24 @@ const ChatItem: FC<IChatUser> = ({lastMessage, interlocutorId, createUserChat, i
                                       {text}
                                   </>}
                           </Typography>
+                        <div className={styles.info}>
+                            <Typography
+                                component={'div'}
+                                color={'text.other'}
+                                variant={'caption'}
+                                className={styles.messages}>
+                                {uadate}
+                            </Typography>
+                            {unreadMessages && unreadMessages.length > 0 && unreadMessages.length ?  <Typography
+                                variant={'body2'}
+                                color={'text.other'}
+                                className={styles.unread}>
+                                {unreadMessages.length}
+                            </Typography> : null }
 
-                          {unreadMessages && unreadMessages.length > 0 && unreadMessages.length ?  <Typography
-                              variant={'body2'}
-                              color={'text.other'}
-                              className={styles.unread}>
-                              {unreadMessages.length}
-                          </Typography> : null }
+                            <UnreadStateIcon unread={unread}/>
 
-
+                        </div>
                       </div>
                     </div>
 

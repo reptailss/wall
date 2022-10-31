@@ -118,6 +118,7 @@ export function useChats() {
                     text: ""
                 },
                 interlocutorId,
+                ownerChat:userId,
                 createUserChat: serverTimestamp()
             });
 
@@ -295,14 +296,15 @@ export function useChats() {
     };
 
     const setLastMessage = async (props: ISetLastMessageProps) => {
-        const {combinedId, userId, lastMessage, userIdLastMessage} = props;
+        const {combinedId, userId, lastMessage, userIdLastMessage,lastMessageId} = props;
         const ref = doc(db, "users", userId, "userChats", combinedId);
         try {
 
             await updateDoc(ref, {
                 lastMessage: {
                     text: lastMessage,
-                    userIdLastMessage
+                    userIdLastMessage,
+                    lastMessageId,
                 },
                 lastMessageTimeStamp: serverTimestamp()
             });
@@ -347,13 +349,15 @@ export function useChats() {
                 userId, lastMessage: body.text,
                 combinedId,
                 userIdLastMessage: currentUserId,
+                lastMessageId:idMessages
 
             });
 
             await setLastMessage({
                 userId: currentUserId, lastMessage: body.text,
                 combinedId,
-                userIdLastMessage: currentUserId
+                userIdLastMessage: currentUserId,
+                lastMessageId:idMessages
             });
 
 
@@ -502,7 +506,7 @@ export function useChats() {
 
     const getUnreadMessages = async (props: IGetUnreadMessages) => {
 
-        const {currentUserId, userChatId} = props;
+        const {currentUserId, userChatId,limitUnread} = props;
 
         setLoadingGetUnreadMessages(true);
 
@@ -513,7 +517,12 @@ export function useChats() {
             userChatId,
             "unreadMessages");
 
-        const res = await getDocs(ref);
+        const queryRef = limitUnread ? query(ref,
+            limit(limitUnread)) : ref;
+
+
+
+        const res = await getDocs(queryRef);
         try {
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}

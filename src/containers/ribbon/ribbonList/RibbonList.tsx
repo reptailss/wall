@@ -8,6 +8,7 @@ import RibbonItem from "./ribbonItem/RibbonItem";
 import {Row,Col} from 'react-bootstrap'
 
 import styles from './styles.module.scss'
+import NotItems from "../../../components/notItems/NotItems";
 
 const RibbonList = () => {
 
@@ -53,7 +54,7 @@ const{id} = useAppSelector(state => state.user);
     return (
         <Row className={styles.row}>
             <Col sx={12} xl={8}>
-                {data.length ? list : 'у вас немає поки що ніяких новин..'}
+                {data.length ? list : <NotItems text={'у вас немає поки що ніяких новин..'}/>}
             </Col>
             <Col sx={12} xl={4}>
 

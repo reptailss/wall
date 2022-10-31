@@ -16,6 +16,7 @@ interface IInitialState {
         maritalStatus: string,
         timestamp:any,
         currentAvatar: string,
+        status:string,
     },
     loadingProfile: boolean,
     totalFriends:{
@@ -40,6 +41,7 @@ const initialState: IInitialState = {
         maritalStatus: '',
         timestamp:{},
         currentAvatar: '',
+        status:'...',
     },
     loadingProfile: true,
     totalFriends:{
@@ -73,6 +75,7 @@ export const userSlice = createSlice({
             state.profile.maritalStatus = action.payload.maritalStatus;
             state.profile.timestamp = action.payload.timestamp;
             state.profile.currentAvatar = action.payload.currentAvatar;
+            state.profile.status = action.payload.status;
 
         },
 

@@ -17,7 +17,6 @@ import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSideb
 import AddMessageBtn from "../../containers/chats/addMessageBtn/AddMessageBtn";
 
 
-
 const UserPage = () => {
 
     const [profileUserOther, setrofileUserOther] = useState<IUserProfile>({
@@ -27,7 +26,8 @@ const UserPage = () => {
         jop: '',
         maritalStatus: '',
         timestamp: {seconds: 0, nanoseconds: 0},
-        currentAvatar: ''
+        currentAvatar: '',
+        status: '...',
     });
 
     const router = useRouter();
@@ -64,7 +64,7 @@ const UserPage = () => {
 
                 {!myPage && <div className={styles.message}>
                     <AddMessageBtn
-                    userId={id}/>
+                        userId={id}/>
                 </div>}
                 <FriendsSidebar
                     userId={id}

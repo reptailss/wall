@@ -26,7 +26,12 @@ const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
 
 
     const {
+        loadingGetLikes,
+        loadingAddLike,
+        loadingGetTotalLikes,
         loadingCheckLike,
+        loadingSetTotalLikes,
+        loadingDeleteLike,
 
         getLikes,
         addLike,
@@ -115,13 +120,20 @@ const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
     }, [pathItemId]);
 
 
-
     const colorFavorite = isLike ? 'info' : 'inherit';
+
+    const disabled =  loadingGetLikes ||
+        loadingAddLike  ||
+        loadingDeleteLike  ||
+        loadingGetTotalLikes  ||
+        loadingCheckLike  ||
+        loadingSetTotalLikes  ||
+        loadingDeleteLike;
 
     return (
         <>
             <IconButton
-                disabled={loadingCheckLike}
+                disabled={disabled}
                 onClick={onClickLike}
                 aria-label="share">
                 <Badge
@@ -131,13 +143,14 @@ const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
                     }}
                     badgeContent={totalLikesState} color="primary">
                     <FavoriteIcon
+                        fontSize={'small'}
                         color={colorFavorite}
                     />
                 </Badge>
             </IconButton>
             <div className={styles.root}>
                 {likes && <LikeList likes={likes}/>}
-                {likes && totalLikesState > 1 &&<FullLikes likes={likes}/>}
+                {likes && totalLikesState > 1 && <FullLikes likes={likes}/>}
             </div>
 
         </>

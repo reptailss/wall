@@ -15,6 +15,7 @@ import {doc,
     onSnapshot
     ,collection,
     query,orderBy} from "firebase/firestore";
+import NotItems from "../../../components/notItems/NotItems";
 
 
 const ChatsList = () => {
@@ -76,7 +77,8 @@ const ChatsList = () => {
 
     return (
         <div className={styles.list}>
-            {listChats}
+            {chats.length ? listChats : !loadingGetUserChats ? <NotItems text={'у вас ще немає чатів..'}/> : null }
+
         </div>
     );
 };

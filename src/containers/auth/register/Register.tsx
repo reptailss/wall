@@ -10,6 +10,7 @@ import DateInput from "../../../components/dateInput/DateInput";
 import {useEffect, useState} from "react";
 import useDebounce from "../../../hooks/useDebounce/useDebounce";
 import {useFriends} from "../../../hooks/useFriends/useFriends";
+import {useRouter} from "next/router";
 
 
 const Register = () => {
@@ -19,10 +20,11 @@ const Register = () => {
         checkFreeLogin,
         updateLoginUser
     } = useAuth();
-    const {setUserProfile} = useUsers();
+    const {setUserProfile,getUserProfile} = useUsers();
     const [dateBirth, setDateBirth] = useState<number>(810413076);
     const [freeLogin,setFreeLogin] = useState<boolean>(true);
     const {setTotalFriends} = useFriends();
+    const router = useRouter();
 
 
     const formik = useFormik({
@@ -51,7 +53,8 @@ const Register = () => {
                         jop,
                         maritalStatus,
                         currentAvatar: 'https://firebasestorage.googleapis.com/v0/b/blog-f279e.appspot.com/o/avatar.png?alt=media&token=993f58a6-9b02-42d2-910f-9170deaa54c4',
-                        uid:res.user.uid
+                        uid:res.user.uid,
+                        status:'...',
                     }
                 }
             );
@@ -66,10 +69,9 @@ const Register = () => {
                     totalOtherRequest: 0,
                     totalMyRequest: 0,
                 }
-            })
-
-
-
+            });
+            await getUserProfile(login);
+            router.push('/')
 
         },
     });

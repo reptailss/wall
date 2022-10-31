@@ -5,7 +5,7 @@ import {IFriendItem} from "../../../types/friends";
 import FriendItemRequest from "./friendItemRequest/FriendItemRequest";
 import SpinnerBlock from "../../../components/spinner/Spinner";
 
-import NotFriends from "../notFriends/NotFriends";
+import NotItems from "../../../components/notItems/NotItems";
 
 interface IFriendsRequestProps {
     path: 'otherRequest' | 'myRequest'
@@ -47,7 +47,8 @@ const FriendsRequest:FC<IFriendsRequestProps> = ({path}) => {
     return (
        <div>
            {loadingGetFriendsRequestUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
-           <NotFriends
+           <NotItems
+               mt
                text={' у вас немає заявок'}
            />}
        </div>

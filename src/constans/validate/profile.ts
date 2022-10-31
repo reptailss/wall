@@ -20,3 +20,13 @@ export  const validationSchemaUpdateProfile = yup.object({
 
 
 });
+
+export  const validationSchemaUpdateStatus= yup.object({
+    status: yup
+        .string().required('введіть Імя')
+        .min(2, 'мінімум 2 символа'),
+
+
+
+
+});

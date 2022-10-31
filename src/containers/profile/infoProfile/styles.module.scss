@@ -3,8 +3,11 @@
 }
 
 .paper{
-  padding: 15px 10px!important;
+  padding: 20px 10px!important;
   position: relative!important;
+  @media (max-width: 500px) {
+  padding: 30px 10px 10px!important;
+  }
 }
 
 .topInfo{
@@ -30,6 +33,7 @@
   right: 0!important;
   margin-left: auto!important;
   display: block!important;
+  z-index: 10!important;
 }
 .wrap{
   display: flex;

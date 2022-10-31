@@ -91,9 +91,8 @@ export function useAuth() {
                 token: user.refreshToken,
 
             }));
-            dispatch( setIsAuth(true));;
+            dispatch( setIsAuth(true));
             setSnackBar('Ви успішно зареєструвалися!', 'success');
-            router.push(`/`);
             setLoadingRegister(false);
             setLoadingUser(false);
 

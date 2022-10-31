@@ -27,7 +27,6 @@ const MessageBtnState:FC = () => {
                         list.push({id: doc.id, ...doc.data()});
                     });
                     setUnreadMessages(list);
-                    console.log(list)
                 },
                 (error) => {
                     console.log(error);

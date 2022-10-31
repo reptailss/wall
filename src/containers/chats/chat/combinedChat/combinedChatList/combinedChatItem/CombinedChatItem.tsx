@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import styles from "./styles.module.scss";
 import {Paper, Typography} from "@mui/material";
 import {IMessage, IUnreadMessages} from "../../../../../../types/chats";
-import {convertSecondstoDate, OptionsDateTimeComment,OptionsTimeMessage} from "../../../../../../helpers/date";
+import {convertSecondstoDate, OptionsTimeMessage} from "../../../../../../helpers/date";
 import {useAppSelector} from "../../../../../../hooks/redux";
 import {useInView} from "react-intersection-observer";
 import {useChats} from "../../../../../../hooks/useChats/useChats";
@@ -18,7 +18,7 @@ interface ICombinedChatItemProps extends IMessage {
     onChangeSelectMessages: (messageId: string) => void,
     setSelectMessages: (deleteMessages: string[]) => void,
     selectMessages: string[],
-    unreadMessagesInterlocutor:IUnreadMessages[] | undefined
+    unreadMessagesInterlocutor: IUnreadMessages[] | undefined
 }
 
 const CombinedChatItem: FC<ICombinedChatItemProps> = ({
@@ -87,72 +87,66 @@ const CombinedChatItem: FC<ICombinedChatItemProps> = ({
             >
 
                 <AnimatePresence>
-                {currentUserId && !(currentUserId === userId) && selectMessages.length ? <motion.div
-                    key={idMessages +'pl'}
-                    initial={{
-                        paddingLeft:0}}
-                    animate={{
-                        paddingLeft:40
-                    }}
-                    exit={{
-                        paddingLeft:0
-                    }}
-                    style={{overflow:'hidden'}}
-                >
-                </motion.div> : null}
-            </AnimatePresence>
-
-
+                    {currentUserId && !(currentUserId === userId) && selectMessages.length ? <motion.div
+                        key={idMessages + 'pl'}
+                        initial={{
+                            paddingLeft: 0
+                        }}
+                        animate={{
+                            paddingLeft: 40
+                        }}
+                        exit={{
+                            paddingLeft: 0
+                        }}
+                        style={{overflow: 'hidden'}}
+                    >
+                    </motion.div> : null}
+                </AnimatePresence>
 
 
                 <Paper
                     className={styles.content}>
                     <AnimatePresence>
                         {selectMessages.length ? <motion.div
-                            style={{overflow:'hidden'}}
+                            style={{overflow: 'hidden'}}
                             key={idMessages}
                             initial={{
-                                x:-40}}
+                                x: -40
+                            }}
                             animate={{
-                                x:0
+                                x: 0
                             }}
                             exit={{
-                                x:-40
+                                x: -40
                             }}
 
                             className={styles.delete}>
                             {!activeMessage ? <RadioButtonUncheckedIcon/> : <CheckCircleOutlineIcon
                                 color={'info'}
                             />}
-
                         </motion.div> : null}
                     </AnimatePresence>
-
-
                     <Typography
-
                         ref={ref}
                         variant="caption"
-                        color="text.other"
+                        color="text.primary"
                         className={styles.text}>
                         {text}
                     </Typography>
-               <div className={styles.inner}>
-                   <Typography className={styles.date}
-                               color={"text.primary"}
-                               variant="caption"
-                   >{UAdate}</Typography>
+                    <span className={styles.inner}>
+                        <Typography className={styles.date}
+                                    color={"text.other"}
+                                    variant="caption"
+                        >{UAdate}</Typography>
 
-                   <div className={styles.unreadState}>
-                       {notUnreadMessage &&  currentUserId === userId ?<DoneIcon
-                           className={styles.iconUnread}
-                       /> : !notUnreadMessage &&  currentUserId === userId ?  <DoneAllIcon
-                           className={styles.iconUnread}
-                       /> : null}
-                   </div>
-               </div>
-
-
+                        <div className={styles.unreadState}>
+                            {notUnreadMessage && currentUserId === userId ? <DoneIcon
+                                className={styles.iconUnread}
+                            /> : !notUnreadMessage && currentUserId === userId ? <DoneAllIcon
+                                className={styles.iconUnread}
+                            /> : null}
+                        </div>
+                    </span>
 
 
                 </Paper>

@@ -49,42 +49,6 @@ const AddCombinedMessage: FC<IAddCombinedMessageProps> = ({combinedId, userId}) 
         },
     });
 
-    const content = !loadingAddMessageCombinedChat ? <form
-            className={styles.root}
-            onSubmit={formik.handleSubmit}
-        >
-
-
-            <div className={styles.innerinput}>
-                <TextField
-
-                    size="small"
-                    key={'text'}
-                    className={styles.input}
-                    fullWidth
-                    id={'text'}
-                    name={'text'}
-                    label={'Ваше повідомлення..'}
-                    value={formik.values.text}
-                    onChange={formik.handleChange}
-                    error={formik.touched.text && Boolean(formik.errors.text)}
-                    helperText={formik.touched.text && formik.errors.text}
-                    multiline
-                />
-                <Button
-                    disabled={loadingAddMessageCombinedChat}
-                    className={styles.button}
-                    color="primary"
-                    variant="contained"
-                    fullWidth type="submit">
-                    <SendIcon/>
-                </Button>
-            </div>
-
-            <div>
-            </div>
-        </form> :
-        <SpinnerBlock/>;
 
     return (
         <div
@@ -92,7 +56,41 @@ const AddCombinedMessage: FC<IAddCombinedMessageProps> = ({combinedId, userId}) 
         >
             <Paper
                 className={styles.root}>
-                {content}
+                <form
+                    className={styles.root}
+                    onSubmit={formik.handleSubmit}
+                >
+
+
+                    <div className={styles.innerinput}>
+                        <TextField
+
+                            size="small"
+                            key={'text'}
+                            className={styles.input}
+                            fullWidth
+                            id={'text'}
+                            name={'text'}
+                            label={'Ваше повідомлення..'}
+                            value={formik.values.text}
+                            onChange={formik.handleChange}
+                            error={formik.touched.text && Boolean(formik.errors.text)}
+                            helperText={formik.touched.text && formik.errors.text}
+                            multiline
+                        />
+                        <Button
+                            disabled={loadingAddMessageCombinedChat}
+                            className={styles.button}
+                            color="primary"
+                            variant="contained"
+                            fullWidth type="submit">
+                            <SendIcon/>
+                        </Button>
+                    </div>
+
+                    <div>
+                    </div>
+                </form>
             </Paper>
         </div>
     );
