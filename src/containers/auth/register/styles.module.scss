@@ -138,3 +138,29 @@
   top: 2px;
   font-size: 14px;
 }
+
+.item{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 500px) {
+    display: block;
+  }
+}
+.select{
+  width: 100%;
+  @media (max-width: 500px) {
+    white-space: initial;
+    margin-right: 10px;
+  }
+}
+.title{
+  margin-right: 30px;
+  white-space: nowrap;
+  @media (max-width: 500px) {
+    white-space: initial;
+    margin-right: 10px;
+  }
+
+}

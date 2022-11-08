@@ -1,0 +1,53 @@
+.inner{
+  background-color: rgba(255,255, 255, 0.1);
+  border-radius: 5px;
+  padding: 30px 15px;
+}
+.title{
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 5px;
+  border-top: 1px solid #ffffff;
+  padding-top: 5px;
+  font-style: italic;
+}
+.item{
+  margin-top: 15px;
+
+}
+.h1{
+  font-size: 25px;
+  font-weight: 600;
+  color: #ffffff;
+
+}
+.select{
+  margin-top: 10px;
+}
+.h3{
+  font-size: 14px;
+  color: #ffffff;
+}
+.input{
+  padding: 10px 0px 10px 10px;
+}
+
+
+.inputText {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, .2) !important;
+  font-size: 12px !important;
+
+  & label {
+    color: inherit !important;
+    height: 100% !important;
+  }
+}
+
+.innerinput {
+  position: relative;
+  width: 100%;
+  display: block;
+
+}

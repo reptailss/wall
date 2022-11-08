@@ -11,6 +11,10 @@ import {useEffect, useState} from "react";
 import useDebounce from "../../../hooks/useDebounce/useDebounce";
 import {useFriends} from "../../../hooks/useFriends/useFriends";
 import {useRouter} from "next/router";
+import SelectButtons from "../../../components/selectButtons/SelectButtons";
+import {dataSelectMaritalStatus, dataSelectSex} from "../../../constans/buttons";
+import React from "react";
+import {Typography} from "@mui/material";
 
 
 const Register = () => {
@@ -26,6 +30,9 @@ const Register = () => {
     const {setTotalFriends} = useFriends();
     const router = useRouter();
 
+    const[sex,setSex] = useState<'female' | 'male' | 'other' | string>('female');
+    const[maritalStatus,setMaritalStatus] = useState<'married' | 'notMarried' | 'ActivelyLooking' | string>('female');
+
 
     const formik = useFormik({
         initialValues: {
@@ -36,7 +43,7 @@ const Register = () => {
             dateBirth: '',
             city: '',
             jop: '',
-            maritalStatus: '',
+            maritalStatus: maritalStatus,
             login: ''
 
         },
@@ -55,6 +62,7 @@ const Register = () => {
                         currentAvatar: 'https://firebasestorage.googleapis.com/v0/b/blog-f279e.appspot.com/o/avatar.png?alt=media&token=993f58a6-9b02-42d2-910f-9170deaa54c4',
                         uid:res.user.uid,
                         status:'...',
+                        sex:sex,
                     }
                 }
             );
@@ -97,6 +105,14 @@ const Register = () => {
 
         }
     },[debouncedValueLogin]);
+
+    const onChangeSex = (sex: 'female' | 'male' | 'other' | string) => {
+        setSex(sex)
+    };
+
+    const onChangeMaritalStatus = (maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string) => {
+        setMaritalStatus(maritalStatus)
+    };
 
 
 
@@ -151,6 +167,40 @@ const Register = () => {
             </div>
         </div>
 
+        <div className={styles.item}>
+            <Typography
+                color={'text.primary'}
+                variant={'body1'}
+                className={styles.title}>
+                Стать
+            </Typography>
+            <div className={styles.select}>
+                <SelectButtons
+                    onChangeValue={onChangeSex}
+                    defaultlValue={'female'}
+                    defaultTitle={'Жіноча'}
+                    data={dataSelectSex}
+                />
+            </div>
+        </div>
+
+        <div className={styles.item}>
+            <Typography
+                color={'text.primary'}
+                variant={'body1'}
+                className={styles.title}>
+                сімейний статус
+            </Typography>
+            <div className={styles.select}>
+                <SelectButtons
+                    onChangeValue={onChangeMaritalStatus}
+                    defaultlValue={'ActivelyLooking'}
+                    defaultTitle={'В активному пошуку'}
+                    data={dataSelectMaritalStatus}
+                />
+            </div>
+        </div>
+
         <TextField
             className={styles.input}
             fullWidth
@@ -195,17 +245,7 @@ const Register = () => {
             error={formik.touched.jop && Boolean(formik.errors.jop)}
             helperText={formik.touched.jop && formik.errors.jop}
         />
-        <TextField
-            className={styles.input}
-            fullWidth
-            id={'maritalStatus'}
-            name={'maritalStatus'}
-            label={"Сімейний статус"}
-            value={formik.values.maritalStatus}
-            onChange={formik.handleChange}
-            error={formik.touched.maritalStatus && Boolean(formik.errors.maritalStatus)}
-            helperText={formik.touched.maritalStatus && formik.errors.maritalStatus}
-        />
+
         <div className={styles.date}>
             дата народження:
         </div>

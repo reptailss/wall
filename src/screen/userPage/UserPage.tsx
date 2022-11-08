@@ -28,6 +28,7 @@ const UserPage = () => {
         timestamp: {seconds: 0, nanoseconds: 0},
         currentAvatar: '',
         status: '...',
+        sex:'',
     });
 
     const router = useRouter();

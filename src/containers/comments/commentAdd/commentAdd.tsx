@@ -61,11 +61,7 @@ const CommentAdd: FC<ICommentAddProps> = ({idUser, pathRoot, pathItemId, idCurre
         },
         validationSchema: validationSchemaAddPostWall,
         onSubmit: async (values) => {
-            console.log(   idUser,
-                pathRoot,
-                pathItemId,
-                authorNameComment,
-                )
+
             await onAddComments(values.text);
             formik.resetForm({});
             const oldTotalComments = await onGetTotalComments();

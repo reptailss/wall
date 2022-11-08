@@ -41,3 +41,9 @@ export     const OptionsTimeMessage:Intl.DateTimeFormatOptions = {
    hour: 'numeric',
    minute: "numeric"
 };
+
+
+export     const OptionsYears:Intl.DateTimeFormatOptions = {
+   hour: 'numeric',
+   minute: "numeric"
+};

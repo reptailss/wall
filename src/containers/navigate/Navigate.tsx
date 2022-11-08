@@ -9,6 +9,8 @@ import {useRouter} from "next/router";
 import FriendsBtnState from "../friends/FriendsBtnState/FriendsBtnState";
 import GradeIcon from '@mui/icons-material/Grade';
 import {useAppSelector} from "../../hooks/redux";
+import SearchIcon from '@mui/icons-material/Search';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 
 interface INavigateProps {
@@ -51,6 +53,15 @@ const Navigate: FC<INavigateProps> = ({transparent,onClickNavigateItem}) => {
 
                 <NavigateItem
                     onClickNavigateItem={onClickNavigateItem}
+                    icon={<EmojiPeopleIcon
+                        fontSize={'large'}
+                    />}
+                    text={'Люди'}
+                    path={'/search'}
+                />
+
+                <NavigateItem
+                    onClickNavigateItem={onClickNavigateItem}
                     icon={<GradeIcon
                         fontSize={'large'}
                     />}
@@ -71,6 +82,8 @@ const Navigate: FC<INavigateProps> = ({transparent,onClickNavigateItem}) => {
                     text={'Повідомлення'}
                     path={'/chats'}
                 />
+
+
 
 
             </Paper>}

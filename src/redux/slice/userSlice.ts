@@ -13,16 +13,49 @@ interface IInitialState {
         dateBirth: number | null,
         city: string,
         jop: string,
-        maritalStatus: string,
-        timestamp:any,
+        maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string,
+        timestamp: any,
         currentAvatar: string,
-        status:string,
+        status: string,
+        sex: 'female' | 'male' | 'other' | string,
     },
     loadingProfile: boolean,
-    totalFriends:{
+    totalFriends: {
         totalConfirm: number,
         totalOtherRequest: number,
         totalMyRequest: number,
+    },
+    searchType: 'city' | 'name' | 'dateBirth' | 'maritalStatus' | 'login' | 'sex',
+    searchValue: string,
+
+    searchParams: {
+        maritalStatus: {
+            active: boolean,
+            value: string | false
+        },
+        login: {
+            active: boolean,
+            value: string | false
+        },
+        name: {
+            active: boolean,
+            value: string | false
+        },
+        city: {
+            active: boolean,
+            value: string | false
+        },
+        dateBirth: {
+            active: boolean,
+            of: false | number,
+            to: false | number,
+
+
+        },
+        sex: {
+            active: boolean,
+            value: 'female' | 'male' | 'other' | string | false,
+        },
     }
 
 }
@@ -35,20 +68,53 @@ const initialState: IInitialState = {
     profile: {
         name: '',
         surname: '',
-        dateBirth:null,
+        dateBirth: null,
         city: '',
         jop: '',
         maritalStatus: '',
-        timestamp:{},
+        timestamp: {},
         currentAvatar: '',
-        status:'...',
+        status: '...',
+        sex: '',
     },
     loadingProfile: true,
-    totalFriends:{
+    totalFriends: {
         totalConfirm: 0,
         totalOtherRequest: 0,
         totalMyRequest: 0,
+    },
+
+    searchValue: '',
+    searchType: 'sex',
+    searchParams: {
+        maritalStatus: {
+            active: false,
+            value: false
+        },
+        city: {
+            active: false,
+            value: ''
+        },
+        name: {
+            active: false,
+            value: ''
+        },
+        login: {
+            active: false,
+            value: ''
+        },
+        dateBirth: {
+            active: false,
+            of: false,
+            to: false
+        },
+
+        sex: {
+            active: false,
+            value: false
+        },
     }
+
 
 };
 
@@ -76,6 +142,7 @@ export const userSlice = createSlice({
             state.profile.timestamp = action.payload.timestamp;
             state.profile.currentAvatar = action.payload.currentAvatar;
             state.profile.status = action.payload.status;
+            state.profile.sex = action.payload.sex;
 
         },
 
@@ -84,7 +151,7 @@ export const userSlice = createSlice({
             state.token = null;
             state.id = '';
         },
-        setLoadingProfile(state,action) {
+        setLoadingProfile(state, action) {
             state.loadingProfile = action.payload.loadingProfile;
         },
         setTotalFriends(state, action) {
@@ -94,12 +161,60 @@ export const userSlice = createSlice({
 
         },
 
+        setWhereSearchType(state, action) {
+            state.searchType = action.payload.type;
+
+        },
+        setWhereSearchValue(state, action) {
+            state.searchValue = action.payload.value;
+
+        },
+        setParamsSex(state, action) {
+            state.searchParams.sex.value = action.payload
+        },
+        setParamsMaritalStatus(state, action) {
+            state.searchParams.maritalStatus.value = action.payload
+        },
+        setParamsCity(state, action) {
+            state.searchParams.city.value = action.payload
+        },
+        setParamsName(state, action) {
+            state.searchParams.name.value = action.payload
+        },
+        setParamsLogin(state, action) {
+            state.searchParams.login.value = action.payload
+        },
+
+        setParamsDateBirth(state, action) {
+            state.searchParams.dateBirth.to = action.payload.to;
+            state.searchParams.dateBirth.of = action.payload.of
+        },
+
+
+
     },
 
 
 });
 
 
-export const {setUser, removeUser, setUserSliceProfile,setIsAuth,setLoadingProfile,setTotalFriends} = userSlice.actions;
+export const {
+    setUser,
+    removeUser,
+    setUserSliceProfile,
+    setIsAuth,
+    setLoadingProfile,
+    setTotalFriends,
+    setWhereSearchType,
+    setWhereSearchValue,
+    setParamsSex,
+    setParamsLogin,
+    setParamsCity,
+    setParamsMaritalStatus,
+    setParamsName,
+    setParamsDateBirth
+
+
+} = userSlice.actions;
 
 export default userSlice.reducer;

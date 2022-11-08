@@ -32,8 +32,7 @@ export  const validationSchemaRegister = yup.object({
         .string().required('ввдеіть призвіще'),
     city: yup
         .string().required('введіть ваше місто'),
-    maritalStatus: yup
-        .string().required('ввдеіть ваш сімейний статус'),
+
 
 });
 

@@ -11,13 +11,14 @@ interface ISideBarInfoProfileProps {
     dateBirth: number | null,
     city: string,
     jop: string,
-    maritalStatus: string,
+    maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string,
     timestamp?: ITimestamp,
-    loadingProfile: boolean
+    loadingProfile: boolean,
+    sex:'female' | 'male' | 'other' | string,
 }
 
 
-const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, maritalStatus, timestamp, loadingProfile}) => {
+const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, maritalStatus, timestamp, loadingProfile,sex}) => {
 
 
     const date = dateBirth ? convertSecondstoDate(dateBirth) : 0;
@@ -25,6 +26,9 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
 
     const dateRegister = timestamp?.seconds ? convertSecondstoDate(timestamp.seconds) : 0;
     const uadateRegister = new Intl.DateTimeFormat('uk', OptionsDate).format(dateRegister);
+
+    const sexText = sex === "female" ? 'жіноча' : sex === "male" ? 'чоловіча' : sex === "other" ? 'інша' : '';
+    const maritalStatusText = maritalStatus === "married" ? 'одружений(-а)' : maritalStatus === "notMarried" ? 'не одружений(-а)' : maritalStatus === "ActivelyLooking" ? 'в активному пошуку' : '';
 
 
     return (
@@ -39,6 +43,23 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
             }}
             className={styles.root}>
             <Row >
+
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        className={styles.itemInfo}
+                        variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'стать'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1">
+                        {loadingProfile  ? <SkeletonText/> : sexText}
+                    </Typography>
+                </Col>
+
+
                 <Col xs={6} className={styles.item}>
                     <Typography
                         className={styles.itemInfo}
@@ -96,7 +117,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile ? <SkeletonText/> : maritalStatus}
+                        {loadingProfile ? <SkeletonText/> : maritalStatusText}
                     </Typography>
                 </Col>
 

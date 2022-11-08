@@ -5,13 +5,17 @@ export interface IUserProfile {
     dateBirth: number | null,
     city:  string,
     jop: string,
-    maritalStatus: string,
+    maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string,
     timestamp? :ITimestamp,
     currentAvatar: string,
     uid?:string
     status:string,
+    sex: 'female' | 'male' | 'other' | string,
+    id?:string
 
 }
+
+
 
 export interface IUpdateUserProfileProps {
     id: string,
@@ -20,10 +24,11 @@ export interface IUpdateUserProfileProps {
         dateBirth: number,
         city: string,
         jop: string,
-        maritalStatus: string,
+        maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string,
         currentAvatar: string,
         uid:string,
         status?:string,
+        sex: 'female' | 'male' | 'other' | string,
     },
     snack?: boolean
 }
@@ -42,3 +47,4 @@ export interface IUpUserProfileProps {
     },
     snack?: boolean
 }
+
