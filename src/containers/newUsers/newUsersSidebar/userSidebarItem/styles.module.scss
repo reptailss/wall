@@ -1,0 +1,19 @@
+
+.link{
+  cursor: pointer!important;
+  transition: all .3s!important;
+  display: flex!important;
+  flex-direction: column!important;
+  align-items: center!important;
+  justify-content: center!important;
+  padding-bottom: 30px;
+  &:hover{
+    opacity: .5!important;
+  }
+}
+
+.avatar{
+  width: 100%!important;
+  object-fit: contain!important;
+  height: auto!important;
+}

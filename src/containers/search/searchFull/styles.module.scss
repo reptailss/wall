@@ -4,3 +4,8 @@
 .search{
   margin-bottom: 10px;
 }
+.type{
+  @media (max-width: 1024px) {
+    margin-top: 10px;
+  }
+}

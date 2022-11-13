@@ -10,6 +10,9 @@ import {Button, TextField, Typography} from "@mui/material";
 
 import DateInput from "../../../../components/dateInput/DateInput";
 import {validationSchemaUpdateProfile} from "../../../../constans/validate/profile";
+import SelectButtons from "../../../../components/selectButtons/SelectButtons";
+import {dataSelectMaritalStatus, dataSelectSex} from "../../../../constans/buttons";
+
 
 
 interface ISideBarInfoProfileProps {
@@ -32,6 +35,15 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
 
     const {updateUserProfile, loadingUpdateUserProfile, getUserProfile} = useUsers();
 
+    const[maritalStatusUser,setMaritalStatusUser] = useState<'married' | 'notMarried' | 'ActivelyLooking' | string>(maritalStatus);
+
+
+    const onChangeMaritalStatus = (maritalStatus: 'married' | 'notMarried' | 'ActivelyLooking' | string) => {
+        setMaritalStatusUser(maritalStatus)
+    };
+
+    const maritalStatusText = maritalStatus === "married" ? 'одружений(-а)' : maritalStatus === "notMarried" ? 'не одружений(-а)' : maritalStatus === "ActivelyLooking" ? 'в активному пошуку' : '';
+
 
     const formik = useFormik({
         initialValues: {
@@ -49,7 +61,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                     dateBirth: dateB,
                     city,
                     jop,
-                    maritalStatus,
+                    maritalStatus:maritalStatusUser,
                     name: name,
                 },
                 snack:true
@@ -83,7 +95,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                         <Typography className={styles.itemInfo}
                                     variant="body1"
                         >
-                            ПІБ
+                           ім'я
                         </Typography>
                     </Col>
                     <Col xs={6} className={styles.item}>
@@ -94,7 +106,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                                 fullWidth
                                 id="name"
                                 name="name"
-                                label="ПІБ"
+                                label="ім\'я"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 error={formik.touched.name && Boolean(formik.errors.name)}
@@ -179,21 +191,33 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                     </Col>
 
                     <Col xs={6} className={styles.item}>
-                        <Typography
-                            variant="body1">
-                            <TextField
-                                className={styles.input}
-                                fullWidth
-                                id="maritalStatus"
-                                name="maritalStatus"
-                                label="статус"
-                                value={formik.values.maritalStatus}
-                                onChange={formik.handleChange}
-                                error={formik.touched.maritalStatus && Boolean(formik.errors.maritalStatus)}
-                                helperText={formik.touched.maritalStatus && formik.errors.maritalStatus}
+                        {/*<Typography*/}
+                            {/*variant="body1">*/}
+                            {/*<TextField*/}
+                                {/*className={styles.input}*/}
+                                {/*fullWidth*/}
+                                {/*id="maritalStatus"*/}
+                                {/*name="maritalStatus"*/}
+                                {/*label="статус"*/}
+                                {/*value={formik.values.maritalStatus}*/}
+                                {/*onChange={formik.handleChange}*/}
+                                {/*error={formik.touched.maritalStatus && Boolean(formik.errors.maritalStatus)}*/}
+                                {/*helperText={formik.touched.maritalStatus && formik.errors.maritalStatus}*/}
+                            {/*/>*/}
+                        {/*</Typography>*/}
+
+
+                        <div className={styles.select}>
+                            <SelectButtons
+                                onChangeValue={onChangeMaritalStatus}
+                                defaultlValue={maritalStatusUser}
+                                defaultTitle={maritalStatusText}
+                                data={dataSelectMaritalStatus}
                             />
-                        </Typography>
+                        </div>
                     </Col>
+
+
 
                     <Col xs={12} className={styles.item}>
                         <Button

@@ -25,35 +25,30 @@ interface IInitialState {
         totalOtherRequest: number,
         totalMyRequest: number,
     },
-    searchType: 'city' | 'name' | 'dateBirth' | 'maritalStatus' | 'login' | 'sex',
-    searchValue: string,
 
     searchParams: {
         maritalStatus: {
-            active: boolean,
+            title: string,
             value: string | false
         },
         login: {
-            active: boolean,
             value: string | false
         },
         name: {
-            active: boolean,
             value: string | false
         },
         city: {
-            active: boolean,
             value: string | false
         },
         dateBirth: {
-            active: boolean,
+            title: string,
             of: false | number,
             to: false | number,
 
 
         },
         sex: {
-            active: boolean,
+            title: string,
             value: 'female' | 'male' | 'other' | string | false,
         },
     }
@@ -84,33 +79,28 @@ const initialState: IInitialState = {
         totalMyRequest: 0,
     },
 
-    searchValue: '',
-    searchType: 'sex',
     searchParams: {
         maritalStatus: {
-            active: false,
-            value: false
+            title: 'неважливо',
+            value: false,
         },
         city: {
-            active: false,
             value: ''
         },
         name: {
-            active: false,
             value: ''
         },
         login: {
-            active: false,
             value: ''
         },
         dateBirth: {
-            active: false,
+            title: 'неважливо',
             of: false,
             to: false
         },
 
         sex: {
-            active: false,
+            title: 'неважливо',
             value: false
         },
     }
@@ -161,14 +151,7 @@ export const userSlice = createSlice({
 
         },
 
-        setWhereSearchType(state, action) {
-            state.searchType = action.payload.type;
 
-        },
-        setWhereSearchValue(state, action) {
-            state.searchValue = action.payload.value;
-
-        },
         setParamsSex(state, action) {
             state.searchParams.sex.value = action.payload
         },
@@ -190,6 +173,17 @@ export const userSlice = createSlice({
             state.searchParams.dateBirth.of = action.payload.of
         },
 
+        setParamsTitleSex(state, action) {
+            state.searchParams.sex.title = action.payload
+        },
+        setParamsTitleMaritalStatus(state, action) {
+            state.searchParams.maritalStatus.title = action.payload
+        },
+
+        setParamsTitleDateBirth(state, action) {
+            state.searchParams.dateBirth.title = action.payload;
+        },
+
 
 
     },
@@ -205,14 +199,15 @@ export const {
     setIsAuth,
     setLoadingProfile,
     setTotalFriends,
-    setWhereSearchType,
-    setWhereSearchValue,
     setParamsSex,
     setParamsLogin,
     setParamsCity,
     setParamsMaritalStatus,
     setParamsName,
-    setParamsDateBirth
+    setParamsDateBirth,
+    setParamsTitleSex,
+    setParamsTitleMaritalStatus,
+    setParamsTitleDateBirth
 
 
 } = userSlice.actions;

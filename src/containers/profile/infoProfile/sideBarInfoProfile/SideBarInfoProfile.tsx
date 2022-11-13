@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from './styles.module.scss'
-import {convertSecondstoDate, OptionsDate} from "../../../../helpers/date";
+import {convertSecondstoDate, getCurrentAge, OptionsDate} from "../../../../helpers/date";
 import {ITimestamp} from "../../../../types/timestamp";
 import {motion} from "framer-motion";
 import {Typography} from "@mui/material";
@@ -30,6 +30,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
     const sexText = sex === "female" ? 'жіноча' : sex === "male" ? 'чоловіча' : sex === "other" ? 'інша' : '';
     const maritalStatusText = maritalStatus === "married" ? 'одружений(-а)' : maritalStatus === "notMarried" ? 'не одружений(-а)' : maritalStatus === "ActivelyLooking" ? 'в активному пошуку' : '';
 
+    const years = dateBirth ? getCurrentAge(dateBirth) : null;
 
     return (
         <motion.div
@@ -49,7 +50,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                         className={styles.itemInfo}
                         variant="body1"
                     >
-                        {loadingProfile ? <SkeletonText/> : 'стать'}
+                        {loadingProfile ? <SkeletonText/> : 'Стать'}
                     </Typography>
                 </Col>
                 <Col xs={6} className={styles.item}>
@@ -77,10 +78,26 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
 
 
                 <Col xs={6} className={styles.item}>
+                    <Typography
+                        className={styles.itemInfo}
+                        variant="body1"
+                    >
+                        {loadingProfile ? <SkeletonText/> : 'Вік'}
+                    </Typography>
+                </Col>
+                <Col xs={6} className={styles.item}>
+                    <Typography
+                        variant="body1">
+                        {loadingProfile  ? <SkeletonText/> : years}
+                    </Typography>
+                </Col>
+
+
+                <Col xs={6} className={styles.item}>
                     <Typography className={styles.itemInfo}
                                 variant="body1"
                     >
-                        {loadingProfile ? <SkeletonText/> : ' Місце народження'}
+                        {loadingProfile ? <SkeletonText/> : 'Місце народження'}
                     </Typography>
                 </Col>
                 <Col xs={6} className={styles.item}>

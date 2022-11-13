@@ -1,4 +1,4 @@
-import {collection, getDocs, limit, orderBy, query, startAfter, where} from "firebase/firestore";
+import {collection, getDocs, limit, orderBy, query, startAfter, where,startAt} from "firebase/firestore";
 import {db} from "../../firebase/firebase";
 import {useState} from "react";
 
@@ -9,49 +9,11 @@ import {ISearchPeopleByLoginProps, ISearchPeopleByProfileProps} from "../../type
 
 export function useSearch() {
 
-    const [loadingSearchPeopleByLogin, setLoadingSearchPeopleByLogin] = useState<boolean>(false);
     const [loadingSearchPeopleByProfile, setLoadingSearchPeopleByProfile] = useState<boolean>(false);
 
     const {setSnackBar} = useSnackBar();
 
 
-    const searchPeopleByLogin = async (props: ISearchPeopleByLoginProps) => {
-        const {
-            userId,
-            limitPeople,
-            orderBySearch = 'desc',
-            startId
-        } = props;
-
-        setLoadingSearchPeopleByLogin(true);
-
-
-        const docRef = collection(db,
-            "users",
-            userId);
-
-
-        const ref = startId ? query(docRef,
-            orderBy("timestamp", orderBySearch),
-            limit(limitPeople),
-            startAfter(startId))
-            : query(docRef,
-                orderBy("timestamp", orderBySearch),
-                limit(limitPeople));
-
-        const res = await getDocs(ref);
-        try {
-            const results = (res.docs.map((data) => {
-                return {...data.data(), id: data.id}
-            }));
-            setLoadingSearchPeopleByLogin(false);
-            return results;
-
-
-        } catch (error) {
-            setLoadingSearchPeopleByLogin(false);
-        }
-    };
 
 
     const searchPeopleByProfile = async (props: ISearchPeopleByProfileProps) => {
@@ -65,7 +27,7 @@ export function useSearch() {
         setLoadingSearchPeopleByProfile(true);
 
 
-        const refWhereActive = city.value || name.value || maritalStatus.value || sex.value;
+        const refWhereActive = city.value || name.value || maritalStatus.value || sex.value || login.value;
         const refWhereboolean = !!refWhereActive;
 
         const docRef = collection(db,
@@ -75,42 +37,65 @@ export function useSearch() {
         const pathMaritalStatus = maritalStatus.value ? 'maritalStatus' : 'filter';
         const valueMaritalStatus = maritalStatus.value ? maritalStatus.value : true;
 
-        const pathCity = city.value ? 'city' : 'filter';
-        const valueCity = city.value ? city.value : true;
+        const pathCity = city.value && !(city.value === '') ? 'city' : 'filter';
+        const valueCity = city.value && !(city.value === '') ? city.value : true;
 
-        const pathName = name.value ? 'name' : 'filter';
-        const valueName = name.value ? name.value : true;
+        const pathName = name.value && !(name.value === '') ? 'name' : 'filter';
+        const valueName = name.value && !(name.value === '') ? name.value : true;
 
-        const pathSex = sex.value ? 'sex' : 'filter';
-        const valueSex = sex.value ? sex.value : true;
+        const pathSex = sex.value  ? 'sex' : 'filter';
+        const valueSex = sex.value  ? sex.value : true;
+
+        const pathLogin = login.value && !(login.value === '') ? 'id' : 'filter';
+        const valueLogin = login.value && !(login.value === '') ? login.value : true;
 
 
 
-        const refWhere = refWhereboolean ? query(docRef,
+
+        const refWhere = refWhereboolean ? startId ? query(docRef,
             //ts-ignore
             where(pathMaritalStatus, '==', valueMaritalStatus),
+            where(pathLogin, '==', valueLogin),
+            where(pathCity, '==', valueCity),
+            where(pathName, '==', valueName),
+            where(pathSex, '==', valueSex),
+            orderBy("timestamp", 'desc'),
+            limit(limitPeople),
+            startAfter(startId),
+            ) : query(docRef,
+            //ts-ignore
+            where(pathMaritalStatus, '==', valueMaritalStatus),
+            where(pathLogin, '==', valueLogin),
             where(pathCity, '==', valueCity),
             where(pathName, '==', valueName),
             where(pathSex, '==', valueSex),
 
+            orderBy("timestamp", 'desc'),
             limit(limitPeople),
             ) :
-            query(docRef,
-                limit(limitPeople),
-            );
+           startId ?  query(docRef,
+               limit(limitPeople),
+               orderBy("timestamp", 'desc'),
+               startAfter(startId),
+
+           ) :  query(docRef,
+               limit(limitPeople),
+               orderBy("timestamp", 'desc'),
+           );
 
 
-        const res = await getDocs(refWhere);
+
         try {
+            const res = await getDocs(refWhere);
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}
             }));
-            setLoadingSearchPeopleByLogin(false);
+            setLoadingSearchPeopleByProfile(false);
             return results;
 
 
         } catch (error) {
-            setLoadingSearchPeopleByLogin(false);
+            setLoadingSearchPeopleByProfile(false);
         }
 
 
@@ -118,11 +103,9 @@ export function useSearch() {
 
 
     return {
-        loadingSearchPeopleByLogin,
         loadingSearchPeopleByProfile,
 
 
-        searchPeopleByLogin,
         searchPeopleByProfile,
     };
 };

@@ -64,7 +64,8 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
                         type: 'post',
                         idRibbonContent: idPost,
                     },
-                    currentUserId: idUser
+                    currentUserId: idUser,
+                    ribbonItemId:idPost,
                 })
             }
         }

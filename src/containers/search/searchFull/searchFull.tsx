@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchInput from "../searchInput/SearchInput";
 import {Col, Row} from "react-bootstrap";
 import Sort from "../../sort/Sort";
 
@@ -15,7 +14,7 @@ const SearchFull = () => {
 
             <Row>
                 <Col xl={12}>
-                    <SearchType/>
+
                 </Col>
                 <Col xl={4}>
                     <Sort/>
@@ -23,7 +22,9 @@ const SearchFull = () => {
 
                 <Col xl={8}>
                     <div className={styles.search}>
-                        <SearchInput/>
+                        <div className={styles.type}>
+                            <SearchType/>
+                        </div>
                         <SearchList/>
                     </div>
 

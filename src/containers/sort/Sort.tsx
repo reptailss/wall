@@ -10,15 +10,18 @@ import Accor from "../../components/accor/Accor"
 import styles from './sort.module.scss'
 
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import DateInput from "../../components/dateInput/DateInput";
-import {    setParamsSex,
-    setParamsLogin,
+import {
     setParamsCity,
+    setParamsDateBirth,
+    setParamsLogin,
     setParamsMaritalStatus,
     setParamsName,
-    setParamsDateBirth} from '../../redux/slice/userSlice'
+    setParamsSex,
+    setParamsTitleDateBirth,
+    setParamsTitleMaritalStatus,
+    setParamsTitleSex
+} from '../../redux/slice/userSlice'
 import useDebounce from "../../hooks/useDebounce/useDebounce";
-
 
 
 const Sort: FC = memo(() => {
@@ -26,81 +29,105 @@ const Sort: FC = memo(() => {
         const dispatch = useAppDispatch();
 
 
-    const {searchParams} = useAppSelector(state => state.user);
+        const {searchParams} = useAppSelector(state => state.user);
 
-    const[cityValue,setCityValue] = useState<string | false>(searchParams.city.value);
-    const[nameValue,setNameValue] = useState<string | false>(searchParams.name.value);
+        const {city, name, login} = searchParams;
 
-
-    const onChangeSex = (value:'female' | 'male' | 'other' | string | false) =>{
-        if(!value || value === ''){
-            dispatch(setParamsSex(false))
-        } else{
-            dispatch(setParamsSex(value))
-        }
-
-    };
-
-    const onChangeMaritalStatus = (value:'married' | 'notMarried' | 'ActivelyLooking' |  string |  false) =>{
-        if(!value || value === '' || value === 'false'){
-            dispatch(setParamsMaritalStatus(false))
-        } else{
-            dispatch(setParamsMaritalStatus(value))
-        }
-
-    };
+        const [cityValue, setCityValue] = useState<string | false>(city.value);
+        const [nameValue, setNameValue] = useState<string | false>(name.value);
+        const [loginValue, setLoginValue] = useState<string | false>(login.value);
 
 
-    const onChangeLogin = (value:string |  false) =>{
-        if(!value || value === ''){
-            dispatch(setParamsLogin(false))
-        } else{
-            dispatch(setParamsLogin(value))
-        }
-    };
+        useEffect(() => {
+            setCityValue(city.value)
+        }, [city.value]);
+
+        useEffect(() => {
+            setNameValue(name.value)
+        }, [name.value]);
+
+        useEffect(() => {
+            setLoginValue(login.value)
+        }, [login.value]);
 
 
+        const onChangeSex = (value: 'female' | 'male' | 'other' | string | false) => {
+            if (!value || value === '') {
+                dispatch(setParamsSex(false))
+            } else {
+                dispatch(setParamsSex(value))
+
+            }
+
+        };
+
+        const onChangeMaritalStatus = (value: 'married' | 'notMarried' | 'ActivelyLooking' | string | false) => {
+            if (!value || value === '' || value === 'false') {
+                dispatch(setParamsMaritalStatus(false))
+            } else {
+                dispatch(setParamsMaritalStatus(value));
+                dispatch(setParamsTitleMaritalStatus(value))
+            }
+
+        };
+
+        const onChangeMaritalStatusTitle = (value: string) => {
+            dispatch(setParamsTitleMaritalStatus(value))
+
+        };
+
+        const onChangeSexTitle = (value: string) => {
+            dispatch(setParamsTitleSex(value))
+
+        };
 
 
-    const debouncedValueName = useDebounce<string | false>(nameValue, 800);
+        const onChangeDateBirthTitle = (value: string) => {
+            dispatch(setParamsTitleDateBirth(value))
 
-    const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNameValue(event.target.value);
+        };
 
-    };
 
-    useEffect(()=>{
-        if(!debouncedValueName || debouncedValueName === ''){
-            dispatch(setParamsName(false))
-        } else{
+        const debouncedValueName = useDebounce<string | false>(nameValue, 800);
+
+        const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+            setNameValue(event.target.value);
+
+        };
+
+        useEffect(() => {
             dispatch(setParamsName(debouncedValueName))
-        }
-    },[debouncedValueName]);
+        }, [debouncedValueName]);
 
 
+        const onChangeDateBirth = (value: { of: number, to: number } | false) => {
+            dispatch(setParamsDateBirth({to: value, of: value}))
 
+        };
 
+        const debouncedValueCity = useDebounce<string | false>(cityValue, 800);
 
-    const onChangeDateBirth= (value:{of: number,to:number} | false) =>{
-        dispatch(setParamsDateBirth(value))
+        const onChangeCity = (event: React.ChangeEvent<HTMLInputElement>) => {
+            setCityValue(event.target.value);
+        };
 
-    };
-
-    const debouncedValueCity = useDebounce<string | false>(cityValue, 800);
-
-    const onChangeCity = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCityValue(event.target.value);
-    };
-
-    useEffect(()=>{
-
-        if(!debouncedValueCity || debouncedValueCity === ''){
-            dispatch(setParamsCity(false))
-        } else{
+        useEffect(() => {
             dispatch(setParamsCity(debouncedValueCity))
-        }
-    },[debouncedValueCity]);
+        }, [debouncedValueCity]);
 
+
+        const debouncedValueLogin = useDebounce<string | false>(loginValue, 800);
+
+        const onChangesLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
+            setLoginValue(event.target.value);
+        };
+
+        useEffect(() => {
+
+            dispatch(setParamsLogin(debouncedValueLogin))
+
+
+        }, [debouncedValueLogin]);
 
 
         return (
@@ -108,6 +135,24 @@ const Sort: FC = memo(() => {
 
                 <div className={styles.item}>
                     <Accor title={'Фільтри'}>
+
+                        <div className={styles.item}>
+                            <div className={styles.title}>
+                                логін
+                            </div>
+                            <TextField
+                                size="small"
+                                key={'login'}
+                                className={styles.inputText}
+                                fullWidth
+                                id={'login'}
+                                name={'login'}
+                                label={'login'}
+                                value={loginValue}
+                                onChange={onChangesLogin}
+                                multiline
+                            />
+                        </div>
 
 
                         <div className={styles.item}>
@@ -134,10 +179,15 @@ const Sort: FC = memo(() => {
                             </div>
                             <div className={styles.select}>
                                 <SelectButtons
-                                    onChangeValue={(value) =>{onChangeMaritalStatus(value)}}
-                                               defaultlValue={searchParams.maritalStatus.value}
-                                               defaultTitle={'неважливо'}
-                                               data={dataSelectMaritalStatus}
+                                    onChangeValue={(value) => {
+                                        onChangeMaritalStatus(value)
+                                    }}
+                                    onChangeTitle={(value) => {
+                                        onChangeMaritalStatusTitle(value)
+                                    }}
+                                    defaultlValue={searchParams.maritalStatus.value}
+                                    defaultTitle={searchParams.maritalStatus.title}
+                                    data={dataSelectMaritalStatus}
                                 />
                             </div>
                         </div>
@@ -149,9 +199,14 @@ const Sort: FC = memo(() => {
                             </div>
                             <div className={styles.select}>
                                 <SelectButtons
-                                    onChangeValue={(value)=>{onChangeSex(value)}}
+                                    onChangeValue={(value) => {
+                                        onChangeSex(value)
+                                    }}
+                                    onChangeTitle={(value) => {
+                                        onChangeSexTitle(value)
+                                    }}
                                     defaultlValue={searchParams.sex.value}
-                                    defaultTitle={'неважливо'}
+                                    defaultTitle={searchParams.sex.title}
                                     data={dataSelectSex}
                                 />
                             </div>
@@ -175,19 +230,24 @@ const Sort: FC = memo(() => {
                             />
                         </div>
 
-                        <div className={styles.item}>
-                            <div className={styles.title}>
-                               Вік
-                            </div>
-                            <div className={styles.select}>
-                                <SelectButtons
-                                    onChangeValue={(value) =>{onChangeDateBirth(value)}}
-                                    defaultlValue={searchParams.dateBirth.of}
-                                    defaultTitle={'неважливо'}
-                                    data={dataSelectDateBirth}
-                                />
-                            </div>
-                        </div>
+                        {/*<div className={styles.item}>*/}
+                            {/*<div className={styles.title}>*/}
+                                {/*Вік*/}
+                            {/*</div>*/}
+                            {/*<div className={styles.select}>*/}
+                                {/*<SelectButtons*/}
+                                    {/*onChangeValue={(value) => {*/}
+                                        {/*onChangeDateBirth(value)*/}
+                                    {/*}}*/}
+                                    {/*onChangeTitle={(value) => {*/}
+                                        {/*onChangeDateBirthTitle(value)*/}
+                                    {/*}}*/}
+                                    {/*defaultlValue={searchParams.dateBirth.of}*/}
+                                    {/*defaultTitle={searchParams.dateBirth.title}*/}
+                                    {/*data={dataSelectDateBirth}*/}
+                                {/*/>*/}
+                            {/*</div>*/}
+                        {/*</div>*/}
                     </Accor>
                 </div>
             </div>

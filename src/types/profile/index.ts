@@ -48,3 +48,7 @@ export interface IUpUserProfileProps {
     snack?: boolean
 }
 
+
+export interface IGetNewUsers {
+    limitUsers: number
+}

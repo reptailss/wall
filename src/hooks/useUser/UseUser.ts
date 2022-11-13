@@ -2,9 +2,14 @@ import {doc,
     getDoc,
     serverTimestamp,
     setDoc,
-    updateDoc } from "firebase/firestore";
+    updateDoc ,
+    collection,
+    getDocs,query,
+    orderBy,
+    limit
+} from "firebase/firestore";
 import {db} from "../../firebase/firebase";
-import {IUpdateUserProfileProps, IUpUserProfileProps} from "../../types/profile";
+import {IGetNewUsers, IUpdateUserProfileProps, IUpUserProfileProps} from "../../types/profile";
 import {useState} from "react";
 
 import {useSnackBar} from "../useSneckBar/useSnackBars";
@@ -13,14 +18,20 @@ import {setUserSliceProfile,setLoadingProfile} from '../../redux/slice/userSlice
 
 
 
+
 export function useUsers() {
     const {setSnackBar} = useSnackBar();
 
-    const [loadingGetUserProfile, setloadingGetUserProfile] = useState<boolean>(true);
-    const [loadingGetUserProfileOther, setLoadingGetUserProfileOther] = useState<boolean>(true);
+    const [loadingGetUserProfile,
+        setloadingGetUserProfile] = useState<boolean>(true);
+    const [loadingGetUserProfileOther,
+        setLoadingGetUserProfileOther] = useState<boolean>(true);
 
     const [loadingUpdateUserProfile,
         setLoadingUpdateUserProfile] = useState<boolean>(false);
+
+    const [loadingGetNewUsers,
+        setLoadingGetNewUsers] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
@@ -111,16 +122,45 @@ export function useUsers() {
 
     };
 
+    const getNewUsers = async (props:IGetNewUsers) => {
+
+        const{limitUsers} = props;
+
+        const docRef =  query(collection(db, "users"),
+            orderBy('timestamp', 'desc')
+            ,limit(limitUsers));
+
+        setLoadingGetNewUsers(true);
+        const res = await getDocs(docRef);
+        try{
+            const results = (res.docs.map((data) => {
+                return { ...data.data(), id: data.id }
+            }));
+            setLoadingGetNewUsers(false);
+            return results;
+
+
+        }catch (error) {
+            setLoadingGetNewUsers(false);
+        }
+
+
+    };
+
+
 
 
     return {
         loadingGetUserProfile,
         loadingGetUserProfileOther,
         loadingUpdateUserProfile,
+        loadingGetNewUsers,
 
         setUserProfile,
         getUserProfile,
         getUserProfileOther,
         updateUserProfile,
+        getNewUsers,
+
     };
 }

@@ -6,11 +6,12 @@ import {useAppSelector} from "../../hooks/redux";
 import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
 import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
+import NewUsersSidebar from "../../containers/newUsers/newUsersSidebar/NewUsersSidebar";
 
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
-    const {profile,loadingProfile} = useAppSelector(state => state.user);
-    const{currentAvatar} = profile;
+    const {profile, loadingProfile} = useAppSelector(state => state.user);
+    const {currentAvatar} = profile;
 
     return (
         <Row>
@@ -19,13 +20,15 @@ const HomePage = () => {
                     currentAvatar={currentAvatar}
                 />
                 <ChangeAvatarBtn
-                text={'змінити'}
+                    text={'змінити'}
                 />
                 <FriendsSidebar
                     myPage
                     userId={id}/>
+
             </Col>
             <Col xl={8}>
+
                 <InfoProfile
                     loadingProfile={loadingProfile}
                     idUser={id}

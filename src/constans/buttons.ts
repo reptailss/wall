@@ -26,7 +26,9 @@ interface IItemTypeButton {
 }
 
 export const searchTypeButton: IItemTypeButton[] = [
-    {value: 'city', title: 'місто'},
+    {value: 'city',
+        title: 'місто'
+    },
     {value: 'name', title: 'імя'},
     {value: 'dateBirth', title: 'дата народження'},
     {value: 'maritalStatus', title: 'сімейний статус'},

@@ -13,9 +13,24 @@ export interface IRibbonItem {
 
 export interface IAddRibbonItemProps {
     userId:string
-    body:IRibbonItem
+    body:IRibbonItem,
+    ribbonItemId:string
 }
+
+export interface IDeleteRibbonItemProps {
+    userId:string,
+    ribbonItemId:string
+}
+
 export interface IAddFriendRibbonItemProps {
     body:IRibbonItem,
+    currentUserId:string,
+    ribbonItemId:string
+}
+
+
+export interface IDeleteFriendRibbonItemProps {
+    ribbonItemId:string,
     currentUserId:string
 }
+

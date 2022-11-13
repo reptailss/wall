@@ -14,8 +14,7 @@ import {db} from "../../../../../firebase/firebase";
 import {doc, onSnapshot,collection} from "firebase/firestore";
 import ChatForwardSidebar from "../chatForwardSidebar/ChatForwardSidebar";
 import {AnimatePresence, motion} from "framer-motion";
-import {Paper} from "@mui/material";
-import {setTotalFriends} from "../../../../../redux/slice/userSlice";
+
 
 
 interface ICombinedChatListProps {

@@ -1,4 +1,4 @@
-import {FC, memo, useState} from 'react'
+import {FC, memo, useEffect, useState} from 'react'
 import {Dropdown} from 'react-bootstrap'
 import style from './select.module.scss'
 import {ISelectButton} from "../../types/button";
@@ -7,10 +7,11 @@ interface ISelectButtons {
     data: ISelectButton[],
     defaultlValue: any,
     onChangeValue: (value: any) => void,
+    onChangeTitle?: (value: any) => void,
     defaultTitle: string
 }
 
-const SelectButtons: FC<ISelectButtons> = memo(({data, defaultlValue, onChangeValue, defaultTitle}) => {
+const SelectButtons: FC<ISelectButtons> = memo(({data, defaultlValue, onChangeValue, defaultTitle,onChangeTitle}) => {
 
     const [value, setValue] = useState(defaultlValue);
     const [title, setTitle] = useState(defaultTitle);
@@ -19,7 +20,16 @@ const SelectButtons: FC<ISelectButtons> = memo(({data, defaultlValue, onChangeVa
         setValue(event.target.getAttribute('value'));
         setTitle(event.target.getAttribute('title'));
         onChangeValue(event.target.getAttribute('value'))
+       if(onChangeTitle){
+           onChangeTitle(event.target.getAttribute('title'))
+       }
     };
+
+    useEffect(()=>{
+       if(defaultTitle){
+           setTitle(defaultTitle)
+       }
+    },[defaultTitle]);
 
     const selectItems = data.map((item) => {
             return (

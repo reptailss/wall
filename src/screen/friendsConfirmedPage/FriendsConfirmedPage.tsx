@@ -2,6 +2,7 @@ import React from 'react';
 import NavigateFriends from "../../containers/friends/navigateFriends/NavigateFriends";
 import FriendsConfirmed from "../../containers/friends/friendsConfirmed/FriendsConfirmed";
 import {useAppSelector} from "../../hooks/redux";
+import NewUsersSidebar from "../../containers/newUsers/newUsersSidebar/NewUsersSidebar";
 
 const FriendsConfirmedPage = () => {
     const{id} = useAppSelector(state => state.user);
@@ -9,6 +10,7 @@ const FriendsConfirmedPage = () => {
     return (
         <div>
           <NavigateFriends/>
+          <NewUsersSidebar/>
           <FriendsConfirmed
               myPage
               userId={id}/>

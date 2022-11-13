@@ -42,6 +42,8 @@ const{id} = useAppSelector(state => state.user);
         };
     }, [db, id]);
 
+    console.log(data)
+
     const list = data.map( (item) =>{
         return <RibbonItem
             key={item.id}

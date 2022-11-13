@@ -1,19 +1,23 @@
 import {doc,
     serverTimestamp,
     setDoc,
-    collection} from "firebase/firestore";
+    collection,
+    deleteDoc} from "firebase/firestore";
 import {db} from "../../firebase/firebase";
 import {useState} from "react";
 
 import {useSnackBar} from "../useSneckBar/useSnackBars";
-import {IAddFriendRibbonItemProps,
-    IAddRibbonItemProps} from "../../types/ribbon";
+import {
+    IAddFriendRibbonItemProps,
+    IAddRibbonItemProps, IDeleteFriendRibbonItemProps, IDeleteRibbonItemProps
+} from "../../types/ribbon";
 import {useFriends} from "../useFriends/useFriends";
 
 
 export function useRibbon() {
 
     const [loadingAddFriendRibbon, setLoadingAddFriendRibbon] = useState<boolean>(false);
+    const [loadingDeleteFriendRibbon, setLoadingDeleteFriendRibbon] = useState<boolean>(false);
 
     const {setSnackBar} = useSnackBar();
 
@@ -21,13 +25,13 @@ export function useRibbon() {
 
 
     const addItemRibbons = async (props: IAddRibbonItemProps) => {
-        const {userId, body} = props;
+        const {userId, body,ribbonItemId} = props;
 
 
         try {
-            const ref = doc(collection(db, "users",
+            const ref = doc(db, "users",
                 userId,
-                "ribbon",));
+                "ribbon",ribbonItemId);
 
             await setDoc(ref, {
                 ...body,
@@ -44,7 +48,7 @@ export function useRibbon() {
 
     const addFriendsItemRibbon = async (props: IAddFriendRibbonItemProps) => {
 
-        const {body, currentUserId} = props;
+        const {body, currentUserId,ribbonItemId} = props;
 
         setLoadingAddFriendRibbon(true);
 
@@ -56,7 +60,8 @@ export function useRibbon() {
             friends.map(async (friend) => {
                 await addItemRibbons({
                     body,
-                    userId: friend.id
+                    userId: friend.id,
+                    ribbonItemId
                 })
             });
         }
@@ -76,11 +81,68 @@ export function useRibbon() {
 
 
 
+    const deleteItemRibbons = async (props: IDeleteRibbonItemProps) => {
+        const {userId,ribbonItemId} = props;
+
+
+        try {
+            const ref = doc(db, "users",
+                userId,
+                "ribbon",ribbonItemId);
+
+            await deleteDoc(ref);
+
+        } catch (error: any) {
+            setLoadingAddFriendRibbon(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+    };
+
+
+
+    const deleteFriendsItemRibbon = async (props: IDeleteFriendRibbonItemProps) => {
+
+        const {currentUserId,ribbonItemId} = props;
+
+        setLoadingDeleteFriendRibbon(true);
+
+        const friends = await getFriendsConfirmedUsers({
+            userId: currentUserId
+        });
+
+        if (friends) {
+            friends.map(async (friend) => {
+                await deleteItemRibbons({
+                    userId: friend.id,
+                    ribbonItemId
+                })
+            });
+        }
+
+        setLoadingDeleteFriendRibbon(false);
+
+        try {
+
+        } catch (error: any) {
+            setLoadingAddFriendRibbon(false);
+            setSnackBar(error.code, 'error');
+            throw  error;
+        }
+
+    };
+
+
+
+
+
     return {
 
         loadingAddFriendRibbon,
+        loadingDeleteFriendRibbon,
 
-        addFriendsItemRibbon
+        addFriendsItemRibbon,
+        deleteFriendsItemRibbon,
 
     };
 }

@@ -1,37 +1,19 @@
-import React, {FC, useEffect, useState} from 'react';
-import {useUsers} from "../../../../hooks/useUser/UseUser";
+import React, {FC} from 'react';
 import {IUserProfile} from "../../../../types/profile";
 import {Avatar, Paper, Typography} from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton';
 import styles from "./styles.module.scss";
-import {IFriendItem} from "../../../../types/friends";
 import SkeletonText from "../../../../components/skeletons/SkeletonText";
 import Link from "next/link";
 import LinkMU from '@mui/material/Link'
-import {useAppSelector} from "../../../../hooks/redux";
-import {useFriends} from "../../../../hooks/useFriends/useFriends";
 import AddMessageBtn from "../../../chats/addMessageBtn/AddMessageBtn";
-import {convertSecondstoDate} from "../../../../helpers/date";
+import {convertSecondstoDate,getCurrentAge} from "../../../../helpers/date";
 import AddFriendBtn from "../../../friends/addFriendBtn/AddFriendBtn";
 
 
+const PeopleItem: FC<IUserProfile> = ({name, currentAvatar, id, dateBirth}) => {
 
 
-
-const PeopleItem:FC<IUserProfile> = ({name,currentAvatar,id,dateBirth}) => {
-
-  const getCurentAge = (dateBirth:number) =>{
-    if(dateBirth){
-       const date =  convertSecondstoDate(dateBirth)
-        var ageDifMs = Date.now() - date.getTime();
-        var ageDate = new Date(ageDifMs); // miliseconds from epoch
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
-  };
-
-const years = dateBirth ? getCurentAge(dateBirth) : null;
-
-
+    const years = dateBirth ? getCurrentAge(dateBirth) : null;
 
 
     return (
@@ -54,12 +36,19 @@ const years = dateBirth ? getCurentAge(dateBirth) : null;
                             color="secondary">
                         <Typography
                             className={styles.name}
-                            variant="body2" color="text.other"
+                            variant="body2" color="text.primary"
                         >
-                            {name ? name : <SkeletonText/>}
-                            <div>
-                                {years} р.
-                            </div>
+                            {id ? id : <SkeletonText/>}
+                        </Typography>
+
+                        <Typography
+                            className={styles.name}
+                            variant="caption" color="text.other"
+                        >
+                            {years ? <div>
+                                {years}
+                            </div> : <SkeletonText/>}
+
                         </Typography>
                     </LinkMU>
                 </Link>
@@ -69,7 +58,7 @@ const years = dateBirth ? getCurentAge(dateBirth) : null;
                     {id && <AddMessageBtn userId={id}/>}
                 </div>
 
-                {id &&  <AddFriendBtn
+                {id && <AddFriendBtn
                     userId={id}
                 />}
             </div>

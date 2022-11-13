@@ -47,3 +47,13 @@ export     const OptionsYears:Intl.DateTimeFormatOptions = {
    hour: 'numeric',
    minute: "numeric"
 };
+
+
+export const getCurrentAge = (dateBirth: number) => {
+   if (dateBirth) {
+      const date = convertSecondstoDate(dateBirth)
+      var ageDifMs = Date.now() - date.getTime();
+      var ageDate = new Date(ageDifMs); // miliseconds from epoch
+      return Math.abs(ageDate.getUTCFullYear() - 1970) + 'р.';
+   }
+};

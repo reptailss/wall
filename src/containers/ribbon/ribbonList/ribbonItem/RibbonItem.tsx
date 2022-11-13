@@ -64,6 +64,7 @@ const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonConte
                             <Typography
                                 className={styles.link}
                                 variant={'body2'}
+                                component={'div'}
                             >
                                 <AvatarUserSmall
                                     pathImg={avatar}
@@ -76,6 +77,7 @@ const RibbonItem: FC<IRibbonItem> = ({type, text, pathImg, userId, idRibbonConte
                     </Link>
                     <Typography
                         variant={'body2'}
+                        component={'div'}
                         color={'text.other'}
                     >
                         {textInfo}

@@ -1,45 +1,40 @@
-
+import {ITimestamp} from "../timestamp";
 
 export interface ISearchProps {
     limitPeople: number,
-    orderBySearch?:'asc' | 'desc',
-    startId?:string,
+    orderBySearch?: 'asc' | 'desc',
+    startId?: ITimestamp,
 }
 
-export interface ISearchPeopleByLoginProps extends ISearchProps{
-    userId:string,
+export interface ISearchPeopleByLoginProps extends ISearchProps {
+    userId: string,
 }
 
 
-
-export interface ISearchPeopleByProfileProps extends ISearchProps{
+export interface ISearchPeopleByProfileProps extends ISearchProps {
 
     maritalStatus: {
-        active: boolean,
-        value: string | false
+        value: string | false,
+        title: string,
     }
 
     login: {
-        active: boolean,
-        value: string | false
+        value: string | false,
     },
     name: {
-        active: boolean,
-        value: string | false
+        value: string | false,
     },
     city: {
-        active: boolean,
-        value: string | false
+        value: string | false,
     },
     dateBirth: {
-        active: boolean,
         of: false | number,
         to: false | number,
+        title: string,
 
 
     },
     sex: {
-        active: boolean,
         value: 'female' | 'male' | 'other' | string | false,
     },
 }

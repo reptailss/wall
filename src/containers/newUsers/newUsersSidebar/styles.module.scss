@@ -1,0 +1,46 @@
+.root{
+  margin-top: 15px!important;
+
+}
+.full{
+  transition: all .3s!important;
+  &:hover{
+    opacity: .5!important;
+    cursor: pointer!important;
+  }
+}
+.info{
+  padding: 10px 15px 10px 30px!important;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: space-between!important;
+}
+.slider{
+  position: relative;
+}
+
+
+
+.slider :global(.swiper-button-next) {
+  position: absolute!important;
+  right: 10px;
+  left: auto;
+  bottom: 0!important;
+  top: auto!important;
+  &:after{
+    content:'';
+  }
+}
+
+
+.slider :global(.swiper-button-prev) {
+  position: absolute!important;
+  height: 25px;
+  left: 10px;
+  right: auto;
+  bottom: 0!important;
+  top: auto!important;
+  &:after{
+    content:'';
+  }
+}
