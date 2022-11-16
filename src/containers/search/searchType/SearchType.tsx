@@ -17,7 +17,7 @@ import {setParamsSex,
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
 
-const SearchType = memo(() => {
+const SearchType = () => {
 
         const {searchParams} = useAppSelector(state => state.user);
         const {city, maritalStatus, name, login, dateBirth, sex} = searchParams;
@@ -95,7 +95,6 @@ const SearchType = memo(() => {
                 {searchTypeList}
             </div>
         );
-    }
-);
+    };
 
 export default SearchType;

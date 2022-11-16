@@ -24,7 +24,7 @@ import {
 import useDebounce from "../../hooks/useDebounce/useDebounce";
 
 
-const Sort: FC = memo(() => {
+const Sort: FC = () => {
 
         const dispatch = useAppDispatch();
 
@@ -252,7 +252,6 @@ const Sort: FC = memo(() => {
                 </div>
             </div>
         );
-    }
-);
+    };
 
 export default Sort;
