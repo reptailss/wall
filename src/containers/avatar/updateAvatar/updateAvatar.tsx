@@ -138,8 +138,10 @@ const UpdateAvatar = () => {
                         type: 'updateAvatar',
                         userId: id,
                         pathImg: [dataImg],
-                        idRibbonContent: idAvatar
-                    }
+                        idRibbonContent: idAvatar,
+
+                    },
+                    ribbonItemId:idPost
                 })
             }
         }
