@@ -59,7 +59,7 @@ const Register = () => {
                         city,
                         jop,
                         maritalStatus,
-                        currentAvatar: 'https://firebasestorage.googleapis.com/v0/b/blog-f279e.appspot.com/o/avatar.png?alt=media&token=993f58a6-9b02-42d2-910f-9170deaa54c4',
+                        currentAvatar: 'https://firebasestorage.googleapis.com/v0/b/blog-f279e.appspot.com/o/avatar.png?alt=media&token=4c4cdba7-a967-4b55-8225-7c5ae4592711',
                         uid:res.user.uid,
                         status:'...',
                         sex:sex,
@@ -206,7 +206,7 @@ const Register = () => {
             fullWidth
             id={'name'}
             name={'name'}
-            label={"ваше ім&apos;я"}
+            label={"ваше імя"}
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
