@@ -106,7 +106,7 @@ const SideBarRedProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, 
                                 fullWidth
                                 id="name"
                                 name="name"
-                                label="ім\'я"
+                                label="ім&apos;я"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 error={formik.touched.name && Boolean(formik.errors.name)}

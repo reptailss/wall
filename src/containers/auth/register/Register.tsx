@@ -206,7 +206,7 @@ const Register = () => {
             fullWidth
             id={'name'}
             name={'name'}
-            label={"ваше ім'я"}
+            label={"ваше ім&apos;я"}
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
