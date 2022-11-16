@@ -14,7 +14,7 @@ interface IAccorProps {
     expanded?: boolean
 }
 
-const Accor: FC<IAccorProps> = memo(({title, children, expanded}) => {
+const Accor: FC<IAccorProps> = ({title, children, expanded}) => {
     return (
         <>
             <Accordion>
@@ -33,6 +33,6 @@ const Accor: FC<IAccorProps> = memo(({title, children, expanded}) => {
 
         </>
     );
-});
+};
 
 export default Accor;

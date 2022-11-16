@@ -11,7 +11,7 @@ interface ISelectButtons {
     defaultTitle: string
 }
 
-const SelectButtons: FC<ISelectButtons> = memo(({data, defaultlValue, onChangeValue, defaultTitle,onChangeTitle}) => {
+const SelectButtons: FC<ISelectButtons> = ({data, defaultlValue, onChangeValue, defaultTitle,onChangeTitle}) => {
 
     const [value, setValue] = useState(defaultlValue);
     const [title, setTitle] = useState(defaultTitle);
@@ -58,7 +58,7 @@ const SelectButtons: FC<ISelectButtons> = memo(({data, defaultlValue, onChangeVa
             </Dropdown.Menu>
         </Dropdown>
     )
-});
+};
 
 
 export default SelectButtons;
