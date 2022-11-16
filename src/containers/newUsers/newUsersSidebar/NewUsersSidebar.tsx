@@ -52,6 +52,7 @@ const NewUsersSidebar = () => {
         if (res && res.length) {
             setUsers(res);
         }
+        console.log(res)
     };
 
 
@@ -65,14 +66,15 @@ const NewUsersSidebar = () => {
 
     const itemsSlide = users && users.map((item: IUserProfile) => {
         const myPage = item.id === currentUserId;
+        if(myPage){
+            return
+        }
         return (
-            <>
-                {!myPage ?  <SwiperSlide key={item.id}>
-                    <UserSidebarItem
-                        loadingGetNewUsers={loadingGetNewUsers}
-                        {...item}/>
-                </SwiperSlide> : null}
-            </>
+            <SwiperSlide key={item.id}>
+                <UserSidebarItem
+                    loadingGetNewUsers={loadingGetNewUsers}
+                    {...item}/>
+            </SwiperSlide>
         )
     });
 
