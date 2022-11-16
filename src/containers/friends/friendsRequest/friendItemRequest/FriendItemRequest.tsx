@@ -28,6 +28,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
         timestamp: {seconds: 0, nanoseconds: 0},
         currentAvatar: '',
         status:'',
+        sex:'',
     });
 
     const {
