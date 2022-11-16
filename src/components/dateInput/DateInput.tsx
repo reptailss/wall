@@ -25,13 +25,11 @@ const DateInput :FC<IDataInputProps> = ({onChangeDateValue,dateProp}) => {
 
         };
         return (
-            <>
                 <DatePicker
                     className={styles.root}
                     selected={startDate}
                     onChange={onChangeDate}
                 />
-            </>
         );
 
     };

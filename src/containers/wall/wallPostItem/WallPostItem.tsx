@@ -50,6 +50,7 @@ const WallPostItem: FC<IWallPostItem> = ({text, pathImg, timestamp, authorName, 
         timestamp: {seconds: 0, nanoseconds: 0},
         currentAvatar: '',
         status: '',
+        sex: '',
     });
 
 
