@@ -45,6 +45,7 @@ const SearchList = () => {
         if (res) {
             //ts-ignore
             setPeople(res);
+            console.log(res)
         }
 
     };
@@ -74,7 +75,7 @@ const SearchList = () => {
 
     useEffect(() => {
         onSearch()
-
+console.log('search')
     }, [maritalStatus, name, login, dateBirth, sex, city]);
 
 

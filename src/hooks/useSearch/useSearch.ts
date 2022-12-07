@@ -37,14 +37,16 @@ export function useSearch() {
         const pathMaritalStatus = maritalStatus.value ? 'maritalStatus' : 'filter';
         const valueMaritalStatus = maritalStatus.value ? maritalStatus.value : true;
 
+        const pathSex = sex.value  ? 'sex' : 'filter';
+        const valueSex = sex.value  ? sex.value : true;
+
         const pathCity = city.value && !(city.value === '') ? 'city' : 'filter';
         const valueCity = city.value && !(city.value === '') ? city.value : true;
 
         const pathName = name.value && !(name.value === '') ? 'name' : 'filter';
         const valueName = name.value && !(name.value === '') ? name.value : true;
 
-        const pathSex = sex.value  ? 'sex' : 'filter';
-        const valueSex = sex.value  ? sex.value : true;
+
 
         const pathLogin = login.value && !(login.value === '') ? 'id' : 'filter';
         const valueLogin = login.value && !(login.value === '') ? login.value : true;
@@ -87,6 +89,11 @@ export function useSearch() {
 
         try {
             const res = await getDocs(refWhere);
+            console.log(pathMaritalStatus,'path status');
+            console.log(valueMaritalStatus,'value status');
+
+            console.log(pathSex,'path sex');
+            console.log(valueSex,'value sex');
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}
             }));

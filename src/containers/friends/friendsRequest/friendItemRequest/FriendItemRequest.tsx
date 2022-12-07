@@ -87,7 +87,6 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
         || loadingDeleteMyRequest
         || loadingDeleteOtherRequest;
 
-    const {name, currentAvatar} = profileFriend;
 
     return (
         <Paper className={styles.root}>
@@ -98,7 +97,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
                             color="secondary">
                         <Avatar
                             className={styles.avatar}
-                            alt="avatar" src={currentAvatar}/>
+                            alt="avatar" src={profileFriend?.currentAvatar}/>
                     </LinkMU>
                 </Link>
                 <Link href={`users/${id}`}>
@@ -109,7 +108,7 @@ const FriendItemRequest: FC<IFriendItemRequestProps> = ({id, path}) => {
                             className={styles.name}
                             variant="body2" color="text.other"
                         >
-                            {!loadingGetUserProfileOther ? name : <SkeletonText/>}
+                            {!loadingGetUserProfileOther ? profileFriend?.name : <SkeletonText/>}
                         </Typography>
                     </LinkMU>
                 </Link>

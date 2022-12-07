@@ -114,7 +114,7 @@ const UpdateAvatar = () => {
                 idAvatar: idAvatar,
             });
             await getUserProfile(id);
-            router.push('/');
+
 
             if (id) {
                 await addWallPost({
@@ -143,6 +143,8 @@ const UpdateAvatar = () => {
                     },
                     ribbonItemId:idPost
                 })
+
+                router.push('/');
             }
         }
     };
