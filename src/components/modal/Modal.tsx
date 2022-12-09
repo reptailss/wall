@@ -1,13 +1,7 @@
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ModalMU from '@mui/material/Modal';
-import {FC, ReactNode, useState} from "react";
-import React from "react";
-
-
-
-
+import React, {FC, ReactNode, useEffect, useState} from "react";
 
 
 interface IModalProps {
@@ -15,18 +9,26 @@ interface IModalProps {
     button?: ReactNode,
     fullWidthButton?: boolean,
     fullScreenModal?: boolean,
-    padding?: number
+    padding?: number,
+    closeModal?: boolean
 }
 
-const Modal:FC<IModalProps> = ({children,button,fullWidthButton,fullScreenModal,padding})=> {
+const Modal: FC<IModalProps> = ({children, button, fullWidthButton, fullScreenModal, closeModal}) => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const btn = button ? button :  <div>відкрити</div>;
+    useEffect(()=>{
+        if(closeModal){
+            handleClose();
+        }
+    },[closeModal]);
 
-    const styleFullWidth ={
+
+    const btn = button ? button : <div>відкрити</div>;
+
+    const styleFullWidth = {
         width: fullWidthButton ? '100%' : 'auto'
     };
 
@@ -41,7 +43,7 @@ const Modal:FC<IModalProps> = ({children,button,fullWidthButton,fullScreenModal,
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-        height:fullScreenModal ? '95vh' : '85vh',
+        height: fullScreenModal ? '95vh' : '85vh',
     };
 
     return (

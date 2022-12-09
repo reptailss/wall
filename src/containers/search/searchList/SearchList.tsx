@@ -6,8 +6,9 @@ import {ITimestamp} from "../../../types/timestamp";
 
 import styles from "../../comments/fullComments/styles.module.scss";
 import AddIcon from '@mui/icons-material/Add';
-import LoadingButton from '@mui/lab/LoadingButton';
+import {Button, IconButton} from '@mui/material'
 import {useSnackBar} from "../../../hooks/useSneckBar/useSnackBars";
+import SpinnerBlock from "../../../components/spinner/Spinner";
 
 
 const SearchList = () => {
@@ -42,12 +43,9 @@ const SearchList = () => {
             //ts-ignore
             maritalStatus, name, login, dateBirth, sex, city
         });
-        if (res) {
-            //ts-ignore
-            setPeople(res);
-            console.log(res)
-        }
-
+        console.log(res)
+        setPeople(res);
+        console.log(res)
     };
 
 
@@ -93,19 +91,19 @@ console.log('search')
 
 
        <div>
-           {people && list}
+           {loading || loadingSearchPeopleByProfile ? <div className={styles.spinner}>
+               <SpinnerBlock/>
+           </div> : list }
 
           <div className={styles.onLoad}>
-              {people &&  people.length ?   <LoadingButton
-                  loading={loadingSearchPeopleByProfile}
+              {people &&  people.length ?   <IconButton
                   disabled={loadingSearchPeopleByProfile}
                   onClick={onLoadSearch}
-                  className={styles.btn}
-                  variant="text" color="secondary">
+                  className={styles.btn}>
                   <AddIcon
                       fontSize={'small'}
                   />
-              </LoadingButton> : null }
+              </IconButton> : null }
           </div>
        </div>
     );

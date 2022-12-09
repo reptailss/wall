@@ -27,7 +27,7 @@ export function useSearch() {
         setLoadingSearchPeopleByProfile(true);
 
 
-        const refWhereActive = city.value || name.value || maritalStatus.value || sex.value || login.value;
+        const refWhereActive = login.value || name.value || maritalStatus.value || sex.value || city.value;
         const refWhereboolean = !!refWhereActive;
 
         const docRef = collection(db,
@@ -71,7 +71,6 @@ export function useSearch() {
             where(pathCity, '==', valueCity),
             where(pathName, '==', valueName),
             where(pathSex, '==', valueSex),
-
             orderBy("timestamp", 'desc'),
             limit(limitPeople),
             ) :
@@ -88,12 +87,16 @@ export function useSearch() {
 
 
         try {
-            const res = await getDocs(refWhere);
-            console.log(pathMaritalStatus,'path status');
-            console.log(valueMaritalStatus,'value status');
+            console.log(refWhere,'fw')
 
-            console.log(pathSex,'path sex');
-            console.log(valueSex,'value sex');
+            console.log(pathLogin,'path login');
+            console.log(valueLogin,'value login');
+
+
+            console.log(pathCity,'path city');
+            console.log(valueCity,'value city');
+            const res = await getDocs(refWhere);
+console.log('ss')
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}
             }));
@@ -103,6 +106,7 @@ export function useSearch() {
 
         } catch (error) {
             setLoadingSearchPeopleByProfile(false);
+            console.log(error)
         }
 
 

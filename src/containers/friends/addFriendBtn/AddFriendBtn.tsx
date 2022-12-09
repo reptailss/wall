@@ -112,7 +112,7 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
     return (
         <div className={styles.root}>
-            <LoadingButton
+            {!(id === userId) ? <LoadingButton
                 loading={loading}
                 onClick={onClickBtn}
                 disabled={loading}
@@ -124,7 +124,7 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
                 >
                     {text}
                 </Typography>
-            </LoadingButton>
+            </LoadingButton> : null}
         </div>
     )
 

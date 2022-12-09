@@ -31,7 +31,7 @@ const Register = () => {
     const router = useRouter();
 
     const[sex,setSex] = useState<'female' | 'male' | 'other' | string>('female');
-    const[maritalStatus,setMaritalStatus] = useState<'married' | 'notMarried' | 'ActivelyLooking' | string>('female');
+    const[maritalStatus,setMaritalStatus] = useState<'married' | 'notMarried' | 'ActivelyLooking' | string>('ActivelyLooking');
 
 
     const formik = useFormik({
@@ -63,6 +63,7 @@ const Register = () => {
                         uid:res.user.uid,
                         status:'...',
                         sex:sex,
+                        filter: true,
                     }
                 }
             );

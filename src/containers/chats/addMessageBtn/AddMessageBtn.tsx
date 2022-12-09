@@ -40,17 +40,20 @@ const AddMessageBtn: FC<IAddMessageBtnProps> = ({userId}) => {
     };
 
     return (
-        <Button
-            onClick={onClickBtn}
-            className={styles.root}>
-            <Typography
-                className={styles.text}
-                color={'text.primary'}
-                variant={'caption'}
-            >{isDesktop ? 'написати' : null}
-            </Typography>
-            <MailIcon fontSize="small" color="action"/>
-        </Button>
+     <>
+         {!(userId === id) ?    <Button
+             onClick={onClickBtn}
+             className={styles.root}>
+             <Typography
+                 className={styles.text}
+                 color={'text.primary'}
+                 variant={'caption'}
+             >{isDesktop ? 'написати' : null}
+             </Typography>
+             <MailIcon fontSize="small" color="action"/>
+         </Button> : null}
+
+         </>
     );
 };
 

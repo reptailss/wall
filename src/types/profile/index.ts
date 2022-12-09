@@ -29,6 +29,7 @@ export interface IUpdateUserProfileProps {
         uid:string,
         status?:string,
         sex: 'female' | 'male' | 'other' | string,
+        filter?: boolean,
     },
     snack?: boolean
 }

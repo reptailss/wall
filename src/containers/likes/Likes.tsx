@@ -150,7 +150,7 @@ const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
             </IconButton>
             <div className={styles.root}>
                 {likes && <LikeList likes={likes}/>}
-                {likes && totalLikesState > 1 && <FullLikes likes={likes}/>}
+                {likes && totalLikesState > 2 && <FullLikes likes={likes}/>}
             </div>
 
         </>

@@ -11,18 +11,19 @@ import useInfiniteScroll from 'react-infinite-scroll-hook';
 import SpinnerBlock from "../../../components/spinner/Spinner";
 import {doc, onSnapshot} from "firebase/firestore";
 import {ITimestamp} from "../../../types/timestamp";
-import {ButtonGroup, Button, Typography} from '@mui/material';
-
+import {Button, ButtonGroup, Typography} from '@mui/material';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 
 interface ICommentListProps {
     idUser: string,
     pathRoot: string,
     pathItemId: string,
+    onCloseModal: (close: boolean) => void
 
 }
 
-const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => {
+const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId, onCloseModal}) => {
 
 
     const {id: idCurrentUser} = useAppSelector(state => state.user);
@@ -32,7 +33,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [totalComments, setTotalComments] = useState<number>(0);
     const messagesEndRef = useRef(null);
-    const [direction,setDirection] = useState<'asc'| 'desc'>('asc');
+    const [direction, setDirection] = useState<'asc' | 'desc'>('asc');
 
     const {
         getComments,
@@ -57,7 +58,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
         setComments(res);
     };
 
-    const onLoadComments = async ({limit,directionOrder,startId}:{limit?:number,directionOrder:'asc'| 'desc',startId:ITimestamp}) => {
+    const onLoadComments = async ({limit, directionOrder, startId}: { limit?: number, directionOrder: 'asc' | 'desc', startId: ITimestamp }) => {
         if (comments) {
             setLoading(true);
             if (limit) {
@@ -79,7 +80,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
                 // @ts-ignore
                 setComments(prevState => [...prevState, ...res]);
 
-                if(!hasNextPage){
+                if (!hasNextPage) {
                     scrollToBottom();
                 }
             }
@@ -94,7 +95,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
             onGetComments();
         }
 
-    }, [pathItemId,direction]);
+    }, [pathItemId, direction]);
 
     useEffect(() => {
         if (comments && messagesEndRef && totalComments > comments.length) {
@@ -135,38 +136,47 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
         loading,
         hasNextPage,
         onLoadMore: () => {
-           if(comments){
-               onLoadComments({limit:5,
-                   directionOrder:direction,
-                   startId:comments[comments.length - 1].timestamp})
-           }
+            if (comments) {
+                onLoadComments({
+                    limit: 5,
+                    directionOrder: direction,
+                    startId: comments[comments.length - 1].timestamp
+                })
+            }
         },
 
     });
 
 
-    const onAddCommentProps = async () =>{
-       if(comments){
-           if(direction === 'asc'){
-               if(!hasNextPage){
-                   onLoadComments({directionOrder:'asc',startId:comments[comments.length - 1].timestamp})
-               }
-           } else{
-               const res = await loadCommentsPage({
-                   pathRoot, idUser, pathItemId,
-                   orderByComment: 'asc',
-                   startId:comments[0].timestamp
+    const onAddCommentProps = async () => {
+        if (comments) {
+            if (direction === 'asc') {
+                if (!hasNextPage) {
+                    onLoadComments({directionOrder: 'asc', startId: comments[comments.length - 1].timestamp})
+                }
+            } else {
+                const res = await loadCommentsPage({
+                    pathRoot, idUser, pathItemId,
+                    orderByComment: 'asc',
+                    startId: comments[0].timestamp
 
-               });
-               // @ts-ignore
-               setComments(prevState => [...res, ...prevState]);
-           }
-       }
+                });
+                // @ts-ignore
+                setComments(prevState => [...res, ...prevState]);
+            }
+        }
 
 
     };
-    const onDirectionComments = (direction:'asc' | 'desc') =>{
+    const onDirectionComments = (direction: 'asc' | 'desc') => {
         setDirection(direction)
+    };
+
+    const onClose = () => {
+        onCloseModal(true);
+        setTimeout(() => {
+            onCloseModal(false)
+        }, 500)
     };
 
     const variantAsc = direction === 'asc' ? 'contained' : 'outlined';
@@ -175,6 +185,15 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
     const spinner = loadingGetComments || loadingGetCommentsPage ? <SpinnerBlock/> : null;
     return (
         <div className={styles.root}>
+            <Button
+                className={styles.back}
+                onClick={onClose}
+            > <KeyboardBackspaceIcon/>
+                <div className={styles.text}>
+                    назад
+                </div>
+            </Button>
+
             <div
                 className={styles.btnswrap}
             >
@@ -183,7 +202,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
                     color={'text.other'}
                     variant="body2"
                     component="h1">
-                спочатку
+                    спочатку
                 </Typography>;
                 <ButtonGroup
                     disableElevation
@@ -193,13 +212,17 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId}) => 
                         size={'small'}
                         className={styles.btn}
                         variant={variantAsc}
-                        onClick={() => { onDirectionComments('asc')}}
+                        onClick={() => {
+                            onDirectionComments('asc')
+                        }}
                     >старі</Button>
                     <Button
                         size={'small'}
                         className={styles.btn}
                         variant={variantDesc}
-                        onClick={() => { onDirectionComments('desc')}}
+                        onClick={() => {
+                            onDirectionComments('desc')
+                        }}
                     >нові</Button>
                 </ButtonGroup>
             </div>

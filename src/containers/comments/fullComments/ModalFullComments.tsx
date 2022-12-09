@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Modal from "../../../components/modal/Modal";
 import BtnFullComments from './BtnFullComments'
 
@@ -15,18 +15,25 @@ interface ICommentListProps {
 
 const ModalFullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId, totalComments}) => {
 
+    const [closeModal,setCloseModal] = useState<boolean>(false);
+
     const {isDesktop} = useMedia();
     const fullScreenModal = !isDesktop;
+
 
     return (
         <>
             <Modal
                 fullScreenModal={fullScreenModal}
+                closeModal={closeModal}
                 button={<BtnFullComments
                     totalComments={totalComments}
                 />}
             >
                 <FullComments
+                    onCloseModal={(close)=>{
+                        setCloseModal(close)
+                    }}
                     idUser={idUser}
                     pathRoot={pathRoot}
                     pathItemId={pathItemId}
