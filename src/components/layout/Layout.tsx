@@ -44,7 +44,9 @@ const Layout: FC<ILayoutProps> = ({children}) => {
         let unsub = () => {};
 
         useEffect(() => {
-            if (db && id) {
+            if (db && id && isAuth) {
+
+
                 unsub = onSnapshot(doc(db, "users", id, "friends", "counter"), (doc) => {
                     dispatch(setTotalFriends(doc.data()))
                 });
@@ -53,7 +55,7 @@ const Layout: FC<ILayoutProps> = ({children}) => {
             return () => {
                 unsub();
             };
-        }, [db, id]);
+        }, [db, id,isAuth]);
 
 
         useEffect(() => {

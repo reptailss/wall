@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Button, TextField, Typography} from "@mui/material";
+import {TextField, Typography} from "@mui/material";
 import SkeletonText from "../../../../../components/skeletons/SkeletonText";
 import {useAppSelector} from "../../../../../hooks/redux";
 import {useUsers} from "../../../../../hooks/useUser/UseUser";
@@ -13,20 +13,20 @@ import EditIcon from '@mui/icons-material/Edit';
 
 interface IStatusSidebarProps {
     status: string,
-    myProfile:boolean
+    myProfile: boolean
 }
 
-const StatusSidebar: FC<IStatusSidebarProps> = ({status,myProfile}) => {
+const StatusSidebar: FC<IStatusSidebarProps> = ({status, myProfile}) => {
 
     const [redStatus, setRedStatus] = useState<boolean>(false);
 
 
-    const {id} = useAppSelector(state => state.user);
+    const {id, isAuth} = useAppSelector(state => state.user);
 
 
     const {updateUserProfile, loadingUpdateUserProfile, getUserProfile} = useUsers();
 
-    const onToggleRedStatus = () =>{
+    const onToggleRedStatus = () => {
         setRedStatus(!redStatus)
     };
 
@@ -56,41 +56,46 @@ const StatusSidebar: FC<IStatusSidebarProps> = ({status,myProfile}) => {
     return (
         <div className={styles.root}>
 
-            {!redStatus ?  <Typography
+            {isAuth ? <>
+                {!redStatus ? <Typography
+                    color="text.primary"
+                    variant="body1">
+                    {status ? status : <SkeletonText/>}
+                </Typography> : <form
+                    onSubmit={formik.handleSubmit}
+                    className={styles.redStatus}>
+
+                    <TextField
+                        className={styles.input}
+                        fullWidth
+                        id="status"
+                        name="status"
+                        label="статус"
+                        value={formik.values.status}
+                        onChange={formik.handleChange}
+                        error={formik.touched.status && Boolean(formik.errors.status)}
+                        helperText={formik.touched.status && formik.errors.status}
+                    />
+                    <IconButton
+                        type="submit"
+                        disabled={loadingUpdateUserProfile}
+
+                        aria-label="save">
+                        <SaveIcon/>
+                    </IconButton>
+
+                </form>}</> : <Typography
                 color="text.primary"
                 variant="body1">
-                {status ? status : <SkeletonText/>}
-            </Typography> : <form
-                onSubmit={formik.handleSubmit}
-                className={styles.redStatus}>
-
-                <TextField
-                    className={styles.input}
-                    fullWidth
-                    id="status"
-                    name="status"
-                    label="статус"
-                    value={formik.values.status}
-                    onChange={formik.handleChange}
-                    error={formik.touched.status && Boolean(formik.errors.status)}
-                    helperText={formik.touched.status && formik.errors.status}
-                />
-                <IconButton
-                    type="submit"
-                    disabled={loadingUpdateUserProfile}
-
-                    aria-label="save">
-                    <SaveIcon />
-                </IconButton>
-
-            </form>}
+                Wall
+            </Typography>}
 
 
-            {!redStatus && myProfile &&  <IconButton
+            {!redStatus && myProfile && isAuth && <IconButton
                 onClick={onToggleRedStatus}
                 disabled={loadingUpdateUserProfile}
                 aria-label="save">
-                <EditIcon />
+                <EditIcon/>
             </IconButton>}
 
         </div>

@@ -4,10 +4,13 @@ import styles from './styles.module.scss'
 import {AnimatePresence, motion} from "framer-motion";
 
 interface ISkeletonPhotoProps {
-    height?: number
+    height?: number,
+    width?: number
 }
 
-const SkeletonPhoto: FC<ISkeletonPhotoProps> = ({height}) => {
+const SkeletonPhoto: FC<ISkeletonPhotoProps> = ({height,width}) => {
+
+    const clazz = height ? '' : styles.rootPhoto;
 
 
     return (
@@ -23,7 +26,9 @@ const SkeletonPhoto: FC<ISkeletonPhotoProps> = ({height}) => {
                 }}
             >
                 <Skeleton
-                    className={styles.rootPhoto}
+                    height={height}
+                    width={width}
+                    className={clazz}
                     variant="rounded"/>
             </motion.div>
         </AnimatePresence>

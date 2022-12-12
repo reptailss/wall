@@ -5,6 +5,8 @@ import Link from "next/link";
 import LinkMU from '@mui/material/Link'
 
     ;
+import {useAppSelector} from "../../../hooks/redux";
+import SkeletonText from "../../../components/skeletons/SkeletonText";
 
 
 interface IChangeAvatarBtnProps {
@@ -12,21 +14,32 @@ interface IChangeAvatarBtnProps {
 }
 
 const ChangeAvatarBtn:FC<IChangeAvatarBtnProps> = ({text}) => {
+
+    const{isAuth} = useAppSelector(state => state.user);
     return (
 
 
-        <Link href={'/redAvatar'}>
-            <LinkMU underline="none"
-                    component="div"
-                    color="secondary">
-                <Button
-                    component={'div'}
-                    className={styles.redAvatarBtn}
-                    variant="outlined" color="secondary">
-                    {text}
-                </Button>
-            </LinkMU>
-        </Link>
+        <>
+          <div>
+              <div>
+                  {isAuth ? <Link href={'/redAvatar'}>
+                      <LinkMU underline="none"
+                              component="div"
+                              color="secondary">
+                          <Button
+                              component={'div'}
+                              className={styles.redAvatarBtn}
+                              variant="outlined" color="secondary">
+                              {text}
+                          </Button>
+                      </LinkMU>
+                  </Link> :    <SkeletonText
+                      height={37}
+                  />}
+              </div>
+
+          </div>
+        </>
     );
 };
 

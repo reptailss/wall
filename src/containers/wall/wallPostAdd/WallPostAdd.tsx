@@ -2,7 +2,6 @@ import styles from './styles.module.scss'
 import {useFormik} from 'formik';
 import TextField from '@mui/material/TextField';
 import {validationSchemaAddPostWall} from '../../../constans/validate/wall'
-import SpinnerBlock from "../../../components/spinner/Spinner";
 import AddImagePost from "./addImagePost/AddImagePost";
 import {Button, Paper} from "@mui/material";
 import {useWall} from "../../../hooks/useWall/useWall";
@@ -13,6 +12,8 @@ import {useRibbon} from "../../../hooks/useRibbon/useRibbon";
 
 import {v4 as uuidv4} from 'uuid';
 import {useRouter} from "next/router";
+import SkeletonText from "../../../components/skeletons/SkeletonText";
+import SkeletonPhoto from "../../../components/skeletons/SkeletonPhoto";
 
 
 interface IWallPostAddProps {
@@ -20,7 +21,7 @@ interface IWallPostAddProps {
 }
 
 const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
-    const {id: idUser} = useAppSelector(state => state.user);
+    const {id: idUser, isAuth} = useAppSelector(state => state.user);
     const {name} = useAppSelector(state => state.user.profile);
     const {pathname} = useRouter();
     const [dataImg, setDataImg] = useState<string[]>([]);
@@ -65,7 +66,7 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
                         idRibbonContent: idPost,
                     },
                     currentUserId: idUser,
-                    ribbonItemId:idPost,
+                    ribbonItemId: idPost,
                 })
             }
         }
@@ -89,47 +90,53 @@ const WallPostAdd: FC<IWallPostAddProps> = ({id}) => {
     });
 
 
-
     return (
         <Paper
             className={styles.root}>
-            <form
-                className={styles.root}
-                onSubmit={formik.handleSubmit}
-            >
+            {isAuth ? <>
+                <form
+                    className={styles.root}
+                    onSubmit={formik.handleSubmit}
+                >
 
-                <div className={styles.innerinput}>
-                    <TextField
-                        key={'text'}
-                        className={styles.input}
-                        fullWidth
-                        id={'text'}
-                        name={'text'}
-                        label={'Ваше повідомелння..'}
-                        value={formik.values.text}
-                        onChange={formik.handleChange}
-                        error={formik.touched.text && Boolean(formik.errors.text)}
-                        helperText={formik.touched.text && formik.errors.text}
-                        multiline
-                        size={'small'}
-                    />
-                    <Button
-                        disabled={loadingAddWallPost}
-                        className={styles.button}
-                        color="primary"
-                        variant="contained"
-                        fullWidth type="submit">
-                        <SendIcon/>
-                    </Button>
-                </div>
+                    <div className={styles.innerinput}>
+                        <TextField
+                            key={'text'}
+                            className={styles.input}
+                            fullWidth
+                            id={'text'}
+                            name={'text'}
+                            label={'Ваше повідомелння..'}
+                            value={formik.values.text}
+                            onChange={formik.handleChange}
+                            error={formik.touched.text && Boolean(formik.errors.text)}
+                            helperText={formik.touched.text && formik.errors.text}
+                            multiline
+                            size={'small'}
+                        />
+                        <Button
+                            disabled={loadingAddWallPost}
+                            className={styles.button}
+                            color="primary"
+                            variant="contained"
+                            fullWidth type="submit">
+                            <SendIcon/>
+                        </Button>
+                    </div>
 
-                <div>
-                </div>
-            </form>
-            <AddImagePost
+                    <div>
+                    </div>
+                </form>
+            </> : <div className={styles.skeleton}>
+                <SkeletonText height={40}/>
+            </div>}
+            {isAuth ? <AddImagePost
                 resetImg={resetImg}
                 onChangeDownload={onChangeDownload}
-                path={`users/${id}/wall`}/>
+                path={`users/${id}/wall`}/> : <div className={styles.skeletonIcons}><SkeletonPhoto
+                width={24}
+                height={24}
+            /></div>}
         </Paper>
     );
 };

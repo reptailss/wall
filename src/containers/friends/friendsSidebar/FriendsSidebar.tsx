@@ -11,7 +11,7 @@ import LinkMU from '@mui/material/Link'
 
 import styles from './styles.module.scss'
 import {Paper, Typography} from "@mui/material";
-import NotItems from "../../../components/notItems/NotItems";
+import SkeletonText from "../../../components/skeletons/SkeletonText";
 
 interface IFriendsSidebarProps {
     userId: string,
@@ -20,7 +20,7 @@ interface IFriendsSidebarProps {
 
 const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
 
-    const {totalFriends: currentTotalFriends} = useAppSelector(state => state.user);
+    const {totalFriends: currentTotalFriends, isAuth} = useAppSelector(state => state.user);
     const {totalConfirm: currentTotalConfirm} = currentTotalFriends;
     const [totalConfirm, setTotalConfirm] = useState<number>(0);
 
@@ -76,7 +76,7 @@ const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
 
     return (
         <div className={styles.root}>
-            <Paper className={styles.info}>
+            {isAuth ? <><Paper className={styles.info}>
                 <Typography
                     color={'text.other'}
                     variant={'body2'}
@@ -98,10 +98,10 @@ const FriendsSidebar: FC<IFriendsSidebarProps> = ({userId, myPage}) => {
                 </Link>
 
             </Paper>
-            <Row className={styles.root}>
-                {loadingGetFriendsConfirmedUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
-                    null}
-            </Row>
+                <Row className={styles.root}>
+                    {loadingGetFriendsConfirmedUsers ? <SpinnerBlock/> : friends && friends.length ? friendsList :
+                        null}
+                </Row></> : <SkeletonText height={40}/>}
 
         </div>
     )
