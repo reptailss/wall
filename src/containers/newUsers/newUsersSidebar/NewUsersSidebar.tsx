@@ -52,7 +52,6 @@ const NewUsersSidebar = () => {
         if (res && res.length) {
             setUsers(res);
         }
-        console.log(res)
     };
 
 

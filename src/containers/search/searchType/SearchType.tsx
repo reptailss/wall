@@ -26,6 +26,21 @@ const SearchType = () => {
 
 
         const searchTypeButton = [
+
+            // {value: 'name',
+            //     title: 'імя',
+            //     onClickButton: () => {
+            //         dispatch(setParamsName(''))
+            //     },
+            //     data:name.value
+            // },
+            // {value: 'login',
+            //     title: 'логін',
+            //     onClickButton: () => {
+            //         dispatch(setParamsLogin(''))
+            //     },
+            //     data:login.value
+            // },
             {
                 value: 'city',
                 title: 'місто',
@@ -34,24 +49,17 @@ const SearchType = () => {
                 },
                 data:city.value,
             },
-            {value: 'name',
-                title: 'імя',
-                onClickButton: () => {
-                    dispatch(setParamsName(''))
-                },
-                data:name.value
-            },
-            {value: 'dateBirth',
-                title: 'вік',
-                onClickButton: () => {
-                    dispatch(setParamsDateBirth({
-                        of:'',
-                        to:'',
-                    }));
-                    dispatch(setParamsTitleDateBirth('неважливо'))
-                },
-                data:dateBirth.title
-            },
+            // {value: 'dateBirth',
+            //     title: 'вік',
+            //     onClickButton: () => {
+            //         dispatch(setParamsDateBirth({
+            //             of:'',
+            //             to:'',
+            //         }));
+            //         dispatch(setParamsTitleDateBirth('неважливо'))
+            //     },
+            //     data:dateBirth.title
+            // },
             {value: 'maritalStatus'
                 , title: 'сімейний статус',
                 onClickButton: () => {
@@ -60,13 +68,7 @@ const SearchType = () => {
                 },
                 data:maritalStatus.title
             },
-            {value: 'login',
-                title: 'логін',
-                onClickButton: () => {
-                    dispatch(setParamsLogin(''))
-                },
-                data:login.value
-            },
+
             {value: 'sex',
                 title: 'стать',
                 onClickButton: () => {

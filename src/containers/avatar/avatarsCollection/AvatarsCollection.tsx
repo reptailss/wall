@@ -11,6 +11,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import Comments from "../../comments/Comments";
 import ChangeAvatarBtn from "../changeAvatarBtn/ChangeAvatarBtn";
 import SpinnerBlock from "../../../components/spinner/Spinner";
+import useMedia from "../../../hooks/useMedia/useMedia";
 
 interface IAvatarsCollectionProps {
     id: string
@@ -21,6 +22,7 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
     const {id: currentUserId} = useAppSelector(state => state.user);
     const myPage = id === currentUserId;
 
+    const{isDesktop,isTablet} = useMedia();
 
     const [avatars, setAvatars] = useState<IAvatarItem[]>();
     const [indexAvatar, setIndexAvatar] = useState<number>(0);
@@ -44,7 +46,11 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
         if (id) {
             onGetAvatars();
         }
-    }, [id])
+    }, [id]);
+
+    const stylePadding = {padding: 0};
+
+    const styleList = isTablet || isDesktop ?  {} : stylePadding;
 
 
     const colAvatarList = myPage ? 8 : 10;
@@ -64,11 +70,11 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
         color={'text.other'}
         className={styles.notAvatar}>
         тут поки що нічого..
-        <div className={styles.addPhoto}>
+        {myPage ?  <div className={styles.addPhoto}>
             <ChangeAvatarBtn
                 text={'добавити фото'}
             />
-        </div>
+        </div> : null}
     </Typography>;
 
     return (
@@ -81,6 +87,7 @@ const AvatarsCollection: FC<IAvatarsCollectionProps> = ({id}) => {
                 </Col>}
                 <Row className={styles.wrap}>
                     <Col
+                        style={styleList}
                         className={styles.list}
                         xl={colAvatarList}>
                         {content}

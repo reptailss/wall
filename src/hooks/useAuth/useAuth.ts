@@ -48,6 +48,7 @@ export function useAuth() {
             setLoadingUser(false);
             setSnackBar('Ви успішно увійшли!', 'success');
             router.push(`/`);
+
         }catch (error:any) {
             setLoadingLogin(false);
             setLoadingUser(false);
@@ -61,13 +62,14 @@ export function useAuth() {
         setLoadingUser(true);
         setLoadingOut(true);
         try{
+            router.push('/signin');
             await signOut(auth);
             dispatch( setIsAuth(false));
             dispatch(removeUser());
             setLoadingOut(false);
             setLoadingUser(false);
             setSnackBar('Ви успішно вийшли з аккаунту!', 'info');
-            router.push('/signin')
+
         }catch (error:any) {
             setLoadingOut(false);
             setLoadingUser(false);

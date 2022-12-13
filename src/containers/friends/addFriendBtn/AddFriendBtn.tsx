@@ -12,7 +12,8 @@ interface IAddFriendBtnProps {
 
 const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
-    const {id} = useAppSelector(state => state.user);
+    const {id,isAuth} = useAppSelector(state => state.user);
+
 
 
     const {
@@ -112,7 +113,7 @@ const AddFriendBtn: FC<IAddFriendBtnProps> = ({userId}) => {
 
     return (
         <div className={styles.root}>
-            {!(id === userId) ? <LoadingButton
+            {!(id === userId) && isAuth ? <LoadingButton
                 loading={loading}
                 onClick={onClickBtn}
                 disabled={loading}

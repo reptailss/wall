@@ -32,7 +32,7 @@ const AvatarUserSmall:FC<IAvatarUserSmallProps> = ({pathImg,name}) => {
                 exit={opacity.hidden}
                 transition={opacity.transition}
             >
-                {!loadingUser && isAuth ? <Avatar
+                {!loadingUser || !pathImg ? <Avatar
                     className={styles.avatar}
                     sizes="small"
                     alt={name}

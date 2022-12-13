@@ -51,7 +51,8 @@ interface IInitialState {
             title: string,
             value: 'female' | 'male' | 'other' | string | false,
         },
-    }
+    },
+    closeModalSignIn: boolean,
 
 }
 
@@ -103,7 +104,8 @@ const initialState: IInitialState = {
             title: 'неважливо',
             value: false
         },
-    }
+    },
+    closeModalSignIn: false,
 
 
 };
@@ -184,6 +186,11 @@ export const userSlice = createSlice({
             state.searchParams.dateBirth.title = action.payload;
         },
 
+        setCloseModalSignIn(state, action) {
+            state.closeModalSignIn = action.payload;
+        },
+
+
 
 
     },
@@ -207,7 +214,8 @@ export const {
     setParamsDateBirth,
     setParamsTitleSex,
     setParamsTitleMaritalStatus,
-    setParamsTitleDateBirth
+    setParamsTitleDateBirth,
+    setCloseModalSignIn
 
 
 } = userSlice.actions;

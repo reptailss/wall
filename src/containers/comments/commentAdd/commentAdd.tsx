@@ -6,6 +6,7 @@ import {Button} from "@mui/material";
 import {FC} from "react";
 import SendIcon from '@mui/icons-material/Send';
 import {useComments} from "../../../hooks/useComments/useComments";
+import {useAppSelector} from "../../../hooks/redux";
 
 interface ICommentAddProps {
     idUser: string,
@@ -18,6 +19,9 @@ interface ICommentAddProps {
 }
 
 const CommentAdd: FC<ICommentAddProps> = ({idUser, pathRoot, pathItemId, idCurrentUser, authorNameComment, onAddCommentProps, onSetTotalComments}) => {
+
+
+    const{isAuth} = useAppSelector(state => state.user);
 
     const {
         addComment,
@@ -78,7 +82,7 @@ const CommentAdd: FC<ICommentAddProps> = ({idUser, pathRoot, pathItemId, idCurre
     return (
         <div
             className={styles.root}>
-            <form
+            {isAuth ? <form
                 className={styles.root}
                 onSubmit={formik.handleSubmit}
             >
@@ -110,7 +114,7 @@ const CommentAdd: FC<ICommentAddProps> = ({idUser, pathRoot, pathItemId, idCurre
 
                 <div>
                 </div>
-            </form>
+            </form> : null}
         </div>
     );
 };

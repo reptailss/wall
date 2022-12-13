@@ -8,9 +8,12 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
 
 import styles from './styles.module.scss'
+import {useAppDispatch} from "../../../hooks/redux";
+import {setCloseModalSignIn} from  "../../../redux/slice/userSlice"
 
 const Login = () => {
     const {loginUser,loadingLogin} = useAuth();
+    const dispatch = useAppDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -18,8 +21,12 @@ const Login = () => {
             password: '',
         },
         validationSchema: validationSchemaLogin,
-        onSubmit: (values) => {
-            loginUser(values.email,values.password)
+        onSubmit: async (values) => {
+           await loginUser(values.email,values.password);
+           dispatch(setCloseModalSignIn(true))
+            setTimeout(()=>{
+                dispatch(setCloseModalSignIn(false))
+            },500)
 
         },
     });

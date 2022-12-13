@@ -87,16 +87,8 @@ export function useSearch() {
 
 
         try {
-            console.log(refWhere,'fw')
 
-            console.log(pathLogin,'path login');
-            console.log(valueLogin,'value login');
-
-
-            console.log(pathCity,'path city');
-            console.log(valueCity,'value city');
             const res = await getDocs(refWhere);
-console.log('ss')
             const results = (res.docs.map((data) => {
                 return {...data.data(), id: data.id}
             }));

@@ -21,7 +21,7 @@ const CommentItem:FC<ICommentItemProps> = ({authorNameComment,id,text,timestamp,
     return (
         <div className={styles.root}>
             <div className={styles.content}>
-                <Link href={`/users/${id}`}>
+                <Link href={`/users/${authorNameComment}`}>
                     <LinkMU underline="none"
                             variant="caption"
                             component="div"

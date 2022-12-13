@@ -15,6 +15,8 @@ import SelectButtons from "../../../components/selectButtons/SelectButtons";
 import {dataSelectMaritalStatus, dataSelectSex} from "../../../constans/buttons";
 import React from "react";
 import {Typography} from "@mui/material";
+import {setUser} from "../../../redux/slice/userSlice";
+import {useAppDispatch} from "../../../hooks/redux";
 
 
 const Register = () => {
@@ -29,6 +31,7 @@ const Register = () => {
     const [freeLogin,setFreeLogin] = useState<boolean>(true);
     const {setTotalFriends} = useFriends();
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const[sex,setSex] = useState<'female' | 'male' | 'other' | string>('female');
     const[maritalStatus,setMaritalStatus] = useState<'married' | 'notMarried' | 'ActivelyLooking' | string>('ActivelyLooking');
@@ -71,6 +74,7 @@ const Register = () => {
                 user:res.user,
                 login
             });
+
             await setTotalFriends({
                 userId:login,
                 body:{
@@ -81,6 +85,10 @@ const Register = () => {
             });
             await getUserProfile(login);
             router.push('/')
+            dispatch(setUser({
+                email: email,
+                id: login,
+            }));
 
         },
     });

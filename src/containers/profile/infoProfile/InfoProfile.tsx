@@ -51,7 +51,7 @@ const InfoProfile: FC<IInfoProfileProps> = ({profile, idUser, loadingProfile}) =
 
     const myProfile = idUser === id || pathname === '/';
 
-    const redProfileButton = myProfile ? <Button
+    const redProfileButton = myProfile && isAuth ? <Button
         onClick={onRedProfile}
         className={styles.btn}
     >

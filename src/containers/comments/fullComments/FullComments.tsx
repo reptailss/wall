@@ -67,7 +67,6 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId, onCl
                     orderByComment: directionOrder,
                     startId: startId
                 });
-                console.log(res);
                 // @ts-ignore
                 setComments(prevState => [...prevState, ...res]);
             } else {
@@ -114,6 +113,7 @@ const FullComments: FC<ICommentListProps> = ({idUser, pathRoot, pathItemId, onCl
             />
         )
     });
+
 
     let unsub = () => {
     };

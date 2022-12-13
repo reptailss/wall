@@ -17,7 +17,6 @@ const MobileNavigate = () => {
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
-        console.log('lcik')
     };
 
     const drawer = (

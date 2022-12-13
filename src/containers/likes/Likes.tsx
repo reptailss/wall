@@ -22,7 +22,7 @@ interface LikesProps {
 
 const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
 
-    const {id: idCurrentUser, profile} = useAppSelector(state => state.user);
+    const {id: idCurrentUser, profile,isAuth} = useAppSelector(state => state.user);
 
 
     const {
@@ -128,7 +128,8 @@ const Likes: FC<LikesProps> = ({idUser, pathRoot, pathItemId}) => {
         loadingGetTotalLikes  ||
         loadingCheckLike  ||
         loadingSetTotalLikes  ||
-        loadingDeleteLike;
+        loadingDeleteLike ||
+        !isAuth;
 
     return (
         <>

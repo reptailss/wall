@@ -28,7 +28,6 @@ const{id} = useAppSelector(state => state.user);
                         list.push({id: doc.id, ...doc.data()});
                     });
                     setData(list);
-                    console.log(data)
                 },
                 (error) => {
                     console.log(error);
@@ -42,7 +41,6 @@ const{id} = useAppSelector(state => state.user);
         };
     }, [db, id]);
 
-    console.log(data)
 
     const list = data.map( (item) =>{
         return <RibbonItem

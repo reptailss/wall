@@ -16,7 +16,7 @@ interface IAddMessageBtnProps {
 const AddMessageBtn: FC<IAddMessageBtnProps> = ({userId}) => {
     const router = useRouter();
 
-    const {id} = useAppSelector(state => state.user);
+    const {id,isAuth} = useAppSelector(state => state.user);
 
     const {CheckChat, loadingCheckChat,createChat} = useChats();
 
@@ -41,7 +41,7 @@ const AddMessageBtn: FC<IAddMessageBtnProps> = ({userId}) => {
 
     return (
      <>
-         {!(userId === id) ?    <Button
+         {!(userId === id) && isAuth ?    <Button
              onClick={onClickBtn}
              className={styles.root}>
              <Typography

@@ -136,42 +136,42 @@ const Sort: FC = () => {
                 <div className={styles.item}>
                     <Accor title={'Фільтри'}>
 
-                        <div className={styles.item}>
-                            <div className={styles.title}>
-                                логін
-                            </div>
-                            <TextField
-                                size="small"
-                                key={'login'}
-                                className={styles.inputText}
-                                fullWidth
-                                id={'login'}
-                                name={'login'}
-                                label={'login'}
-                                value={loginValue}
-                                onChange={onChangesLogin}
-                                multiline
-                            />
-                        </div>
+                        {/*<div className={styles.item}>*/}
+                            {/*<div className={styles.title}>*/}
+                                {/*логін*/}
+                            {/*</div>*/}
+                            {/*<TextField*/}
+                                {/*size="small"*/}
+                                {/*key={'login'}*/}
+                                {/*className={styles.inputText}*/}
+                                {/*fullWidth*/}
+                                {/*id={'login'}*/}
+                                {/*name={'login'}*/}
+                                {/*label={'login'}*/}
+                                {/*value={loginValue}*/}
+                                {/*onChange={onChangesLogin}*/}
+                                {/*multiline*/}
+                            {/*/>*/}
+                        {/*</div>*/}
 
 
-                        <div className={styles.item}>
-                            <div className={styles.title}>
-                                імя
-                            </div>
-                            <TextField
-                                size="small"
-                                key={'name'}
-                                className={styles.inputText}
-                                fullWidth
-                                id={'name'}
-                                name={'name'}
-                                label={'імя'}
-                                value={nameValue}
-                                onChange={onChangeName}
-                                multiline
-                            />
-                        </div>
+                        {/*<div className={styles.item}>*/}
+                            {/*<div className={styles.title}>*/}
+                                {/*імя*/}
+                            {/*</div>*/}
+                            {/*<TextField*/}
+                                {/*size="small"*/}
+                                {/*key={'name'}*/}
+                                {/*className={styles.inputText}*/}
+                                {/*fullWidth*/}
+                                {/*id={'name'}*/}
+                                {/*name={'name'}*/}
+                                {/*label={'імя'}*/}
+                                {/*value={nameValue}*/}
+                                {/*onChange={onChangeName}*/}
+                                {/*multiline*/}
+                            {/*/>*/}
+                        {/*</div>*/}
 
                         <div className={styles.item}>
                             <div className={styles.title}>

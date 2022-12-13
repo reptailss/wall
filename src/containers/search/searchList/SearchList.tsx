@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useSearch} from "../../../hooks/useSearch/useSearch";
 import {useAppSelector} from "../../../hooks/redux";
 import PeopleItem from "./peopleItem/PeopleItem";
-import {ITimestamp} from "../../../types/timestamp";
 
 import styles from "../../comments/fullComments/styles.module.scss";
 import AddIcon from '@mui/icons-material/Add';
-import {Button, IconButton} from '@mui/material'
+import {IconButton} from '@mui/material'
 import {useSnackBar} from "../../../hooks/useSneckBar/useSnackBars";
 import SpinnerBlock from "../../../components/spinner/Spinner";
+import NotItems from "../../../components/notItems/NotItems";
 
 
 const SearchList = () => {
@@ -34,7 +34,6 @@ const SearchList = () => {
     const [people, setPeople] = useState<any[]>();
 
 
-
     const onSearch = async () => {
 
         const res = await searchPeopleByProfile({
@@ -43,9 +42,7 @@ const SearchList = () => {
             //ts-ignore
             maritalStatus, name, login, dateBirth, sex, city
         });
-        console.log(res)
         setPeople(res);
-        console.log(res)
     };
 
 
@@ -61,7 +58,7 @@ const SearchList = () => {
             });
             // @ts-ignore
             setPeople(prevState => [...prevState, ...res]);
-            if(res && res.length === 0){
+            if (res && res.length === 0) {
                 setSnackBar('більше немає людей за даними параметрами..', 'info');
             }
 
@@ -73,11 +70,7 @@ const SearchList = () => {
 
     useEffect(() => {
         onSearch()
-console.log('search')
     }, [maritalStatus, name, login, dateBirth, sex, city]);
-
-
-
 
 
     const list = people?.map((item: any) => {
@@ -90,22 +83,25 @@ console.log('search')
     return (
 
 
-       <div>
-           {loading || loadingSearchPeopleByProfile ? <div className={styles.spinner}>
-               <SpinnerBlock/>
-           </div> : list }
+        <div>
+            {loading || loadingSearchPeopleByProfile ? <div className={styles.spinner}>
+                <SpinnerBlock/>
+            </div> : people && people.length ? list : <div className={styles.notItems}>
+                <NotItems text={'немає людей за даними параметрами..'}/>
+            </div>
+            }
 
-          <div className={styles.onLoad}>
-              {people &&  people.length ?   <IconButton
-                  disabled={loadingSearchPeopleByProfile}
-                  onClick={onLoadSearch}
-                  className={styles.btn}>
-                  <AddIcon
-                      fontSize={'small'}
-                  />
-              </IconButton> : null }
-          </div>
-       </div>
+            <div className={styles.onLoad}>
+                {people && people.length ? <IconButton
+                    disabled={loadingSearchPeopleByProfile}
+                    onClick={onLoadSearch}
+                    className={styles.btn}>
+                    <AddIcon
+                        fontSize={'small'}
+                    />
+                </IconButton> : null}
+            </div>
+        </div>
     );
 };
 
