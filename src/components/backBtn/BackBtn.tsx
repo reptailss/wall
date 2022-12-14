@@ -19,7 +19,6 @@ const BackBtn:FC<IBackBtnProps> = ({text,path}) => {
                     component="div"
                     color="secondary"
                     className={styles.back}>
-
                 <KeyboardBackspaceIcon/>
                 <div className={styles.text}>
                     {text}

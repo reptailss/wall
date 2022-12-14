@@ -1,12 +1,10 @@
 import React, {FC} from 'react';
 import {useAuth} from "../../hooks/useAuth/useAuth";
 import styles from "./styles.module.scss";
-import avatarsrc from "../../resources/svg/avatar/avatar.svg";
 import Avatar from '@mui/material/Avatar';
 import SkeletonAvatar from "../skeletons/SkeletonAvatar";
 import {AnimatePresence, motion} from "framer-motion";
 import {opacity} from "../../constans/motion/inex";
-import {useAppSelector} from "../../hooks/redux";
 
 
 interface IAvatarUserSmallProps {
@@ -14,14 +12,11 @@ interface IAvatarUserSmallProps {
     name?: string
 }
 
-const AvatarUserSmall:FC<IAvatarUserSmallProps> = ({pathImg,name}) => {
+const AvatarUserSmall: FC<IAvatarUserSmallProps> = ({pathImg, name}) => {
 
     const {loadingUser} = useAuth();
 
-    const {isAuth} = useAppSelector(state => state.user);
-
     const src = pathImg ? pathImg : '';
-    // const nameAvatar = !pathImg && name ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : null;
 
     return (
         <AnimatePresence>
@@ -32,14 +27,14 @@ const AvatarUserSmall:FC<IAvatarUserSmallProps> = ({pathImg,name}) => {
                 exit={opacity.hidden}
                 transition={opacity.transition}
             >
-                {!loadingUser || !pathImg ? <Avatar
-                    className={styles.avatar}
-                    sizes="small"
-                    alt={name}
-                    src={src}
-                    >
-                    {/*{nameAvatar}*/}
-                </Avatar> : <SkeletonAvatar/>}
+                {!loadingUser || !pathImg ?
+                    <Avatar
+                        className={styles.avatar}
+                        sizes="small"
+                        alt={name}
+                        src={src}>
+                    </Avatar> :
+                    <SkeletonAvatar/>}
             </motion.div>
         </AnimatePresence>
     );

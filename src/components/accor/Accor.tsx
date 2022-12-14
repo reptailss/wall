@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, memo, ReactNode} from 'react';
+import {FC, ReactNode} from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -22,8 +22,7 @@ const Accor: FC<IAccorProps> = ({title, children, expanded}) => {
                     className={style.root}
                     expandIcon={<ExpandMoreIcon className={style.icon}/>}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
+                    id="panel1a-header">
                     <Typography color={'white'}>{title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails className={style.root}>

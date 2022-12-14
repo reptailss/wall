@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, ReactNode} from 'react';
+import React from 'react';
 import {setThemeMode} from '../../redux/slice/themeSlice'
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
@@ -83,11 +83,9 @@ const Header = () => {
                                           <Logo/>
                                       </LinkMU>
                                   </Link>
-
                               </Col>
                               <Col className={styles.menu} sx={9}>
                                   {!isAuth && <SignInButton/>}
-
                                   <UserSideBar/>
                               </Col>
                           </Row>

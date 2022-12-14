@@ -10,20 +10,22 @@ interface IMenuProps {
     children?: ReactNode,
     button?: ReactNode,
     name: string,
-    onCloseMenu?: () => void,
 }
 
-const Menu: FC<IMenuProps> = ({children,button,name,onCloseMenu}) => {
-
+const Menu: FC<IMenuProps> = ({children,button,name}) => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const btn = button ? button :  <MoreHorizIcon
         color={'info'}
         fontSize={'small'}
@@ -40,7 +42,6 @@ const Menu: FC<IMenuProps> = ({children,button,name,onCloseMenu}) => {
                 onClick={handleClick}
                 className={styles.btn}
             >
-
                 {btn}
             </Button>
             <MenuMui

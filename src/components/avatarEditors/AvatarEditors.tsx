@@ -10,7 +10,7 @@ interface IAvatarEditorsProps {
     file: any
 }
 
-interface IpictureInitial {
+interface IPictureInitial {
     cropperOpen: boolean,
     img: null | string,
     zoom: number,
@@ -20,8 +20,8 @@ interface IpictureInitial {
 }
 
 const AvatarEditors: FC<IAvatarEditorsProps> = ({onSaveAvatar, file}) => {
-    var editor = "";
-    const [picture, setPicture] = useState<IpictureInitial>({
+    let editor = "";
+    const [picture, setPicture] = useState<IPictureInitial>({
         cropperOpen: false,
         img: null,
         zoom: 2,

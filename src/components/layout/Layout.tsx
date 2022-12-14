@@ -63,8 +63,6 @@ const Layout: FC<ILayoutProps> = ({children}) => {
 
         useEffect(() => {
             if (db && id && isAuth) {
-
-
                 unsub = onSnapshot(doc(db, "users", id, "friends", "counter"), (doc) => {
                    if(!(doc.data() === undefined)){
                        dispatch(setTotalFriends(doc.data()))
@@ -112,7 +110,6 @@ const Layout: FC<ILayoutProps> = ({children}) => {
                 style={styleRoot}
                 className={styles.root}>
                 <ThemeProvider theme={theme}>
-
                     <Col xl={12}>
                         <Header/>
                         <Toolbar/>
