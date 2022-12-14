@@ -32,8 +32,11 @@ export  const OptionsDateNumber:Intl.DateTimeFormatOptions = {
 
 
 
-export const convertSecondstoDate = (seconds:number) =>{
-   return  new Date(seconds * 1000)
+export const convertSecondstoDate = (seconds:number | undefined | null ) =>{
+   if(seconds){
+      return  new Date(seconds * 1000)
+   }
+
 };
 
 
@@ -49,11 +52,15 @@ export     const OptionsYears:Intl.DateTimeFormatOptions = {
 };
 
 
-export const getCurrentAge = (dateBirth: number) => {
+export const getCurrentAge = (dateBirth: number | undefined | null ) => {
    if (dateBirth) {
-      const date = convertSecondstoDate(dateBirth)
-      var ageDifMs = Date.now() - date.getTime();
-      var ageDate = new Date(ageDifMs); // miliseconds from epoch
-      return Math.abs(ageDate.getUTCFullYear() - 1970) + 'р.';
+      const date = convertSecondstoDate(dateBirth);
+      //ts-ignore
+      if(date){
+         var ageDifMs = Date.now() - date.getTime();
+         var ageDate = new Date(ageDifMs); // miliseconds from epoch
+         return Math.abs(ageDate.getUTCFullYear() - 1970) + 'р.';
+      }
+
    }
 };

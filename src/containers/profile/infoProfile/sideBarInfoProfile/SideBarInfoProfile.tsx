@@ -20,11 +20,13 @@ interface ISideBarInfoProfileProps {
 
 const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop, maritalStatus, timestamp, loadingProfile,sex}) => {
 
+    console.log(timestamp,'time')
 
-    const date = dateBirth ? convertSecondstoDate(dateBirth) : 0;
+
+    const date = convertSecondstoDate(dateBirth);
     const uadate = new Intl.DateTimeFormat('uk', OptionsDate).format(date);
 
-    const dateRegister = timestamp?.seconds ? convertSecondstoDate(timestamp.seconds) : 0;
+    const dateRegister =  convertSecondstoDate(timestamp?.seconds);
     const uadateRegister = new Intl.DateTimeFormat('uk', OptionsDate).format(dateRegister);
 
     const sexText = sex === "female" ? 'жіноча' : sex === "male" ? 'чоловіча' : sex === "other" ? 'інша' : '';
@@ -56,7 +58,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile  ? <SkeletonText/> : sexText}
+                        {loadingProfile || !sexText  ? <SkeletonText/> : sexText}
                     </Typography>
                 </Col>
 
@@ -72,7 +74,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile  ? <SkeletonText/> : uadate}
+                        {loadingProfile || !dateBirth  ? <SkeletonText/> : uadate}
                     </Typography>
                 </Col>
 
@@ -88,7 +90,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile  ? <SkeletonText/> : years}
+                        {loadingProfile || !years  ? <SkeletonText/> : years}
                     </Typography>
                 </Col>
 
@@ -118,7 +120,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile ? <SkeletonText/> : jop}
+                        {loadingProfile || !jop ? <SkeletonText/> : jop}
                     </Typography>
                 </Col>
 
@@ -134,7 +136,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                 <Col xs={6} className={styles.item}>
                     <Typography
                         variant="body1">
-                        {loadingProfile ? <SkeletonText/> : maritalStatusText}
+                        {loadingProfile || !maritalStatusText ? <SkeletonText/> : maritalStatusText}
                     </Typography>
                 </Col>
 
@@ -150,7 +152,7 @@ const SideBarInfoProfile: FC<ISideBarInfoProfileProps> = ({dateBirth, city, jop,
                     <Typography
                         variant="body1"
                         className={styles.itemContent}>
-                        {timestamp && !loadingProfile  ? uadateRegister: <SkeletonText/>}
+                        {loadingProfile || !timestamp ? <SkeletonText/>: uadateRegister }
                     </Typography>
                 </Col>
 

@@ -6,7 +6,6 @@ import {useAppSelector} from "../../hooks/redux";
 import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvatarBtn";
 import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
-import NewUsersSidebar from "../../containers/newUsers/newUsersSidebar/NewUsersSidebar";
 
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
