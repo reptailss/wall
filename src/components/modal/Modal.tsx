@@ -74,7 +74,9 @@ const Modal: FC<IModalProps> = ({children, button, fullWidthButton, fullScreenMo
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box
+                    className={styles.root}
+                    sx={style}>
                     {buttonClose ?
                         <IconButton
                             onClick={handleClose}
