@@ -7,7 +7,6 @@ import styles from "../../comments/fullComments/styles.module.scss";
 import AddIcon from '@mui/icons-material/Add';
 import {IconButton} from '@mui/material'
 import {useSnackBar} from "../../../hooks/useSneckBar/useSnackBars";
-import SpinnerBlock from "../../../components/spinner/Spinner";
 import NotItems from "../../../components/notItems/NotItems";
 
 
@@ -84,12 +83,11 @@ const SearchList = () => {
 
 
         <div>
-            {loading || loadingSearchPeopleByProfile ? <div className={styles.spinner}>
-                <SpinnerBlock/>
-            </div> : people && people.length ? list : <div className={styles.notItems}>
+            {people && people.length ? list : null}
+
+            {!loadingSearchPeopleByProfile && !loading && people && people.length < 1 ? <div className={styles.notItems}>
                 <NotItems text={'немає людей за даними параметрами..'}/>
-            </div>
-            }
+            </div> : null}
 
             <div className={styles.onLoad}>
                 {people && people.length ? <IconButton
