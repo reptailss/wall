@@ -31,4 +31,27 @@
 }
 .btn{
   text-transform: initial!important;
+  margin-right: 5px;
+}
+.wrap{
+  padding: 15px 35px!important;
+  display: flex!important;
+  flex-direction: column!important;
+  align-items: center!important;
+  justify-content: center!important;
+  column-gap: 15px!important;
+  margin-top: 30px!important;
+  @media (max-width: 500px) {
+    column-gap: 10px!important;
+    margin-top: 15px!important;
+  }
+
+}
+.item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info{
+  margin-right: 15px!important;
 }

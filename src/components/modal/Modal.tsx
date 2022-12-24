@@ -7,6 +7,7 @@ import { IconButton} from '@mui/material'
 import styles from "../../containers/wall/wallPostAdd/addImagePost/styles.module.scss";
 import ClearIcon from "../../containers/wall/wallPostAdd/addImagePost/AddImagePost";
 import {motion} from "framer-motion";
+import useMedia from "../../hooks/useMedia/useMedia";
 
 
 interface IModalProps {
@@ -24,6 +25,8 @@ interface IModalProps {
 }
 
 const Modal: FC<IModalProps> = ({children, button, fullWidthButton, fullScreenModal, closeModal, openModal, notButton, width, height, padding, buttonClose}) => {
+
+
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);

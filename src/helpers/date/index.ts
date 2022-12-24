@@ -33,7 +33,7 @@ export  const OptionsDateNumber:Intl.DateTimeFormatOptions = {
 
 
 export const convertSecondstoDate = (seconds:number | undefined | null ) =>{
-   if(seconds){
+   if(seconds && !(seconds === 0)){
       return  new Date(seconds * 1000)
    }
 

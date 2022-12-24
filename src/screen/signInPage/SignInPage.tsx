@@ -3,7 +3,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import Login from "../../containers/auth/login/Login";
 import styles from './styles.module.scss'
 import Logo from "../../resources/svg/logo/Logo";
-import {Typography} from "@mui/material";
+import {Paper, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import LinkMU from '@mui/material/Link'
@@ -28,7 +28,9 @@ const SignInPage:FC<ISignInPageProps> = ({modal}) => {
     };
 
 
-    const variantH1 = modal && !isDesktop && !isTablet ? 'h2' : 'h1';
+    const variantH1 = modal && !isDesktop && !isTablet ? 'h3' : 'h1';
+
+
     return (
         <Container className={styles.root}>
             <Row className={styles.row}>
@@ -91,6 +93,42 @@ const SignInPage:FC<ISignInPageProps> = ({modal}) => {
                         </Button>
 
                     </div>
+                    <Paper className={styles.wrap}>
+                        <Typography
+                            color={'text.other'}
+                            variant={'body2'}
+                            className={styles.test}>
+                            you can use a test user whose details are described below:
+                        </Typography>
+                        <div className={styles.item}>
+                            <Typography
+                                variant={'body1'}
+                                color={'text.secondary'}
+                                className={styles.info}>
+                               name:
+                            </Typography>
+                            <Typography
+                                variant={'body1'}
+                                color={'text.primary'}>
+                                admin@admin.com
+                            </Typography>
+                        </div>
+                        <div className={styles.item}>
+                            <Typography
+                                variant={'body1'}
+                                color={'text.secondary'}
+                                className={styles.info}>
+                                password:
+                            </Typography>
+                            <Typography
+                                variant={'body1'}
+                                color={'text.primary'}>
+                                12345678
+                            </Typography>
+                        </div>
+
+                    </Paper>
+
                 </Col>
             </Row>
         </Container>

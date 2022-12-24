@@ -7,10 +7,12 @@ import ChangeAvatarBtn from "../../containers/avatar/changeAvatarBtn/ChangeAvata
 import UserAvatar from "../../containers/avatar/userAvatar/UserAvatar";
 import FriendsSidebar from "../../containers/friends/friendsSidebar/FriendsSidebar";
 
+
 const HomePage = () => {
     const {id} = useAppSelector(state => state.user);
     const {profile, loadingProfile} = useAppSelector(state => state.user);
     const {currentAvatar} = profile;
+
 
     return (
         <Row>
